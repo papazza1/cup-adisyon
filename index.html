@@ -246,6 +246,24 @@ body.is-dragging *{-webkit-user-select:none;user-select:none}
 .drag-ghost{position:fixed;z-index:70;transform:translate(-50%,-50%) scale(1.05);pointer-events:none;background:var(--accent);color:var(--accent-ink);border-radius:12px;padding:8px 12px;display:flex;flex-direction:column;align-items:center;line-height:1.15;box-shadow:0 8px 24px rgba(0,0,0,.35);font-variant-numeric:tabular-nums;font-size:13px}
 .drag-ghost b{font-family:var(--f-brand);font-size:18px}
 .drag-ghost.on{background:var(--good);color:#fff}
+
+/* Admin PIN lock */
+.lockbox{max-width:360px;margin:28px auto;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.lockbox .lk{width:56px;height:56px;border-radius:16px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.lockbox h2{margin:0;font-family:var(--f-brand);font-weight:600;font-size:22px}
+.lockbox p{margin:0;color:var(--muted);font-size:14px;max-width:32ch}
+.pindots{display:flex;gap:14px;margin-top:4px}
+.pindots i{width:15px;height:15px;border-radius:50%;border:2px solid var(--muted)}
+.pindots i.on{background:var(--ink);border-color:var(--ink)}
+.pinmsg{min-height:20px;color:var(--bad);font-size:14px;font-weight:600}
+.keypad{display:grid;grid-template-columns:repeat(3,76px);gap:12px}
+.keypad button{height:64px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);font-size:26px;font-weight:600;font-variant-numeric:tabular-nums}
+.keypad button:active{background:var(--accent-soft)}
+.keypad button.fn{font-size:15px;color:var(--muted);box-shadow:none;background:transparent;border-color:transparent}
+.keypad button.ok{font-size:16px;color:var(--accent-ink);background:var(--accent);border-color:transparent}
+.shake{animation:shake .32s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.dialog .lockbox{margin:4px auto}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -341,6 +359,7 @@ const st = {
   openTid: null, cat: "Tümü", q: "",
   rep: {mode:"day", anchor: null},
   expDate: null,
+  lock: null, unlockedUntil: 0,
 };
 const bizDate = (ts = Date.now()) => ymd(new Date(ts - (st.settings.dayStartHour||0)*3600e3));
 
@@ -460,6 +479,7 @@ async function boot(){
     if (prev !== st.settings.dayStartHour) subscribeToday();
     if (st.tab==="menu") renderMenu();
   }, onDbErr);
+  st.db.doc("config/lock").onSnapshot(s => { st.lock = s.exists ? s.data() : null; }, onDbErr);
   st.db.collection("tables").onSnapshot(snap => {
     const seen = new Set();
     for (const d of snap.docs){ seen.add(d.id); if (!busy(d.id)) { const v = d.data(); st.tables[d.id] = {lines: (v.lines||[]).map(l => ({...l})), openedAt: v.openedAt||Date.now()}; } }
@@ -484,7 +504,80 @@ function subscribeToday(){
     if (st.tab==="exp" && st.expDate===todayKey) renderExp();
   }, onDbErr);
 }
-function tick(){ subscribeToday(); renderHeader(); if (st.tab==="tables") renderTables(); renderSheetHead(); }
+function tick(){ subscribeToday(); renderHeader(); if (st.tab==="tables") renderTables(); renderSheetHead();
+  if ((st.tab==="menu" || st.tab==="exp") && !isUnlocked() && !document.querySelector("#v-"+st.tab+" .lockbox")){ document.activeElement?.blur?.(); st.tab==="menu" ? renderMenu() : renderExp(); } }
+
+/* ---------- Admin PIN lock ---------- */
+const UNLOCK_MS = 5*60e3;
+const isUnlocked = () => Date.now() < st.unlockedUntil;
+const unlock = () => { st.unlockedUntil = Date.now() + UNLOCK_MS; };
+const hasPin = () => !!(st.lock && st.lock.hash);
+async function hashPin(pin, salt){
+  const txt = salt + ":" + pin + ":cup";
+  try { if (crypto && crypto.subtle){ const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt)); return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2,"0")).join(""); } } catch(_) {}
+  let h = 2166136261; for (let i=0;i<txt.length;i++){ h ^= txt.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return "f" + h.toString(16);
+}
+let pinFails = 0, pinBlockedUntil = 0;
+const LOCK_ICON = `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>`;
+/* opts: {sub, setup:boolean (force new PIN), onSuccess, onCancel} */
+function pinPad(el, opts){
+  const s = {buf:"", stage: (opts.setup || !hasPin()) ? "new" : "enter", first:"", err:""};
+  const draw = shake => {
+    const n = s.stage === "enter" ? (st.lock.len || 4) : 6;
+    const title = s.stage === "enter" ? "Şifre gerekli" : s.stage === "new" ? (hasPin() ? "Yeni şifre belirleyin" : "Yönetici şifresi belirleyin") : "Şifreyi tekrar girin";
+    const sub = s.stage === "enter" ? (opts.sub || "") : s.stage === "new" ? "4–6 haneli bir şifre seçin. Ürün, fiyat, gider ve adisyon iptali bu şifreyle açılır." : "Aynı şifreyi bir kez daha girin.";
+    el.innerHTML = `<div class="lockbox${shake ? " shake" : ""}">
+      <div class="lk">${LOCK_ICON}</div><h2>${title}</h2>${sub ? `<p>${esc(sub)}</p>` : ""}
+      <div class="pindots" aria-label="${s.buf.length} hane girildi">${Array.from({length:n}, (_,i) => `<i class="${i < s.buf.length ? "on" : ""}"></i>`).join("")}</div>
+      <div class="pinmsg" role="alert">${esc(s.err)}</div>
+      <div class="keypad">${[1,2,3,4,5,6,7,8,9].map(d => `<button data-pin="${d}">${d}</button>`).join("")}
+        <button class="fn" data-pin="del" aria-label="Sil">Sil</button><button data-pin="0">0</button>
+        ${s.stage === "enter" ? `<button class="fn" data-pin="${opts.onCancel ? "cancel" : "none"}">${opts.onCancel ? "Vazgeç" : ""}</button>` : `<button class="ok" data-pin="ok">Tamam</button>`}</div>
+      ${s.stage !== "enter" && opts.onCancel ? `<button class="btn sm" data-pin="cancel">Vazgeç</button>` : ""}
+    </div>`;
+  };
+  const submit = async () => {
+    if (s.stage === "enter"){
+      if (Date.now() < pinBlockedUntil){ s.err = `Çok fazla deneme. ${Math.ceil((pinBlockedUntil-Date.now())/1000)} sn bekleyin.`; s.buf = ""; return draw(true); }
+      const h = await hashPin(s.buf, st.lock.salt);
+      if (h === st.lock.hash){ pinFails = 0; unlock(); el.onclick = null; return opts.onSuccess(); }
+      pinFails++; if (pinFails >= 5){ pinBlockedUntil = Date.now() + 30000; pinFails = 0; }
+      s.err = "Yanlış şifre"; s.buf = ""; return draw(true);
+    }
+    if (s.buf.length < 4){ s.err = "En az 4 hane girin"; return draw(true); }
+    if (s.stage === "new"){ s.first = s.buf; s.buf = ""; s.err = ""; s.stage = "confirm"; return draw(); }
+    if (s.buf !== s.first){ s.err = "Şifreler aynı değil, baştan girin"; s.buf = ""; s.first = ""; s.stage = "new"; return draw(true); }
+    const salt = uid();
+    const lock = {hash: await hashPin(s.buf, salt), salt, len: s.buf.length, at: Date.now()};
+    try { await st.db.doc("config/lock").set(lock); } catch(_) { s.err = "Şifre kaydedilemedi"; return draw(true); }
+    st.lock = lock; unlock(); el.onclick = null; toast("Şifre kaydedildi"); opts.onSuccess();
+  };
+  el.onclick = e => {
+    const b = e.target.closest("[data-pin]"); if (!b) return;
+    const k = b.dataset.pin;
+    if (k === "cancel"){ el.onclick = null; return opts.onCancel && opts.onCancel(); }
+    if (k === "none") return;
+    if (k === "del"){ s.buf = s.buf.slice(0,-1); s.err = ""; return draw(); }
+    if (k === "ok") return submit();
+    if (s.buf.length >= 6) return;
+    s.buf += k; s.err = ""; draw();
+    if (s.stage === "enter" && s.buf.length === (st.lock.len || 4)) submit();
+  };
+  draw();
+}
+function renderLockView(tab){
+  const v = $("#v-"+tab);
+  const sub = tab === "menu" ? "Menü, fiyatlar ve ayarlar şifreyle korunuyor." : "Gider ekleme ve silme şifreyle korunuyor.";
+  pinPad(v, {sub, onSuccess: () => { if (tab === "menu") renderMenu(); else renderExp(); }});
+}
+function requirePin(fn, sub){
+  if (isUnlocked()) return fn();
+  showModal(`<div id="pinhost"></div>`);
+  pinPad($("#pinhost"), {sub: sub || "Bu işlem için yönetici şifresi gerekiyor.", onSuccess: () => { hideModal(); fn(); }, onCancel: hideModal});
+}
+document.addEventListener("pointerdown", () => { if (isUnlocked() && (st.tab === "menu" || st.tab === "exp")) unlock(); }, true);
+const lockBtn = `<button class="btn sm" data-lock>${LOCK_ICON.replace('width="26" height="26"','width="15" height="15"')} Kilitle</button>`;
+document.addEventListener("click", e => { if (e.target.closest("[data-lock]")){ st.unlockedUntil = 0; if (st.tab==="menu") renderMenu(); if (st.tab==="exp") renderExp(); toast("Kilitlendi"); } });
 
 /* ---------- Header ---------- */
 function renderHeader(){
@@ -500,6 +593,7 @@ document.querySelector(".tabbar").addEventListener("click", e => {
   setTab(b.dataset.tab);
 });
 function setTab(tab){
+  if (tab === "tables" || tab === "reports") st.unlockedUntil = 0;
   st.tab = tab;
   document.querySelectorAll(".tabbar button").forEach(b => { if (b.dataset.tab===tab) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
   for (const v of ["tables","reports","exp","menu"]) $("#v-"+v).hidden = v !== tab;
@@ -980,14 +1074,15 @@ $("#v-reports").addEventListener("click", e => {
   const n = e.target.closest("[data-nav]"); if (n){ const d = +n.dataset.nav; st.rep.anchor = d===0 ? todayKey : shift(st.rep.mode, st.rep.anchor, d); refreshReports(); return; }
   const vd = e.target.closest("[data-void]");
   if (vd){ const id = vd.dataset.void, date = st.rep.anchor;
-    confirmBox("Adisyon iptal edilsin mi?", "İptal edilen adisyon gelirden düşülür, listede çizili görünür.", "İptal et", async () => {
+    requirePin(() => confirmBox("Adisyon iptal edilsin mi?", "İptal edilen adisyon gelirden düşülür, listede çizili görünür.", "İptal et", async () => {
       try { await writeDay(date, {bills: {[id]: {void: true, voidAt: Date.now()}}}); toast("Adisyon iptal edildi"); } catch(_) { toast("İptal kaydedilemedi."); }
-    }); }
+    }), "Adisyon iptali için yönetici şifresi gerekiyor."); }
 });
 
 /* ---------- Expenses ---------- */
 let expUnsub = null, expKey = null, expDoc = null;
 function renderExp(){
+  if (!isUnlocked()){ if (!$("#v-exp").querySelector(".lockbox")) renderLockView("exp"); return; }
   if (!st.expDate) st.expDate = bizDate();
   const date = st.expDate;
   if (date !== expKey){
@@ -996,7 +1091,7 @@ function renderExp(){
   }
   const v = $("#v-exp");
   v.innerHTML = `
-    <div class="row" style="justify-content:space-between"><h2 class="h2">Giderler</h2>
+    <div class="row" style="justify-content:space-between"><div class="row"><h2 class="h2">Giderler</h2>${lockBtn}</div>
       <div class="row" style="flex-wrap:nowrap"><button class="icon-btn" data-ed="-1" aria-label="Önceki gün">‹</button>
       <input class="inp" type="date" id="exp-date" value="${date}" style="width:auto">
       <button class="icon-btn" data-ed="1" aria-label="Sonraki gün">›</button></div></div>
@@ -1014,7 +1109,7 @@ function renderExp(){
   drawExpList();
 }
 function drawExpList(){
-  const el = $("#exp-list"); if (!el) return;
+  const el = $("#exp-list"); if (!el || !isUnlocked()) return;
   const d = st.expDate === todayKey ? st.today : expDoc;
   const rows = Object.entries(d?.exp||{}).filter(([,x]) => !x.del).sort((a,b) => b[1].t-a[1].t);
   const tot = rows.reduce((s,[,x]) => s + x.amt, 0);
@@ -1047,10 +1142,11 @@ async function saveMenu(){
 }
 function renderMenu(){
   const v = $("#v-menu");
+  if (!isUnlocked()){ if (!v.querySelector(".lockbox")) renderLockView("menu"); return; }
   if (v.contains(document.activeElement) && document.activeElement.matches("input")) return; // don't clobber typing
   const cs = cats();
   v.innerHTML = `
-    <div class="row" style="justify-content:space-between"><h2 class="h2">Menü ve fiyatlar</h2><button class="btn primary" data-add>+ Ürün ekle</button></div>
+    <div class="row" style="justify-content:space-between"><h2 class="h2">Menü ve fiyatlar</h2><div class="row">${lockBtn}<button class="btn primary" data-add>+ Ürün ekle</button></div></div>
     <datalist id="catlist">${cs.map(c => `<option value="${esc(c)}">`).join("")}</datalist>
     ${cs.length ? cs.map(c => `<div class="card"><h3>${esc(c)}</h3>${st.menu.items.filter(i => i.cat===c).map(i => `
       <div class="menu-row" data-id="${esc(i.id)}">
@@ -1063,6 +1159,11 @@ function renderMenu(){
       <h3>Gün dönümü</h3>
       <div class="row"><label for="dsh" class="grow" style="min-width:200px">Gece yarısından sonra kapanan hesaplar hangi saate kadar önceki güne yazılsın?</label>
       <select class="inp" id="dsh" style="width:auto">${[0,1,2,3,4,5,6].map(h => `<option value="${h}" ${st.settings.dayStartHour===h?"selected":""}>${h===0 ? "Gece 00:00 (kapalı)" : pad(h)+":00"}</option>`).join("")}</select></div>
+    </div>
+    <div class="card">
+      <h3>Yönetici şifresi</h3>
+      <p class="muted" style="margin:0 0 10px;font-size:14px">Menü, Giderler ve adisyon iptali bu şifreyle açılır. Açıldıktan sonra 5 dakika işlem yapılmazsa ya da Masalar'a geçilince yeniden kilitlenir.</p>
+      <button class="btn" data-chpin>Şifreyi değiştir</button>
     </div>
     ${st.db._dump ? `<div class="card">
       <h3>Yedek</h3>
@@ -1098,10 +1199,11 @@ $("#v-menu").addEventListener("change", e => {
   const f = e.target.files[0]; e.target.value = "";
   f.text().then(txt => {
     let data; try { data = JSON.parse(txt); } catch(_) { toast("Bu dosya okunamadı."); return; }
-    const docs = data && data.app === "cup-adisyon" ? data.docs : null;
+    let docs = data && data.app === "cup-adisyon" ? data.docs : null;
     if (!docs || typeof docs !== "object") { toast("Bu bir C'up yedeği değil."); return; }
     const days = Object.keys(docs).filter(k => k.startsWith("days/")).length;
     confirmBox("Yedek geri yüklensin mi?", `${days} günlük kayıt yüklenecek. Bu iPad'deki mevcut veriler yedektekiyle değiştirilecek.`, "Geri yükle", () => {
+      const cur = st.db._dump()["config/lock"]; docs = Object.assign({}, docs); if (cur) docs["config/lock"] = cur; else delete docs["config/lock"];
       st.tables = {}; st.db._load(docs); repKey = ""; toast("Yedek geri yüklendi");
       setTimeout(() => location.reload(), 600);
     });
@@ -1109,6 +1211,7 @@ $("#v-menu").addEventListener("change", e => {
 }, true);
 $("#v-menu").addEventListener("click", e => {
   if (e.target.closest("[data-backup]")) { doBackup(); return; }
+  if (e.target.closest("[data-chpin]")) { showModal(`<div id="pinhost"></div>`); pinPad($("#pinhost"), {setup:true, onSuccess: () => { hideModal(); renderMenu(); }, onCancel: hideModal}); return; }
   if (e.target.closest("[data-add]")){
     const c = cats()[0] || "Sıcak";
     const it = {id: uid(), name: "Yeni ürün", cat: c, price: 0};
