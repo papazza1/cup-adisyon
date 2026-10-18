@@ -368,7 +368,7 @@ const bizDate = (ts = Date.now()) => ymd(new Date(ts - (st.settings.dayStartHour
 
 /* ---------- Store backends ---------- */
 const MENU_VER = 5;
-const APP_VERSION = "2026-10-18-1";
+const APP_VERSION = "2026-10-18-2";
 /* Clouds Up menüsü (kâğıt menüden, 18 Ekim 2026) */
 const CUP_MENU = {"ver": 5, "cats": ["Kahve", "Çay", "Soğuk İçecek", "Bira 33 cl", "Bira 50 cl", "C'up Kokteyl", "Klasik Kokteyl", "Viski", "Atıştırmalık"], "items": [{"id": "c001", "name": "Türk Kahvesi", "cat": "Kahve", "price": 90}, {"id": "c002", "name": "Türk Kahvesi Double", "cat": "Kahve", "price": 150}, {"id": "c003", "name": "Espresso", "cat": "Kahve", "price": 120}, {"id": "c004", "name": "Espresso Double", "cat": "Kahve", "price": 180}, {"id": "c005", "name": "Americano", "cat": "Kahve", "price": 200}, {"id": "c006", "name": "Cappuccino", "cat": "Kahve", "price": 240}, {"id": "c007", "name": "Mocha", "cat": "Kahve", "price": 260}, {"id": "c008", "name": "White Mocha", "cat": "Kahve", "price": 260}, {"id": "c009", "name": "Flat White", "cat": "Kahve", "price": 220}, {"id": "c010", "name": "Latte", "cat": "Kahve", "price": 240}, {"id": "c011", "name": "Affogato", "cat": "Kahve", "price": 400}, {"id": "c012", "name": "Çay", "cat": "Çay", "price": 50}, {"id": "c013", "name": "Fincan Çay", "cat": "Çay", "price": 80}, {"id": "c014", "name": "Bitki Çayı", "cat": "Çay", "price": 120}, {"id": "c015", "name": "Su", "cat": "Soğuk İçecek", "price": 40}, {"id": "c016", "name": "Soda", "cat": "Soğuk İçecek", "price": 80}, {"id": "c017", "name": "Churchill", "cat": "Soğuk İçecek", "price": 130}, {"id": "c018", "name": "Kola", "cat": "Soğuk İçecek", "price": 150}, {"id": "c019", "name": "Soğuk Çay", "cat": "Soğuk İçecek", "price": 150}, {"id": "c020", "name": "Meyve Suyu", "cat": "Soğuk İçecek", "price": 140}, {"id": "c021", "name": "Enerji İçeceği", "cat": "Soğuk İçecek", "price": 200}, {"id": "c030", "name": "Tuborg 33cl", "cat": "Bira 33 cl", "price": 270}, {"id": "c031", "name": "Efes 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c032", "name": "Efes Glutensiz 33cl", "cat": "Bira 33 cl", "price": 400}, {"id": "c033", "name": "Carlsberg 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c034", "name": "Stella 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c035", "name": "Corona 33cl", "cat": "Bira 33 cl", "price": 450}, {"id": "c036", "name": "Blanc 33cl", "cat": "Bira 33 cl", "price": 350}, {"id": "c037", "name": "Miller 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c022", "name": "Tuborg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c023", "name": "Efes 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c024", "name": "Efes Glutensiz 50cl", "cat": "Bira 50 cl", "price": 400}, {"id": "c025", "name": "Carlsberg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c026", "name": "Stella 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c027", "name": "Corona 50cl", "cat": "Bira 50 cl", "price": 450}, {"id": "c028", "name": "Blanc 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c029", "name": "Miller 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c038", "name": "Vanilia Hibiscus", "cat": "C'up Kokteyl", "price": 800}, {"id": "c039", "name": "Passion Zencefil", "cat": "C'up Kokteyl", "price": 800}, {"id": "c040", "name": "Ahududu Lime", "cat": "C'up Kokteyl", "price": 800}, {"id": "c041", "name": "Kakule Vişne", "cat": "C'up Kokteyl", "price": 800}, {"id": "c042", "name": "Kuzu Kulağı - Yeşil Elma", "cat": "C'up Kokteyl", "price": 800}, {"id": "c043", "name": "Espresso Martini", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c044", "name": "Iceland", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c045", "name": "Cin Tonik", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c046", "name": "Pina Colada", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c047", "name": "Mudslide", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c048", "name": "Johnnie Walker Black Label Tek", "cat": "Viski", "price": 600}, {"id": "c052", "name": "Chivas Regal Tek", "cat": "Viski", "price": 600}, {"id": "c056", "name": "Chivas Regal 18 Tek", "cat": "Viski", "price": 750}, {"id": "c059", "name": "Jameson Tek", "cat": "Viski", "price": 500}, {"id": "c049", "name": "Johnnie Walker Black Label Duble", "cat": "Viski", "price": 1100}, {"id": "c053", "name": "Chivas Regal Duble", "cat": "Viski", "price": 1100}, {"id": "c057", "name": "Chivas Regal 18 Duble", "cat": "Viski", "price": 1400}, {"id": "c060", "name": "Jameson Duble", "cat": "Viski", "price": 1000}, {"id": "c050", "name": "Johnnie Walker Black Label 35cl", "cat": "Viski", "price": 4500}, {"id": "c054", "name": "Chivas Regal 35cl", "cat": "Viski", "price": 4500}, {"id": "c051", "name": "Johnnie Walker Black Label 70cl", "cat": "Viski", "price": 7000}, {"id": "c055", "name": "Chivas Regal 70cl", "cat": "Viski", "price": 7000}, {"id": "c058", "name": "Chivas Regal 18 70cl", "cat": "Viski", "price": 10000}, {"id": "c061", "name": "Jameson 70cl", "cat": "Viski", "price": 6000}, {"id": "c062", "name": "Karışık Çerez", "cat": "Atıştırmalık", "price": 250}, {"id": "c063", "name": "Turşu", "cat": "Atıştırmalık", "price": 200}, {"id": "c064", "name": "Cips", "cat": "Atıştırmalık", "price": 200}]};
 const DEMO_MENU = CUP_MENU;
@@ -421,7 +421,7 @@ async function flushTable(tid){
   const p = (async () => {
     try {
       if (!t || !t.lines.length) await ref.delete();
-      else await ref.set({lines: t.lines, openedAt: t.openedAt, updatedAt: Date.now()});
+      else await ref.set({lines: t.lines, openedAt: t.openedAt, paid: t.paid || 0, updatedAt: Date.now()});
     } catch(e){ toast("Kaydedilemedi: " + (e.code||"bağlantı")); }
   })();
   wt.inflight[tid] = p; await p; wt.inflight[tid] = null;
@@ -515,7 +515,7 @@ async function boot(){
   st.db.doc("config/lock").onSnapshot(s => { st.lock = s.exists ? s.data() : null; }, onDbErr);
   st.db.collection("tables").onSnapshot(snap => {
     const seen = new Set();
-    for (const d of snap.docs){ seen.add(d.id); if (!busy(d.id)) { const v = d.data(); st.tables[d.id] = {lines: (v.lines||[]).map(l => ({...l})), openedAt: v.openedAt||Date.now()}; } }
+    for (const d of snap.docs){ seen.add(d.id); if (!busy(d.id)) { const v = d.data(); st.tables[d.id] = {lines: (v.lines||[]).map(l => ({...l})), openedAt: v.openedAt||Date.now(), paid: v.paid||0}; } }
     for (const id of Object.keys(st.tables)) if (!seen.has(id) && !busy(id)) delete st.tables[id];
     renderTables(); renderSheet(); renderHeader();
   }, onDbErr);
@@ -786,7 +786,8 @@ function renderSheet(full){
           <div class="row" style="padding:12px 16px 0;justify-content:space-between"><button class="btn sm bill-back" data-act="hidebill">← Ürünler</button><b>Adisyon</b><span class="muted num" id="sh-cnt"></span></div>
           <div class="bill-scroll" id="sh-lines"></div>
           <div class="bill-foot">
-            <div class="total"><span class="muted">Toplam</span><b id="sh-total">₺0</b></div>
+            <div class="sumrow" id="sh-paid" hidden><span class="muted">Daha önce alınan</span><span id="sh-paidv"></span></div>
+            <div class="total"><span class="muted" id="sh-totl">Toplam</span><b id="sh-total">₺0</b></div>
             <div class="row" style="flex-wrap:nowrap"><button class="btn danger" data-act="clear" style="flex:0 0 auto">Boşalt</button><button class="btn good" data-act="pay" style="flex:1">Hesabı al</button></div>
           </div>
         </section>
@@ -825,6 +826,7 @@ function renderLines(){
     : `<div class="empty">Masa boş. Soldaki ürünlere dokunarak sipariş ekleyin.</div>`;
   const tot = linesTotal(lines), cnt = linesCount(lines);
   $("#sh-total").textContent = tl(tot);
+  const paid = o?.paid || 0; $("#sh-paid").hidden = !paid; $("#sh-paidv").textContent = tl(paid); $("#sh-totl").textContent = paid ? "Kalan" : "Toplam";
   $("#sh-cnt").textContent = cnt ? `${cnt} ürün` : "";
   $("#sh-pb").textContent = cnt ? `Adisyon · ${cnt} ürün · ${tl(tot)}` : "Adisyon boş";
   document.querySelector('#sheet [data-act="pay"]').disabled = !cnt;
@@ -872,22 +874,37 @@ function confirmBox(title, text, okLabel, onOk){
 /* Payment */
 function openPay(tid){
   const o = st.tables[tid]; if (!o || !o.lines.length) return;
-  const sub = linesTotal(o.lines);
-  const ps = {method:"cash", discType:"tl", disc:0, given:"", cardPart:""};
+  const ps = {mode:"all", sel:{}, method:"cash", discType:"tl", disc:0, given:"", cardPart:""};
+  const selQty = i => Math.min(o.lines[i]?.qty || 0, ps.sel[i] || 0);
+  const subOf = () => ps.mode === "all" ? linesTotal(o.lines) : o.lines.reduce((s,l,i) => s + l.price*selQty(i), 0);
+  const allPicked = () => ps.mode === "all" || o.lines.every((l,i) => selQty(i) >= l.qty);
   const calc = () => {
+    const sub = subOf();
     let d = Math.max(0, +ps.disc||0); if (ps.discType==="pct") d = sub*Math.min(d,100)/100; d = Math.min(d, sub);
     const total = Math.round((sub-d)*100)/100;
     let cash=0, card=0;
     if (ps.method==="cash") cash = total; else if (ps.method==="card") card = total;
     else { card = Math.min(total, Math.max(0, +ps.cardPart||0)); cash = Math.round((total-card)*100)/100; }
-    return {d, total, cash, card};
+    return {sub, d, total, cash, card};
   };
   const draw = () => {
-    const c = calc(); const given = +ps.given||0;
+    const dlg = $("#modal .dialog"), keep = dlg ? dlg.scrollTop : 0, pl = $("#pay-pick"), keepPl = pl ? pl.scrollTop : 0;
+    const c = calc(); const given = +ps.given||0; const pick = ps.mode === "pick";
+    const left = linesTotal(o.lines) - c.sub;
+    const linesHTML = pick
+      ? `<div class="row" style="justify-content:space-between"><span class="muted" style="font-size:13px">Ödenecek ürünleri seçin</span><div class="row"><button class="btn sm" data-pickall>Hepsini seç</button><button class="btn sm" data-pickclear>Temizle</button></div></div>
+         <div class="list" id="pay-pick" style="max-height:260px;overflow-y:auto">${o.lines.map((l,i) => { const q = selQty(i); return `
+           <div class="li" style="${q ? "" : "opacity:.75"}"><div class="grow" data-pickrow="${i}" style="cursor:pointer;min-width:0"><b>${esc(l.name)}</b><div class="muted num" style="font-size:12px">${tl(l.price)} · masada ${l.qty}</div></div>
+             <div class="stepper"><button data-pdec="${i}" aria-label="Azalt">−</button><span class="num">${q}/${l.qty}</span><button data-pinc="${i}" aria-label="Artır">+</button></div>
+             <span class="r" style="min-width:72px">${q ? tl(q*l.price) : "—"}</span></div>`; }).join("")}</div>`
+      : `<div class="list" style="max-height:180px;overflow-y:auto">${o.lines.map(l => `<div class="li"><span class="grow">${l.qty} × ${esc(l.name)}</span><span class="r">${tl(l.qty*l.price)}</span></div>`).join("")}</div>`;
     showModal(`
       <h2>${esc(TBY[tid].name)} · Hesap</h2>
-      <div class="list" style="max-height:180px;overflow-y:auto">${o.lines.map(l => `<div class="li"><span class="grow">${l.qty} × ${esc(l.name)}</span><span class="r">${tl(l.qty*l.price)}</span></div>`).join("")}</div>
-      <div class="sumrow"><span class="muted">Ara toplam</span><span>${tl(sub)}</span></div>
+      <div class="seg" role="group" aria-label="Hesap türü" style="align-self:flex-start"><button data-pmode="all" aria-pressed="${!pick}">Tümünü al</button><button data-pmode="pick" aria-pressed="${pick}">Ürün seçerek al</button></div>
+      ${o.paid ? `<div class="sumrow"><span class="muted">Bu masadan daha önce alınan</span><span>${tl(o.paid)}</span></div>` : ""}
+      ${linesHTML}
+      <div class="sumrow"><span class="muted">${pick ? "Seçilenler" : "Ara toplam"}</span><span>${tl(c.sub)}</span></div>
+      ${pick && left > 0 ? `<div class="sumrow"><span class="muted">Masada kalacak</span><span>${tl(left)}</span></div>` : ""}
       <div class="row" style="flex-wrap:nowrap">
         <div class="field" style="flex:1"><label for="pay-disc">İndirim</label><input class="inp num" id="pay-disc" inputmode="decimal" value="${ps.disc||""}" placeholder="0"></div>
         <div class="seg" style="align-self:flex-end"><button data-dt="tl" aria-pressed="${ps.discType==="tl"}">₺</button><button data-dt="pct" aria-pressed="${ps.discType==="pct"}">%</button></div>
@@ -899,25 +916,50 @@ function openPay(tid){
       ${ps.method!=="card" && c.cash>0 ? `<div class="field"><label for="pay-given">Müşteriden alınan nakit</label><input class="inp num" id="pay-given" inputmode="decimal" value="${ps.given}" placeholder="${c.cash}"></div>
         <div class="quick">${[...new Set([c.cash, Math.ceil(c.cash/50)*50, Math.ceil(c.cash/100)*100, Math.ceil(c.cash/200)*200, 500, 1000])].filter(v => v>=c.cash).slice(0,5).map(v => `<button class="btn sm" data-give="${v}">${tl(v)}</button>`).join("")}</div>
         ${given>=c.cash && given>0 ? `<div class="sumrow big" style="color:var(--good)"><span>Para üstü</span><span>${tl(given-c.cash)}</span></div>` : ""}` : ""}
-      <div class="row" style="justify-content:flex-end"><button class="btn" data-x>Vazgeç</button><button class="btn good" data-close>Ödendi, masayı kapat</button></div>`,
+      <div class="row" style="justify-content:flex-end"><button class="btn" data-x>Vazgeç</button><button class="btn good" data-close ${c.sub > 0 ? "" : "disabled"}>${allPicked() ? "Ödendi, masayı kapat" : "Ödendi, seçilenleri düş"}</button></div>`,
       async e => {
+        const pm = e.target.closest("[data-pmode]"); if (pm){ ps.mode = pm.dataset.pmode; ps.given = ""; return draw(); }
+        const inc = e.target.closest("[data-pinc]"); if (inc){ const i = +inc.dataset.pinc; ps.sel[i] = Math.min(o.lines[i].qty, selQty(i)+1); ps.given = ""; return draw(); }
+        const dec = e.target.closest("[data-pdec]"); if (dec){ const i = +dec.dataset.pdec; ps.sel[i] = Math.max(0, selQty(i)-1); ps.given = ""; return draw(); }
+        const row = e.target.closest("[data-pickrow]"); if (row){ const i = +row.dataset.pickrow; ps.sel[i] = selQty(i) >= o.lines[i].qty ? 0 : o.lines[i].qty; ps.given = ""; return draw(); }
+        if (e.target.closest("[data-pickall]")){ o.lines.forEach((l,i) => ps.sel[i] = l.qty); ps.given = ""; return draw(); }
+        if (e.target.closest("[data-pickclear]")){ ps.sel = {}; ps.given = ""; return draw(); }
         const m = e.target.closest("[data-m]"); if (m){ ps.method = m.dataset.m; return draw(); }
         const dt = e.target.closest("[data-dt]"); if (dt){ ps.discType = dt.dataset.dt; return draw(); }
         const g = e.target.closest("[data-give]"); if (g){ ps.given = g.dataset.give; return draw(); }
-        if (e.target.closest("[data-close]")){ e.target.closest("[data-close]").disabled = true; await closeBill(tid, sub, calc()); }
+        if (e.target.closest("[data-close]")){
+          e.target.closest("[data-close]").disabled = true;
+          const qty = ps.mode === "all" ? o.lines.map(l => l.qty) : o.lines.map((l,i) => selQty(i));
+          await closeBill(tid, qty, calc());
+        }
       });
     const bind = (id, key) => { const inp = $("#"+id); if (!inp) return; inp.addEventListener("change", () => { ps[key] = inp.value.replace(",", "."); draw(); }); };
     bind("pay-disc","disc"); bind("pay-card","cardPart"); bind("pay-given","given");
+    const restore = () => { const d2 = $("#modal .dialog"); if (d2) d2.scrollTop = keep; const p2 = $("#pay-pick"); if (p2) p2.scrollTop = keepPl; };
+    restore(); setTimeout(restore, 40);
   };
   draw();
 }
-async function closeBill(tid, sub, c){
+/* qty[i] = how many of line i are being paid now */
+async function closeBill(tid, qty, c){
   const o = st.tables[tid]; if (!o) return hideModal();
+  const paidLines = o.lines.map((l,i) => ({l, q: Math.min(l.qty, qty[i]||0)})).filter(x => x.q > 0);
+  if (!paidLines.length) return;
+  const rest = o.lines.map((l,i) => ({...l, qty: l.qty - Math.min(l.qty, qty[i]||0)})).filter(l => l.qty > 0);
   const now = Date.now(), date = bizDate(now), id = uid();
-  const bill = {t: now, opened: o.openedAt, table: tid, lines: o.lines.map(l => ({n:l.name, p:l.price, q:l.qty})), sub, disc: Math.round(c.d*100)/100, total: c.total, cash: c.cash, card: c.card};
+  const bill = {t: now, opened: o.openedAt, table: tid, lines: paidLines.map(x => ({n:x.l.name, p:x.l.price, q:x.q})), sub: c.sub, disc: Math.round(c.d*100)/100, total: c.total, cash: c.cash, card: c.card};
+  if (rest.length || o.paid) bill.part = true;
   try {
     await writeDay(date, {bills: {[id]: bill}});
   } catch(e){ toast("Hesap kaydedilemedi, tekrar deneyin."); hideModal(); return; }
+  if (rest.length){
+    const cur = st.tables[tid] || o; // kayıt sırasında masa verisi yenilenmiş olabilir
+    st.tables[tid] = {...cur, lines: rest, paid: Math.round(((o.paid||0) + c.total)*100)/100};
+    wt.dirty.add(tid); await flushTable(tid);
+    hideModal(); renderSheet(); renderHeader(); if (st.tab==="tables") renderTables();
+    toast(`${TBY[tid].name} · ${tl(c.total)} alındı · masada kalan ${tl(linesTotal(rest))}`);
+    return;
+  }
   delete st.tables[tid]; wt.dirty.add(tid); await flushTable(tid);
   hideModal(); closeSheet(); renderHeader();
   toast(`${TBY[tid].name} kapandı · ${tl(c.total)}`);
@@ -939,6 +981,7 @@ function transferTable(from, to){
   const dst = st.tables[to] || (st.tables[to] = {lines:[], openedAt: src.openedAt});
   for (const l of src.lines){ const x = dst.lines.find(d => d.id===l.id && d.price===l.price); if (x) x.qty += l.qty; else dst.lines.push({...l}); }
   dst.openedAt = Math.min(dst.openedAt, src.openedAt);
+  dst.paid = Math.round(((dst.paid||0) + (src.paid||0))*100)/100;
   delete st.tables[from]; scheduleWrite(from); scheduleWrite(to);
   renderHeader(); if (st.tab==="tables") renderTables();
   toast(`${TBY[from].name} → ${TBY[to].name} aktarıldı`);
@@ -1094,7 +1137,7 @@ function renderReports(){
     <div class="card"><h3>Adisyonlar</h3>${bills.length ? `<div class="list">${bills.map(([id,b]) => `
       <details class="li" style="display:block"><summary class="row" style="flex-wrap:nowrap">
         <span class="num muted" style="width:44px">${hm(b.t)}</span><b style="width:52px">${esc(TBY[b.table]?.name || b.table)}</b>
-        <span class="grow">${b.void ? `<span class="pill void">İptal</span>` : b.cash && b.card ? `<span class="pill cash">Nakit</span> <span class="pill card">Kart</span>` : b.card ? `<span class="pill card">Kart</span>` : `<span class="pill cash">Nakit</span>`}</span>
+        <span class="grow">${b.part && !b.void ? `<span class="pill">Ayrı ödeme</span> ` : ""}${b.void ? `<span class="pill void">İptal</span>` : b.cash && b.card ? `<span class="pill cash">Nakit</span> <span class="pill card">Kart</span>` : b.card ? `<span class="pill card">Kart</span>` : `<span class="pill cash">Nakit</span>`}</span>
         <span class="r ${b.void?"voided":""}">${tl(b.total)}</span></summary>
         <div class="bill-lines">${(b.lines||[]).map(l => `${l.q} × ${esc(l.n)} — ${tl(l.q*l.p)}`).join("<br>")}${b.disc ? `<br>İndirim −${tl(b.disc)}` : ""}${b.cash && b.card ? `<br>Nakit ${tl(b.cash)} · Kart ${tl(b.card)}` : ""}
           ${b.void ? "" : `<div style="margin-top:8px"><button class="btn sm danger" data-void="${id}">Adisyonu iptal et</button></div>`}</div>
