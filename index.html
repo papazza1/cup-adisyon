@@ -292,6 +292,19 @@ body.is-dragging *{-webkit-user-select:none;user-select:none}
 .vplan2 .tbl.long{background:#C97A10;border-color:#fff;color:#fff;box-shadow:0 0 0 2px #C97A10,0 3px 8px rgba(0,0,0,.4)}
 .vplan2 .tbl.drop{outline:3px solid #2B8455;outline-offset:3px}
 .vplan2 .tbl.dragging{opacity:.35}
+
+/* Kat planı: tasarım görseli + üstünde dokunulabilir masalar */
+.iplan{position:relative;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);background:#1d1f24 url(plan.jpg) center/100% 100% no-repeat;--t:60px;margin:0 auto}
+.iplan .tbl{position:absolute;transform:translate(-50%,-50%);width:var(--t);height:var(--t);padding:0;background:linear-gradient(180deg,#f7f4ee,#e9e4da);border:2.5px solid #17181c;border-radius:8px;color:#17181c;box-shadow:0 3px 6px rgba(0,0,0,.45)}
+.iplan .tbl.round{border-radius:50%}
+.iplan .tbl:active{transform:translate(-50%,-50%) scale(.95)}
+.iplan .tbl .nm{font-size:calc(var(--t)*.34);font-family:var(--f-ui);font-weight:800;letter-spacing:-.01em}
+.iplan .tbl .amt{font-size:calc(var(--t)*.21);font-weight:700}
+.iplan .tbl .tm{font-size:calc(var(--t)*.16)}
+.iplan .tbl.open{background:#2F6FB3;border-color:#fff;color:#fff;box-shadow:0 0 0 2px #2F6FB3,0 4px 10px rgba(0,0,0,.5)}
+.iplan .tbl.long{background:#C97A10;border-color:#fff;color:#fff;box-shadow:0 0 0 2px #C97A10,0 4px 10px rgba(0,0,0,.5)}
+.iplan .tbl.drop{outline:3px solid #34c27a;outline-offset:3px}
+.iplan .tbl.dragging{opacity:.35}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -393,7 +406,7 @@ const bizDate = (ts = Date.now()) => ymd(new Date(ts - (st.settings.dayStartHour
 
 /* ---------- Store backends ---------- */
 const MENU_VER = 5;
-const APP_VERSION = "2026-10-18-8";
+const APP_VERSION = "2026-10-18-9";
 /* Clouds Up menüsü (kâğıt menüden, 18 Ekim 2026) */
 const CUP_MENU = {"ver": 5, "cats": ["Kahve", "Çay", "Soğuk İçecek", "Bira 33 cl", "Bira 50 cl", "C'up Kokteyl", "Klasik Kokteyl", "Viski", "Atıştırmalık"], "items": [{"id": "c001", "name": "Türk Kahvesi", "cat": "Kahve", "price": 90}, {"id": "c002", "name": "Türk Kahvesi Double", "cat": "Kahve", "price": 150}, {"id": "c003", "name": "Espresso", "cat": "Kahve", "price": 120}, {"id": "c004", "name": "Espresso Double", "cat": "Kahve", "price": 180}, {"id": "c005", "name": "Americano", "cat": "Kahve", "price": 200}, {"id": "c006", "name": "Cappuccino", "cat": "Kahve", "price": 240}, {"id": "c007", "name": "Mocha", "cat": "Kahve", "price": 260}, {"id": "c008", "name": "White Mocha", "cat": "Kahve", "price": 260}, {"id": "c009", "name": "Flat White", "cat": "Kahve", "price": 220}, {"id": "c010", "name": "Latte", "cat": "Kahve", "price": 240}, {"id": "c011", "name": "Affogato", "cat": "Kahve", "price": 400}, {"id": "c012", "name": "Çay", "cat": "Çay", "price": 50}, {"id": "c013", "name": "Fincan Çay", "cat": "Çay", "price": 80}, {"id": "c014", "name": "Bitki Çayı", "cat": "Çay", "price": 120}, {"id": "c015", "name": "Su", "cat": "Soğuk İçecek", "price": 40}, {"id": "c016", "name": "Soda", "cat": "Soğuk İçecek", "price": 80}, {"id": "c017", "name": "Churchill", "cat": "Soğuk İçecek", "price": 130}, {"id": "c018", "name": "Kola", "cat": "Soğuk İçecek", "price": 150}, {"id": "c019", "name": "Soğuk Çay", "cat": "Soğuk İçecek", "price": 150}, {"id": "c020", "name": "Meyve Suyu", "cat": "Soğuk İçecek", "price": 140}, {"id": "c021", "name": "Enerji İçeceği", "cat": "Soğuk İçecek", "price": 200}, {"id": "c030", "name": "Tuborg 33cl", "cat": "Bira 33 cl", "price": 270}, {"id": "c031", "name": "Efes 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c032", "name": "Efes Glutensiz 33cl", "cat": "Bira 33 cl", "price": 400}, {"id": "c033", "name": "Carlsberg 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c034", "name": "Stella 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c035", "name": "Corona 33cl", "cat": "Bira 33 cl", "price": 450}, {"id": "c036", "name": "Blanc 33cl", "cat": "Bira 33 cl", "price": 350}, {"id": "c037", "name": "Miller 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c022", "name": "Tuborg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c023", "name": "Efes 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c024", "name": "Efes Glutensiz 50cl", "cat": "Bira 50 cl", "price": 400}, {"id": "c025", "name": "Carlsberg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c026", "name": "Stella 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c027", "name": "Corona 50cl", "cat": "Bira 50 cl", "price": 450}, {"id": "c028", "name": "Blanc 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c029", "name": "Miller 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c038", "name": "Vanilia Hibiscus", "cat": "C'up Kokteyl", "price": 800}, {"id": "c039", "name": "Passion Zencefil", "cat": "C'up Kokteyl", "price": 800}, {"id": "c040", "name": "Ahududu Lime", "cat": "C'up Kokteyl", "price": 800}, {"id": "c041", "name": "Kakule Vişne", "cat": "C'up Kokteyl", "price": 800}, {"id": "c042", "name": "Kuzu Kulağı - Yeşil Elma", "cat": "C'up Kokteyl", "price": 800}, {"id": "c043", "name": "Espresso Martini", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c044", "name": "Iceland", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c045", "name": "Cin Tonik", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c046", "name": "Pina Colada", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c047", "name": "Mudslide", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c048", "name": "Johnnie Walker Black Label Tek", "cat": "Viski", "price": 600}, {"id": "c052", "name": "Chivas Regal Tek", "cat": "Viski", "price": 600}, {"id": "c056", "name": "Chivas Regal 18 Tek", "cat": "Viski", "price": 750}, {"id": "c059", "name": "Jameson Tek", "cat": "Viski", "price": 500}, {"id": "c049", "name": "Johnnie Walker Black Label Duble", "cat": "Viski", "price": 1100}, {"id": "c053", "name": "Chivas Regal Duble", "cat": "Viski", "price": 1100}, {"id": "c057", "name": "Chivas Regal 18 Duble", "cat": "Viski", "price": 1400}, {"id": "c060", "name": "Jameson Duble", "cat": "Viski", "price": 1000}, {"id": "c050", "name": "Johnnie Walker Black Label 35cl", "cat": "Viski", "price": 4500}, {"id": "c054", "name": "Chivas Regal 35cl", "cat": "Viski", "price": 4500}, {"id": "c051", "name": "Johnnie Walker Black Label 70cl", "cat": "Viski", "price": 7000}, {"id": "c055", "name": "Chivas Regal 70cl", "cat": "Viski", "price": 7000}, {"id": "c058", "name": "Chivas Regal 18 70cl", "cat": "Viski", "price": 10000}, {"id": "c061", "name": "Jameson 70cl", "cat": "Viski", "price": 6000}, {"id": "c062", "name": "Karışık Çerez", "cat": "Atıştırmalık", "price": 250}, {"id": "c063", "name": "Turşu", "cat": "Atıştırmalık", "price": 200}, {"id": "c064", "name": "Cips", "cat": "Atıştırmalık", "price": 200}]};
 const DEMO_MENU = CUP_MENU;
@@ -671,13 +684,15 @@ function tileHTML(t, cls=""){
   const aria = open ? `${t.name}, açık, ${tl(linesTotal(o.lines))}` : `${t.name}, boş`;
   return `<button class="${c}" data-tid="${t.id}" aria-label="${esc(aria)}"><span class="nm">${esc(t.round ? t.name.replace("Bar ","") : t.name)}</span>${open ? `<span class="amt">${tlShort(linesTotal(o.lines))}</span><span class="tm">${elapsed(o.openedAt)}</span>` : ""}</button>`;
 }
+const IMG_W = 1312, IMG_H = 1199;
+const IMG_POS = {"B6": [464, 88], "B5": [802, 88], "B4": [1149, 88], "B1": [465, 234], "B2": [804, 234], "B3": [1149, 234], "T5": [466, 392], "T6": [1135, 391], "T4": [236, 490], "T3": [801, 488], "T1": [466, 568], "T2": [1142, 567], "K3": [144, 738], "S6": [462, 736], "S7": [1162, 736], "S5": [801, 791], "S4": [462, 855], "S3": [1162, 852], "S1": [637, 964], "S2": [989, 964], "K2": [144, 855], "K1": [144, 1013], "BAR1": [438, 1116], "BAR2": [597, 1116], "BAR3": [757, 1116], "BAR4": [910, 1116]};
 const VW = 554, VH = 1255;
 const isPortrait = () => window.innerHeight > window.innerWidth;
 function renderTables(){
   if (drag.active){ drag.pending = true; return; }
   const v = $("#v-tables");
   const mode = st.planMode || "plan";
-  const vertical = mode === "plan" && isPortrait();
+  const vertical = mode === "plan";
   $("#main").classList.toggle("tight", vertical);
   const openN = Object.values(st.tables).filter(t => t.lines.length).length;
   const openSum = Object.values(st.tables).reduce((s,t) => s + linesTotal(t.lines), 0);
@@ -685,22 +700,10 @@ function renderTables(){
   const banner = "";
   if (vertical){
     const pct = (a,b) => (a/b*100).toFixed(3)+"%";
-    const Z = (x,y,w,h,cls,extra="") => `<div class="vz ${cls}" style="left:${pct(x,VW)};top:${pct(y,VH)};width:${pct(w,VW)};height:${pct(h,VH)};${extra}"></div>`;
-    const L = (txt,x,y) => `<span class="vlabel" style="right:${pct(VW-x,VW)};top:${pct(y,VH)}">${txt}</span>`;
     v.innerHTML = `${banner}
       <div class="vrow"><div class="muted num" style="min-width:0"><b style="color:var(--ink)">${openN}</b> açık masa · ${tl(openSum)}<div style="font-size:11px">Aktarmak için masayı basılı tutup sürükleyin</div></div>${seg}</div>
-      <div class="vwrap" id="vwrap"><div class="vplan2" id="vplan" role="group" aria-label="Kat planı">
-        ${Z(0,0,46,339,"stone")}${Z(46,0,508,339,"wood")}
-        ${Z(0,339,554,338,"stone")}
-        ${Z(0,677,122,578,"stone")}${Z(122,677,432,578,"wood")}
-        <svg class="vdoor-svg" viewBox="0 0 ${VW} ${VH}" preserveAspectRatio="none" aria-hidden="true">
-          <rect x="114" y="913" width="16" height="94" fill="#efe2c6"/>
-          <rect x="301" y="669" width="94" height="16" fill="#efe2c6"/>
-        </svg>
-        <span class="vdoor-tag c" style="left:${pct(348,VW)};top:${pct(716,VH)}"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V6M6 12l6-6 6 6"/></svg>TERAS ÇIKIŞI</span>
-        <span class="vdoor-tag" style="left:${pct(134,VW)};top:${pct(948,VH)}"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>GİRİŞ</span>
-        <span class="vlabel" style="left:${pct(58,VW)};top:${pct(318,VH)}">BAHÇE</span><span class="vlabel" style="left:${pct(10,VW)};top:${pct(655,VH)}">TERAS</span>${L("SALON",548,1050)}${L("BAR",548,1215)}
-        ${TABLES.map(t => tileHTML(t).replace('class="tbl', `style="left:${pct(t.y,VW)};top:${pct(1255 - t.x,VH)}" class="tbl`)).join("")}
+      <div class="vwrap" id="vwrap"><div class="iplan" id="vplan" role="group" aria-label="Kat planı">
+        ${TABLES.map(t => { const q = IMG_POS[t.id]; return tileHTML(t).replace('class="tbl', `style="left:${pct(q[0],IMG_W)};top:${pct(q[1],IMG_H)}" class="tbl`); }).join("")}
       </div></div>`;
     fitVPlan();
     return;
@@ -733,10 +736,14 @@ function renderTables(){
 function fitVPlan(){
   const wrap = $("#vwrap"), plan = $("#vplan"), main = $("#main"); if (!wrap || !plan) return;
   const top = wrap.getBoundingClientRect().top - main.getBoundingClientRect().top;
-  const h = Math.max(320, main.clientHeight - top - 8), w = wrap.clientWidth;
-  plan.style.height = h + "px"; plan.style.width = w + "px";
-  // kare masa boyutu: hem genişliğe hem yüksekliğe sığacak kadar
-  const t = Math.round(Math.max(34, Math.min(w * 0.115, h * 0.062, 92)));
+  let h = Math.max(300, main.clientHeight - top - 8), w = wrap.clientWidth;
+  // ekranı doldur; oran çok farklıysa (yatay iPad) görseli bozmadan sığdır
+  const ia = IMG_W / IMG_H, ratio = (w / h) / ia;
+  if (ratio > 1.22) w = Math.round(h * ia * 1.22);
+  else if (ratio < 0.8) h = Math.round(w / ia / 0.8);
+  plan.style.width = w + "px"; plan.style.height = h + "px";
+  // masa karesi görseldeki masayı tam örtsün
+  const t = Math.round(Math.max(90 / IMG_W * w, 82 / IMG_H * h));
   plan.style.setProperty("--t", t + "px");
 }
 $("#v-tables").addEventListener("click", e => {
