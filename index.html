@@ -267,6 +267,11 @@ body.is-dragging *{-webkit-user-select:none;user-select:none}
 
 .updbar{position:fixed;left:50%;top:calc(10px + env(safe-area-inset-top,0px));transform:translateX(-50%);z-index:80;background:var(--accent);color:var(--accent-ink);border-radius:12px;padding:10px 12px 10px 16px;display:flex;gap:12px;align-items:center;box-shadow:var(--shadow);font-weight:600;max-width:calc(100% - 32px)}
 .updbar button{background:var(--accent-ink);color:var(--accent);border-radius:8px;padding:7px 12px;font-weight:700}
+.paid-head{margin-top:14px;padding-top:10px;border-top:2px dashed var(--bad-soft);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--bad)}
+.bl.paidl{color:var(--bad)}
+.bl.paidl .bu{color:var(--bad);opacity:.8}
+.bl.paidl .lt{text-decoration:line-through;text-decoration-thickness:1.5px}
+.paid-tag{font-size:12px;font-weight:700;padding:5px 10px;border-radius:99px;background:var(--bad-soft);color:var(--bad);white-space:nowrap}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -368,7 +373,7 @@ const bizDate = (ts = Date.now()) => ymd(new Date(ts - (st.settings.dayStartHour
 
 /* ---------- Store backends ---------- */
 const MENU_VER = 5;
-const APP_VERSION = "2026-10-18-2";
+const APP_VERSION = "2026-10-18-3";
 /* Clouds Up menüsü (kâğıt menüden, 18 Ekim 2026) */
 const CUP_MENU = {"ver": 5, "cats": ["Kahve", "Çay", "Soğuk İçecek", "Bira 33 cl", "Bira 50 cl", "C'up Kokteyl", "Klasik Kokteyl", "Viski", "Atıştırmalık"], "items": [{"id": "c001", "name": "Türk Kahvesi", "cat": "Kahve", "price": 90}, {"id": "c002", "name": "Türk Kahvesi Double", "cat": "Kahve", "price": 150}, {"id": "c003", "name": "Espresso", "cat": "Kahve", "price": 120}, {"id": "c004", "name": "Espresso Double", "cat": "Kahve", "price": 180}, {"id": "c005", "name": "Americano", "cat": "Kahve", "price": 200}, {"id": "c006", "name": "Cappuccino", "cat": "Kahve", "price": 240}, {"id": "c007", "name": "Mocha", "cat": "Kahve", "price": 260}, {"id": "c008", "name": "White Mocha", "cat": "Kahve", "price": 260}, {"id": "c009", "name": "Flat White", "cat": "Kahve", "price": 220}, {"id": "c010", "name": "Latte", "cat": "Kahve", "price": 240}, {"id": "c011", "name": "Affogato", "cat": "Kahve", "price": 400}, {"id": "c012", "name": "Çay", "cat": "Çay", "price": 50}, {"id": "c013", "name": "Fincan Çay", "cat": "Çay", "price": 80}, {"id": "c014", "name": "Bitki Çayı", "cat": "Çay", "price": 120}, {"id": "c015", "name": "Su", "cat": "Soğuk İçecek", "price": 40}, {"id": "c016", "name": "Soda", "cat": "Soğuk İçecek", "price": 80}, {"id": "c017", "name": "Churchill", "cat": "Soğuk İçecek", "price": 130}, {"id": "c018", "name": "Kola", "cat": "Soğuk İçecek", "price": 150}, {"id": "c019", "name": "Soğuk Çay", "cat": "Soğuk İçecek", "price": 150}, {"id": "c020", "name": "Meyve Suyu", "cat": "Soğuk İçecek", "price": 140}, {"id": "c021", "name": "Enerji İçeceği", "cat": "Soğuk İçecek", "price": 200}, {"id": "c030", "name": "Tuborg 33cl", "cat": "Bira 33 cl", "price": 270}, {"id": "c031", "name": "Efes 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c032", "name": "Efes Glutensiz 33cl", "cat": "Bira 33 cl", "price": 400}, {"id": "c033", "name": "Carlsberg 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c034", "name": "Stella 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c035", "name": "Corona 33cl", "cat": "Bira 33 cl", "price": 450}, {"id": "c036", "name": "Blanc 33cl", "cat": "Bira 33 cl", "price": 350}, {"id": "c037", "name": "Miller 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c022", "name": "Tuborg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c023", "name": "Efes 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c024", "name": "Efes Glutensiz 50cl", "cat": "Bira 50 cl", "price": 400}, {"id": "c025", "name": "Carlsberg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c026", "name": "Stella 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c027", "name": "Corona 50cl", "cat": "Bira 50 cl", "price": 450}, {"id": "c028", "name": "Blanc 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c029", "name": "Miller 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c038", "name": "Vanilia Hibiscus", "cat": "C'up Kokteyl", "price": 800}, {"id": "c039", "name": "Passion Zencefil", "cat": "C'up Kokteyl", "price": 800}, {"id": "c040", "name": "Ahududu Lime", "cat": "C'up Kokteyl", "price": 800}, {"id": "c041", "name": "Kakule Vişne", "cat": "C'up Kokteyl", "price": 800}, {"id": "c042", "name": "Kuzu Kulağı - Yeşil Elma", "cat": "C'up Kokteyl", "price": 800}, {"id": "c043", "name": "Espresso Martini", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c044", "name": "Iceland", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c045", "name": "Cin Tonik", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c046", "name": "Pina Colada", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c047", "name": "Mudslide", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c048", "name": "Johnnie Walker Black Label Tek", "cat": "Viski", "price": 600}, {"id": "c052", "name": "Chivas Regal Tek", "cat": "Viski", "price": 600}, {"id": "c056", "name": "Chivas Regal 18 Tek", "cat": "Viski", "price": 750}, {"id": "c059", "name": "Jameson Tek", "cat": "Viski", "price": 500}, {"id": "c049", "name": "Johnnie Walker Black Label Duble", "cat": "Viski", "price": 1100}, {"id": "c053", "name": "Chivas Regal Duble", "cat": "Viski", "price": 1100}, {"id": "c057", "name": "Chivas Regal 18 Duble", "cat": "Viski", "price": 1400}, {"id": "c060", "name": "Jameson Duble", "cat": "Viski", "price": 1000}, {"id": "c050", "name": "Johnnie Walker Black Label 35cl", "cat": "Viski", "price": 4500}, {"id": "c054", "name": "Chivas Regal 35cl", "cat": "Viski", "price": 4500}, {"id": "c051", "name": "Johnnie Walker Black Label 70cl", "cat": "Viski", "price": 7000}, {"id": "c055", "name": "Chivas Regal 70cl", "cat": "Viski", "price": 7000}, {"id": "c058", "name": "Chivas Regal 18 70cl", "cat": "Viski", "price": 10000}, {"id": "c061", "name": "Jameson 70cl", "cat": "Viski", "price": 6000}, {"id": "c062", "name": "Karışık Çerez", "cat": "Atıştırmalık", "price": 250}, {"id": "c063", "name": "Turşu", "cat": "Atıştırmalık", "price": 200}, {"id": "c064", "name": "Cips", "cat": "Atıştırmalık", "price": 200}]};
 const DEMO_MENU = CUP_MENU;
@@ -421,7 +426,7 @@ async function flushTable(tid){
   const p = (async () => {
     try {
       if (!t || !t.lines.length) await ref.delete();
-      else await ref.set({lines: t.lines, openedAt: t.openedAt, paid: t.paid || 0, updatedAt: Date.now()});
+      else await ref.set({lines: t.lines, openedAt: t.openedAt, paid: t.paid || 0, paidLines: t.paidLines || [], updatedAt: Date.now()});
     } catch(e){ toast("Kaydedilemedi: " + (e.code||"bağlantı")); }
   })();
   wt.inflight[tid] = p; await p; wt.inflight[tid] = null;
@@ -515,7 +520,7 @@ async function boot(){
   st.db.doc("config/lock").onSnapshot(s => { st.lock = s.exists ? s.data() : null; }, onDbErr);
   st.db.collection("tables").onSnapshot(snap => {
     const seen = new Set();
-    for (const d of snap.docs){ seen.add(d.id); if (!busy(d.id)) { const v = d.data(); st.tables[d.id] = {lines: (v.lines||[]).map(l => ({...l})), openedAt: v.openedAt||Date.now(), paid: v.paid||0}; } }
+    for (const d of snap.docs){ seen.add(d.id); if (!busy(d.id)) { const v = d.data(); st.tables[d.id] = {lines: (v.lines||[]).map(l => ({...l})), openedAt: v.openedAt||Date.now(), paid: v.paid||0, paidLines: (v.paidLines||[]).map(x => ({...x}))}; } }
     for (const id of Object.keys(st.tables)) if (!seen.has(id) && !busy(id)) delete st.tables[id];
     renderTables(); renderSheet(); renderHeader();
   }, onDbErr);
@@ -824,6 +829,13 @@ function renderLines(){
       <div class="stepper"><button data-dec="${i}" aria-label="${esc(l.name)} azalt">−</button><span>${l.qty}</span><button data-inc="${i}" aria-label="${esc(l.name)} artır">+</button></div>
       <div class="lt">${tl(l.price*l.qty)}</div></div>`).join("")
     : `<div class="empty">Masa boş. Soldaki ürünlere dokunarak sipariş ekleyin.</div>`;
+  const pls = o?.paidLines || [];
+  if (pls.length){
+    const grp = {}; for (const x of pls){ const k = x.n + "|" + x.p; (grp[k] = grp[k] || {n:x.n, p:x.p, q:0}).q += x.q; }
+    $("#sh-lines").insertAdjacentHTML("beforeend", `<div class="paid-head">Ödenenler</div>` + Object.values(grp).map(x => `
+      <div class="bl paidl"><div style="min-width:0"><div class="bn">${esc(x.n)}</div><div class="bu">${tl(x.p)}</div></div>
+        <span class="paid-tag">${x.q} × Ödendi</span><div class="lt">${tl(x.p*x.q)}</div></div>`).join(""));
+  }
   const tot = linesTotal(lines), cnt = linesCount(lines);
   $("#sh-total").textContent = tl(tot);
   const paid = o?.paid || 0; $("#sh-paid").hidden = !paid; $("#sh-paidv").textContent = tl(paid); $("#sh-totl").textContent = paid ? "Kalan" : "Toplam";
@@ -901,7 +913,7 @@ function openPay(tid){
     showModal(`
       <h2>${esc(TBY[tid].name)} · Hesap</h2>
       <div class="seg" role="group" aria-label="Hesap türü" style="align-self:flex-start"><button data-pmode="all" aria-pressed="${!pick}">Tümünü al</button><button data-pmode="pick" aria-pressed="${pick}">Ürün seçerek al</button></div>
-      ${o.paid ? `<div class="sumrow"><span class="muted">Bu masadan daha önce alınan</span><span>${tl(o.paid)}</span></div>` : ""}
+      ${o.paid ? `<div class="sumrow" style="color:var(--bad)"><span>Daha önce ödenen${(o.paidLines||[]).length ? ": " + esc((o.paidLines||[]).map(x => x.q + "× " + x.n).join(", ")) : ""}</span><span>${tl(o.paid)}</span></div>` : ""}
       ${linesHTML}
       <div class="sumrow"><span class="muted">${pick ? "Seçilenler" : "Ara toplam"}</span><span>${tl(c.sub)}</span></div>
       ${pick && left > 0 ? `<div class="sumrow"><span class="muted">Masada kalacak</span><span>${tl(left)}</span></div>` : ""}
@@ -954,7 +966,8 @@ async function closeBill(tid, qty, c){
   } catch(e){ toast("Hesap kaydedilemedi, tekrar deneyin."); hideModal(); return; }
   if (rest.length){
     const cur = st.tables[tid] || o; // kayıt sırasında masa verisi yenilenmiş olabilir
-    st.tables[tid] = {...cur, lines: rest, paid: Math.round(((o.paid||0) + c.total)*100)/100};
+    const pl = (cur.paidLines || []).concat(paidLines.map(x => ({n: x.l.name, p: x.l.price, q: x.q, t: now})));
+    st.tables[tid] = {...cur, lines: rest, paid: Math.round(((o.paid||0) + c.total)*100)/100, paidLines: pl};
     wt.dirty.add(tid); await flushTable(tid);
     hideModal(); renderSheet(); renderHeader(); if (st.tab==="tables") renderTables();
     toast(`${TBY[tid].name} · ${tl(c.total)} alındı · masada kalan ${tl(linesTotal(rest))}`);
@@ -982,6 +995,7 @@ function transferTable(from, to){
   for (const l of src.lines){ const x = dst.lines.find(d => d.id===l.id && d.price===l.price); if (x) x.qty += l.qty; else dst.lines.push({...l}); }
   dst.openedAt = Math.min(dst.openedAt, src.openedAt);
   dst.paid = Math.round(((dst.paid||0) + (src.paid||0))*100)/100;
+  dst.paidLines = (dst.paidLines||[]).concat(src.paidLines||[]);
   delete st.tables[from]; scheduleWrite(from); scheduleWrite(to);
   renderHeader(); if (st.tab==="tables") renderTables();
   toast(`${TBY[from].name} → ${TBY[to].name} aktarıldı`);
