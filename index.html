@@ -1173,6 +1173,65 @@ function renderMenu(){
       <input type="file" id="restore-file" accept=".json,application/json" hidden></div>
     </div>` : ""}`;
 }
+/* Add product: step 1 pick an existing list or name a new one, step 2 product name + price */
+function openAddProduct(){
+  const st2 = {step: "list", cat: null, isNew: false};
+  const norm = x => x.trim().toLocaleLowerCase("tr");
+  const drawList = () => {
+    const cs = cats();
+    showModal(`
+      <h2>Ürün ekle</h2>
+      <p class="muted" style="margin:0">Ürün hangi listeye eklensin?</p>
+      ${cs.length ? `<div class="field"><label>Mevcut listeye ekle</label>
+        <div class="tpick" style="grid-template-columns:repeat(auto-fill,minmax(120px,1fr))">${cs.map(c => `<button data-pickcat="${esc(c)}">${esc(c)} <span class="muted num" style="font-weight:500">· ${st.menu.items.filter(i => i.cat===c).length}</span></button>`).join("")}</div></div>` : ""}
+      <form id="newcat-form" class="field" autocomplete="off">
+        <label for="newcat">Yeni liste oluştur</label>
+        <div class="row" style="flex-wrap:nowrap"><input class="inp" id="newcat" placeholder="Liste adı, örn. Kokteyller" maxlength="40"><button class="btn primary" type="submit" style="flex:0 0 auto">Oluştur</button></div>
+        <div class="pinmsg" id="newcat-msg" style="text-align:left"></div>
+      </form>
+      <div class="row" style="justify-content:flex-end"><button class="btn" data-x>Vazgeç</button></div>`,
+      e => { const b = e.target.closest("[data-pickcat]"); if (b){ st2.cat = b.dataset.pickcat; st2.isNew = false; drawItem(); } });
+    $("#newcat-form").addEventListener("input", () => { $("#newcat-msg").textContent = ""; });
+    $("#newcat-form").addEventListener("submit", e => {
+      e.preventDefault();
+      const v = $("#newcat").value.trim().replace(/\s+/g, " ");
+      if (!v){ $("#newcat-msg").textContent = "Liste adını yazın"; $("#newcat").focus(); return; }
+      const ex = cats().find(c => norm(c) === norm(v));
+      st2.cat = ex || v; st2.isNew = !ex; drawItem();
+    });
+  };
+  const drawItem = () => {
+    showModal(`
+      <h2>${esc(st2.cat)}</h2>
+      <p class="muted" style="margin:0">${st2.isNew ? "Yeni liste. İlk ürününü ekleyin." : "Bu listeye yeni ürün ekleniyor."}</p>
+      <form id="newitem-form" class="form" autocomplete="off" style="grid-template-columns:minmax(0,2fr) minmax(0,1fr)">
+        <div class="field"><label for="ni-name">Ürün adı</label><input class="inp" id="ni-name" maxlength="60" placeholder="Örn. Mojito"></div>
+        <div class="field"><label for="ni-price">Fiyat (₺)</label><input class="inp num" id="ni-price" inputmode="decimal" placeholder="0"></div>
+        <div class="pinmsg" id="ni-msg" style="grid-column:1/-1;text-align:left"></div>
+        <div class="row" style="grid-column:1/-1;justify-content:space-between">
+          <button class="btn" type="button" data-back>← Liste seç</button>
+          <div class="row"><button class="btn" type="button" data-addmore>Ekle, bir tane daha</button><button class="btn primary" type="submit">Ekle</button></div>
+        </div>
+      </form>`,
+      e => { if (e.target.closest("[data-back]")) drawList(); if (e.target.closest("[data-addmore]")) save(true); });
+    const save = more => {
+      const name = $("#ni-name").value.trim().replace(/\s+/g, " ");
+      const price = parseFloat(($("#ni-price").value || "").replace(",", "."));
+      if (!name){ $("#ni-msg").textContent = "Ürün adını yazın"; $("#ni-name").focus(); return; }
+      if (!(price >= 0) || $("#ni-price").value.trim() === ""){ $("#ni-msg").textContent = "Fiyatı yazın"; $("#ni-price").focus(); return; }
+      if (st.menu.items.some(i => i.cat === st2.cat && norm(i.name) === norm(name))){ $("#ni-msg").textContent = "Bu listede aynı adlı ürün zaten var"; return; }
+      st.menu.items.push({id: uid(), name, cat: st2.cat, price});
+      if (st2.isNew && !st.menu.cats.includes(st2.cat)) st.menu.cats.push(st2.cat);
+      saveMenu(); toast(`${name} · ${tl(price)} → ${st2.cat}`);
+      if (more){ st2.isNew = false; drawItem(); }
+      else { hideModal(); renderMenu(); }
+    };
+    $("#newitem-form").addEventListener("submit", e => { e.preventDefault(); save(false); });
+    $("#newitem-form").addEventListener("input", () => { $("#ni-msg").textContent = ""; });
+    setTimeout(() => $("#ni-name")?.focus(), 40);
+  };
+  drawList();
+}
 $("#v-menu").addEventListener("change", e => {
   if (e.target.id === "dsh"){ const h = +e.target.value; st.settings.dayStartHour = h; st.db.doc("config/settings").set({dayStartHour:h}).then(() => toast("Gün dönümü kaydedildi")).catch(() => toast("Kaydedilemedi.")); return; }
   const row = e.target.closest(".menu-row"); if (!row) return;
@@ -1212,12 +1271,7 @@ $("#v-menu").addEventListener("change", e => {
 $("#v-menu").addEventListener("click", e => {
   if (e.target.closest("[data-backup]")) { doBackup(); return; }
   if (e.target.closest("[data-chpin]")) { showModal(`<div id="pinhost"></div>`); pinPad($("#pinhost"), {setup:true, onSuccess: () => { hideModal(); renderMenu(); }, onCancel: hideModal}); return; }
-  if (e.target.closest("[data-add]")){
-    const c = cats()[0] || "Sıcak";
-    const it = {id: uid(), name: "Yeni ürün", cat: c, price: 0};
-    st.menu.items.push(it); saveMenu(); renderMenu();
-    setTimeout(() => { const i = $("#mn-"+it.id); if (i){ i.focus(); i.select(); i.scrollIntoView({block:"center"}); } }, 30); return;
-  }
+  if (e.target.closest("[data-add]")){ openAddProduct(); return; }
   const d = e.target.closest("[data-del]");
   if (d){ const id = d.closest(".menu-row").dataset.id; const it = st.menu.items.find(i => i.id===id);
     confirmBox("Ürün silinsin mi?", `${it?.name||""} menüden kaldırılacak. Geçmiş satış raporları etkilenmez.`, "Sil", () => { st.menu.items = st.menu.items.filter(i => i.id!==id); saveMenu(); renderMenu(); }); }
