@@ -158,9 +158,9 @@ details summary::-webkit-details-marker{display:none}
 .inp{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface2);min-width:0}
 .inp:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
 .form{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;align-items:end}
-.menu-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.3fr) 110px 40px;gap:8px;align-items:center;padding:6px 0;border-top:1px solid var(--line)}
+.menu-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.3fr) 110px 52px 40px;gap:8px;align-items:center;padding:6px 0;border-top:1px solid var(--line)}
 .menu-row:first-of-type{border-top:0}
-@media (max-width:560px){.menu-row{grid-template-columns:minmax(0,1fr) 92px 40px}.menu-row .catsel{grid-column:1/-1;order:3}}
+@media (max-width:560px){.menu-row{grid-template-columns:minmax(0,1fr) 92px 52px 40px}.menu-row .catsel{grid-column:1/-1;order:3}}
 
 /* Order sheet */
 .sheet{position:fixed;inset:0;z-index:20;background:var(--bg);display:grid;grid-template-rows:auto 1fr;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -312,6 +312,58 @@ body.is-dragging *{-webkit-user-select:none;user-select:none}
 .iplan .tbl.stage .nm{font-size:calc(var(--t)*.36)}
 .iplan .tbl.stage .amt{font-size:calc(var(--t)*.3)}
 .iplan .tbl.stage .tm{font-size:calc(var(--t)*.2)}
+
+/* ---- Renkler: C'up markası + sekme ve kategori renkleri ---- */
+:root{--brand:#F2A900;--brand-ink:#17181C}
+.topbar{background:linear-gradient(90deg,#16171B,#26272E);border-bottom:2px solid var(--brand);color:#fff}
+.brand{color:var(--brand)} .brand .cloud{color:#fff} .brand small{color:#B9BCC6}
+.today{color:#B9BCC6} .today b{color:#fff}
+.tabbar{grid-template-columns:repeat(5,1fr)}
+.tabbar button[data-tab="tables"]{--tc:#2F6FB3} .tabbar button[data-tab="reports"]{--tc:#7B4FC9} .tabbar button[data-tab="exp"]{--tc:#C2413B} .tabbar button[data-tab="stock"]{--tc:#2B8455} .tabbar button[data-tab="menu"]{--tc:#C98A00}
+.tabbar button svg{padding:3px 12px;border-radius:12px;box-sizing:content-box;transition:background .15s}
+.tabbar button[aria-current="page"]{color:var(--tc)}
+.tabbar button[aria-current="page"] svg{background:color-mix(in srgb,var(--tc) 18%,transparent)}
+.chip{display:inline-flex;align-items:center;gap:6px}
+.chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c,var(--muted))}
+.chip[aria-pressed="true"]{background:var(--c,var(--ink));border-color:var(--c,var(--ink));color:#fff}
+.chip[aria-pressed="true"]::before{background:#fff}
+.prod{border-left:5px solid var(--c,var(--line));background:linear-gradient(135deg,color-mix(in srgb,var(--c,#888) 12%,var(--surface)) 0%,var(--surface) 70%)}
+.prod .q{background:var(--c,var(--accent));color:#fff}
+.prod.lowstk{box-shadow:inset 0 0 0 1.5px var(--bad)}
+.stk-warn{color:var(--bad)}
+h3.cath{color:var(--c);display:flex;align-items:center;gap:8px}
+h3.cath::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--c)}
+.kpi{border-top:4px solid var(--kc,var(--line))}
+.kpi .l{color:var(--kc,var(--muted))}
+.btn.primary{background:var(--accent)}
+.icon-btn.rcp{width:auto;padding:0 8px;gap:3px;display:inline-flex;align-items:center;justify-content:center;color:var(--muted)}
+.icon-btn.rcp.on{background:var(--good-soft);border-color:transparent;color:var(--good);font-weight:700;font-size:12px}
+.stk-chip{background:var(--bad);color:#fff;font-weight:700;font-size:12px;padding:5px 10px;border-radius:99px;animation:stkpulse 2s ease-in-out infinite}
+@keyframes stkpulse{0%,100%{box-shadow:0 0 0 0 rgba(194,65,59,.6)}50%{box-shadow:0 0 0 6px rgba(194,65,59,0)}}
+/* ---- Stok ---- */
+.stk-sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stk-k{background:var(--surface);border-radius:var(--r);box-shadow:var(--shadow);padding:12px 16px;border-top:4px solid #2B8455;display:flex;flex-direction:column}
+.stk-k b{font-family:var(--f-brand);font-weight:600;font-size:26px}
+.stk-k span{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stk-k.low{border-top-color:var(--bad)} .stk-k.low b{color:var(--bad)}
+.stk-k.na{border-top-color:var(--muted)}
+.stk-alert{box-shadow:0 0 0 2px var(--bad),var(--shadow)}
+.stk-alert h3{color:var(--bad)}
+.stk-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.card h3 + .stk-row{border-top:0}
+.stk-name{font-weight:700}
+.stk-q{font-size:13px;color:var(--muted);margin-top:2px}
+.stk-bar{height:8px;border-radius:4px;background:var(--surface2);border:1px solid var(--line);overflow:hidden;margin-top:6px}
+.stk-bar i{display:block;height:100%;border-radius:4px;background:var(--good)}
+.stk-row.mid .stk-bar i{background:var(--warn)}
+.stk-row.low .stk-bar i{background:var(--bad)}
+.stk-row.low .stk-q b{color:var(--bad)}
+.stk-act{flex-wrap:nowrap}
+.btn.in{background:var(--good-soft);color:var(--good);border-color:transparent}
+.pill.warnp{background:var(--warn-soft);color:var(--warn)}
+.li .r.neg{color:var(--bad)} .li .r.pos{color:var(--good)}
+.rcp-row{display:grid;grid-template-columns:minmax(0,1fr) 90px 38px 36px;gap:8px;align-items:center}
+@media (max-width:560px){.stk-row{grid-template-columns:1fr}.stk-act{justify-content:flex-end}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -323,6 +375,7 @@ body.is-dragging *{-webkit-user-select:none;user-select:none}
     <div class="brand"><span><span class="cloud">C'</span>up</span><small>Clouds Up</small></div>
     <div class="spacer"></div>
     <div class="today">
+      <button id="stkAlert" class="stk-chip" hidden></button>
       <span title="Bağlantı"><span id="conn" class="dot off"></span></span>
       <span>Bugün <b id="todayRev" class="num">₺0</b></span>
       <span class="hide-xs">Açık <b id="openCount" class="num">0</b></span>
@@ -333,12 +386,14 @@ body.is-dragging *{-webkit-user-select:none;user-select:none}
     <section id="v-tables" class="view"></section>
     <section id="v-reports" class="view" hidden></section>
     <section id="v-exp" class="view" hidden></section>
+    <section id="v-stock" class="view" hidden></section>
     <section id="v-menu" class="view" hidden></section>
   </main>
   <nav class="tabbar" aria-label="Bölümler">
     <button data-tab="tables" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Masalar</button>
     <button data-tab="reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Raporlar</button>
     <button data-tab="exp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>Giderler</button>
+    <button data-tab="stock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>Stok</button>
     <button data-tab="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16H5z"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>Menü</button>
   </nav>
 </div>
@@ -408,12 +463,13 @@ const st = {
   rep: {mode:"day", anchor: null},
   expDate: null,
   lock: null, unlockedUntil: 0,
+  stock: {items: [], seeded: 0}, stockLog: [], stockLoaded: false, menuLoaded: false, stkQ: "",
 };
 const bizDate = (ts = Date.now()) => ymd(new Date(ts - (st.settings.dayStartHour||0)*3600e3));
 
 /* ---------- Store backends ---------- */
 const MENU_VER = 5;
-const APP_VERSION = "2026-10-18-13";
+const APP_VERSION = "2026-10-19-1";
 /* Clouds Up menüsü (kâğıt menüden, 18 Ekim 2026) */
 const CUP_MENU = {"ver": 5, "cats": ["Kahve", "Çay", "Soğuk İçecek", "Bira 33 cl", "Bira 50 cl", "C'up Kokteyl", "Klasik Kokteyl", "Viski", "Atıştırmalık"], "items": [{"id": "c001", "name": "Türk Kahvesi", "cat": "Kahve", "price": 90}, {"id": "c002", "name": "Türk Kahvesi Double", "cat": "Kahve", "price": 150}, {"id": "c003", "name": "Espresso", "cat": "Kahve", "price": 120}, {"id": "c004", "name": "Espresso Double", "cat": "Kahve", "price": 180}, {"id": "c005", "name": "Americano", "cat": "Kahve", "price": 200}, {"id": "c006", "name": "Cappuccino", "cat": "Kahve", "price": 240}, {"id": "c007", "name": "Mocha", "cat": "Kahve", "price": 260}, {"id": "c008", "name": "White Mocha", "cat": "Kahve", "price": 260}, {"id": "c009", "name": "Flat White", "cat": "Kahve", "price": 220}, {"id": "c010", "name": "Latte", "cat": "Kahve", "price": 240}, {"id": "c011", "name": "Affogato", "cat": "Kahve", "price": 400}, {"id": "c012", "name": "Çay", "cat": "Çay", "price": 50}, {"id": "c013", "name": "Fincan Çay", "cat": "Çay", "price": 80}, {"id": "c014", "name": "Bitki Çayı", "cat": "Çay", "price": 120}, {"id": "c015", "name": "Su", "cat": "Soğuk İçecek", "price": 40}, {"id": "c016", "name": "Soda", "cat": "Soğuk İçecek", "price": 80}, {"id": "c017", "name": "Churchill", "cat": "Soğuk İçecek", "price": 130}, {"id": "c018", "name": "Kola", "cat": "Soğuk İçecek", "price": 150}, {"id": "c019", "name": "Soğuk Çay", "cat": "Soğuk İçecek", "price": 150}, {"id": "c020", "name": "Meyve Suyu", "cat": "Soğuk İçecek", "price": 140}, {"id": "c021", "name": "Enerji İçeceği", "cat": "Soğuk İçecek", "price": 200}, {"id": "c030", "name": "Tuborg 33cl", "cat": "Bira 33 cl", "price": 270}, {"id": "c031", "name": "Efes 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c032", "name": "Efes Glutensiz 33cl", "cat": "Bira 33 cl", "price": 400}, {"id": "c033", "name": "Carlsberg 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c034", "name": "Stella 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c035", "name": "Corona 33cl", "cat": "Bira 33 cl", "price": 450}, {"id": "c036", "name": "Blanc 33cl", "cat": "Bira 33 cl", "price": 350}, {"id": "c037", "name": "Miller 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c022", "name": "Tuborg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c023", "name": "Efes 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c024", "name": "Efes Glutensiz 50cl", "cat": "Bira 50 cl", "price": 400}, {"id": "c025", "name": "Carlsberg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c026", "name": "Stella 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c027", "name": "Corona 50cl", "cat": "Bira 50 cl", "price": 450}, {"id": "c028", "name": "Blanc 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c029", "name": "Miller 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c038", "name": "Vanilia Hibiscus", "cat": "C'up Kokteyl", "price": 800}, {"id": "c039", "name": "Passion Zencefil", "cat": "C'up Kokteyl", "price": 800}, {"id": "c040", "name": "Ahududu Lime", "cat": "C'up Kokteyl", "price": 800}, {"id": "c041", "name": "Kakule Vişne", "cat": "C'up Kokteyl", "price": 800}, {"id": "c042", "name": "Kuzu Kulağı - Yeşil Elma", "cat": "C'up Kokteyl", "price": 800}, {"id": "c043", "name": "Espresso Martini", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c044", "name": "Iceland", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c045", "name": "Cin Tonik", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c046", "name": "Pina Colada", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c047", "name": "Mudslide", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c048", "name": "Johnnie Walker Black Label Tek", "cat": "Viski", "price": 600}, {"id": "c052", "name": "Chivas Regal Tek", "cat": "Viski", "price": 600}, {"id": "c056", "name": "Chivas Regal 18 Tek", "cat": "Viski", "price": 750}, {"id": "c059", "name": "Jameson Tek", "cat": "Viski", "price": 500}, {"id": "c049", "name": "Johnnie Walker Black Label Duble", "cat": "Viski", "price": 1100}, {"id": "c053", "name": "Chivas Regal Duble", "cat": "Viski", "price": 1100}, {"id": "c057", "name": "Chivas Regal 18 Duble", "cat": "Viski", "price": 1400}, {"id": "c060", "name": "Jameson Duble", "cat": "Viski", "price": 1000}, {"id": "c050", "name": "Johnnie Walker Black Label 35cl", "cat": "Viski", "price": 4500}, {"id": "c054", "name": "Chivas Regal 35cl", "cat": "Viski", "price": 4500}, {"id": "c051", "name": "Johnnie Walker Black Label 70cl", "cat": "Viski", "price": 7000}, {"id": "c055", "name": "Chivas Regal 70cl", "cat": "Viski", "price": 7000}, {"id": "c058", "name": "Chivas Regal 18 70cl", "cat": "Viski", "price": 10000}, {"id": "c061", "name": "Jameson 70cl", "cat": "Viski", "price": 6000}, {"id": "c062", "name": "Karışık Çerez", "cat": "Atıştırmalık", "price": 250}, {"id": "c063", "name": "Turşu", "cat": "Atıştırmalık", "price": 200}, {"id": "c064", "name": "Cips", "cat": "Atıştırmalık", "price": 200}]};
 const DEMO_MENU = CUP_MENU;
@@ -549,6 +605,7 @@ async function boot(){
       st.menu = {cats: cs, items};
       st.db.doc("config/menu").set({ver: MENU_VER, cats: cs, items}).catch(() => {});
     } else { const d = s.data(); st.menu = {cats: d.cats||[], items: d.items||[]}; }
+    st.menuLoaded = true; ensureStockSeed();
     renderSheet(); if (st.tab==="menu") renderMenu();
   }, onDbErr);
   st.db.doc("config/settings").onSnapshot(s => {
@@ -558,6 +615,12 @@ async function boot(){
     if (st.tab==="menu") renderMenu();
   }, onDbErr);
   st.db.doc("config/lock").onSnapshot(s => { st.lock = s.exists ? s.data() : null; }, onDbErr);
+  st.db.doc("stock/items").onSnapshot(s => {
+    if (s.exists){ const d = s.data(); st.stock = {items: (d.items||[]).map(x => ({...x})), seeded: d.seeded || 0}; }
+    st.stockLoaded = true; ensureStockSeed(); renderHeader();
+    if (st.tab === "stock") renderStock(); if (st.openTid) renderProds();
+  }, onDbErr);
+  st.db.doc("stock/log").onSnapshot(s => { if (s.exists) st.stockLog = (s.data().log || []).slice(); }, onDbErr);
   st.db.collection("tables").onSnapshot(snap => {
     const seen = new Set();
     for (const d of snap.docs){ seen.add(d.id); if (!busy(d.id)) { const v = d.data(); st.tables[d.id] = {lines: (v.lines||[]).map(l => ({...l})), openedAt: v.openedAt||Date.now(), paid: v.paid||0, paidLines: (v.paidLines||[]).map(x => ({...x}))}; } }
@@ -583,7 +646,7 @@ function subscribeToday(){
   }, onDbErr);
 }
 function tick(){ subscribeToday(); renderHeader(); if (st.tab==="tables") renderTables(); renderSheetHead();
-  if ((st.tab==="menu" || st.tab==="exp") && !isUnlocked() && !document.querySelector("#v-"+st.tab+" .lockbox")){ document.activeElement?.blur?.(); st.tab==="menu" ? renderMenu() : renderExp(); } }
+  if ((st.tab==="menu" || st.tab==="exp" || st.tab==="stock") && !isUnlocked() && !document.querySelector("#v-"+st.tab+" .lockbox")){ document.activeElement?.blur?.(); st.tab==="menu" ? renderMenu() : st.tab==="stock" ? renderStock() : renderExp(); } }
 
 /* ---------- Admin PIN lock ---------- */
 const UNLOCK_MS = 5*60e3;
@@ -645,20 +708,299 @@ function pinPad(el, opts){
 }
 function renderLockView(tab){
   const v = $("#v-"+tab);
-  const sub = tab === "menu" ? "Menü, fiyatlar ve ayarlar şifreyle korunuyor." : "Gider ekleme ve silme şifreyle korunuyor.";
-  pinPad(v, {sub, onSuccess: () => { if (tab === "menu") renderMenu(); else renderExp(); }});
+  const sub = tab === "menu" ? "Menü, fiyatlar ve ayarlar şifreyle korunuyor." : tab === "stock" ? "Stok girişi, sayım ve reçeteler şifreyle korunuyor." : "Gider ekleme ve silme şifreyle korunuyor.";
+  pinPad(v, {sub, onSuccess: () => { if (tab === "menu") renderMenu(); else if (tab === "stock") renderStock(); else renderExp(); }});
 }
 function requirePin(fn, sub){
   if (isUnlocked()) return fn();
   showModal(`<div id="pinhost"></div>`);
   pinPad($("#pinhost"), {sub: sub || "Bu işlem için yönetici şifresi gerekiyor.", onSuccess: () => { hideModal(); fn(); }, onCancel: hideModal});
 }
-document.addEventListener("pointerdown", () => { if (isUnlocked() && (st.tab === "menu" || st.tab === "exp")) unlock(); }, true);
+document.addEventListener("pointerdown", () => { if (isUnlocked() && (st.tab === "menu" || st.tab === "exp" || st.tab === "stock")) unlock(); }, true);
 const lockBtn = `<button class="btn sm" data-lock>${LOCK_ICON.replace('width="26" height="26"','width="15" height="15"')} Kilitle</button>`;
-document.addEventListener("click", e => { if (e.target.closest("[data-lock]")){ st.unlockedUntil = 0; if (st.tab==="menu") renderMenu(); if (st.tab==="exp") renderExp(); toast("Kilitlendi"); } });
+document.addEventListener("click", e => { if (e.target.closest("[data-lock]")){ st.unlockedUntil = 0; if (st.tab==="menu") renderMenu(); if (st.tab==="exp") renderExp(); if (st.tab==="stock") renderStock(); toast("Kilitlendi"); } });
+
+/* ---------- Stok ---------- */
+const STOCK_CATS = ["Viski","Bira","Kokteyl Alkolleri","İçecek","Kahve & Süt","Çay","Atıştırmalık","Diğer"];
+const UNIT_OPTS = [["cl","cl (santilitre)"],["ml","ml (mililitre)"],["g","g (gram)"],["adet","adet"]];
+const DEF_STOCK = (() => {
+  const L = []; const add = (cat, unit, pack, packName, names) => names.forEach(n => L.push({name:n, cat, unit, pack, packName}));
+  add("Viski","cl",70,"şişe",["Johnnie Walker Black Label","Chivas Regal","Chivas Regal 18","Jameson"]);
+  const beers = ["Tuborg","Efes","Efes Glutensiz","Carlsberg","Stella","Corona","Blanc","Miller"];
+  add("Bira","adet",24,"kasa",beers.map(b => b+" 33cl")); add("Bira","adet",24,"kasa",beers.map(b => b+" 50cl"));
+  add("Kokteyl Alkolleri","cl",70,"şişe",["Rum","Gin","Votka","Tekila","Martini","Aperol","Safari","Malibu","Baileys","Portakal Likörü","Vanilya Likörü","Kahve Likörü"]);
+  add("İçecek","adet",24,"koli",["Su","Soda","Kola","Soğuk Çay","Meyve Suyu","Enerji İçeceği","Tonik"]);
+  add("İçecek","ml",1000,"litre",["Ananas Suyu","Greyfurt Suyu"]);
+  add("Kahve & Süt","g",1000,"kg",["Espresso Çekirdeği","Türk Kahvesi"]);
+  add("Kahve & Süt","ml",1000,"litre",["Süt","Çikolata Sosu","Beyaz Çikolata Sosu"]);
+  add("Kahve & Süt","adet",0,"",["Dondurma (top)"]);
+  add("Çay","adet",25,"kutu",["Bitki Çayı"]);
+  add("Atıştırmalık","g",1000,"kg",["Karışık Çerez"]);
+  add("Atıştırmalık","adet",0,"",["Cips"]);
+  return L;
+})();
+/* Varsayılan reçeteler (bir porsiyonda stoktan düşen miktar). Menü → Reçete'den değiştirilebilir. */
+const DEF_RECIPES = {
+  "Türk Kahvesi":[["Türk Kahvesi",7]], "Türk Kahvesi Double":[["Türk Kahvesi",14]],
+  "Espresso":[["Espresso Çekirdeği",9]], "Espresso Double":[["Espresso Çekirdeği",18]], "Americano":[["Espresso Çekirdeği",18]],
+  "Cappuccino":[["Espresso Çekirdeği",18],["Süt",150]], "Latte":[["Espresso Çekirdeği",18],["Süt",200]], "Flat White":[["Espresso Çekirdeği",18],["Süt",120]],
+  "Mocha":[["Espresso Çekirdeği",18],["Süt",180],["Çikolata Sosu",30]], "White Mocha":[["Espresso Çekirdeği",18],["Süt",180],["Beyaz Çikolata Sosu",30]],
+  "Affogato":[["Espresso Çekirdeği",9],["Dondurma (top)",1]],
+  "Bitki Çayı":[["Bitki Çayı",1]],
+  "Su":[["Su",1]], "Soda":[["Soda",1]], "Churchill":[["Soda",1]], "Kola":[["Kola",1]], "Soğuk Çay":[["Soğuk Çay",1]], "Meyve Suyu":[["Meyve Suyu",1]], "Enerji İçeceği":[["Enerji İçeceği",1]],
+  "Vanilia Hibiscus":[["Rum",4],["Portakal Likörü",2],["Vanilya Likörü",2]],
+  "Passion Zencefil":[["Gin",3],["Safari",2],["Tekila",2],["Martini",2]],
+  "Ahududu Lime":[["Gin",4],["Portakal Likörü",2],["Aperol",2]],
+  "Kakule Vişne":[["Gin",4],["Portakal Likörü",2]],
+  "Kuzu Kulağı - Yeşil Elma":[["Gin",4],["Portakal Likörü",2]],
+  "Espresso Martini":[["Votka",4],["Kahve Likörü",2],["Espresso Çekirdeği",9]],
+  "Iceland":[["Votka",4],["Tonik",1],["Greyfurt Suyu",60]],
+  "Cin Tonik":[["Gin",4],["Tonik",1]],
+  "Pina Colada":[["Malibu",4],["Ananas Suyu",90],["Süt",30]],
+  "Mudslide":[["Baileys",3],["Votka",3],["Kahve Likörü",3]],
+  "Karışık Çerez":[["Karışık Çerez",100]], "Cips":[["Cips",1]],
+};
+const WHISKY_POUR = {"Tek":4, "Duble":8, "35cl":35, "70cl":70}; // cl
+function recipeFor(name, byName){
+  let m = name.match(/^(Johnnie Walker Black Label|Chivas Regal 18|Chivas Regal|Jameson) (Tek|Duble|35cl|70cl)$/);
+  if (m && byName[m[1]]) return [{s: byName[m[1]], q: WHISKY_POUR[m[2]]}];
+  if (/ (33|50)cl$/.test(name) && byName[name]) return [{s: byName[name], q: 1}];
+  const r = DEF_RECIPES[name]; if (!r) return null;
+  const use = r.filter(([n]) => byName[n]).map(([n,q]) => ({s: byName[n], q}));
+  return use.length ? use : null;
+}
+const sById = id => st.stock.items.find(x => x.id === id);
+const fmtN = (n, d=2) => (Math.round((n||0)*10**d)/10**d).toLocaleString("tr-TR", {maximumFractionDigits:d});
+function fmtQty(it, q = it.qty){
+  if (q == null) return "Sayım yok";
+  let s = `${fmtN(q)} ${it.unit}`;
+  if (it.pack > 0 && Math.abs(q) >= it.pack) s += ` (${fmtN(q/it.pack,1)} ${it.packName || "paket"})`;
+  return s;
+}
+const pctOf = it => (it.qty == null || !(it.full > 0)) ? null : Math.max(0, it.qty / it.full * 100);
+const isLow = it => { const p = pctOf(it); return p != null && p <= (it.alert ?? 20); };
+const levelOf = it => { const p = pctOf(it); if (p == null) return "na"; if (p <= (it.alert ?? 20)) return "low"; if (p <= 50) return "mid"; return "ok"; };
+function saveStock(){
+  // hemen yaz: başka bir kayıt tetiklenmeden önce güncel stok kaydedilmiş olsun
+  const p = st.db.doc("stock/items").set(JSON.parse(JSON.stringify({seeded: 1, items: st.stock.items}))).catch(() => toast("Stok kaydedilemedi."));
+  renderHeader();
+  return p;
+}
+function addStockLog(entries){
+  st.stockLog = entries.concat(st.stockLog).slice(0, 400);
+  st.db.doc("stock/log").set({log: st.stockLog}).catch(() => {});
+}
+/* lines: [{id, q}] (menü ürünü id, adet) → {stokId: miktar} */
+function usageFor(lines){
+  const map = {};
+  for (const l of lines){
+    const it = st.menu.items.find(x => x.id === l.id); if (!it || !it.use) continue;
+    for (const u of it.use){ if (!u.s || !(u.q > 0)) continue; map[u.s] = Math.round(((map[u.s]||0) + u.q * l.q) * 100) / 100; }
+  }
+  return map;
+}
+/* sign: -1 satış, +1 iptal/iade */
+function applyStock(map, sign, type, note){
+  const now = Date.now(), log = [], changed = [];
+  for (const [sid, amt] of Object.entries(map||{})){
+    const it = sById(sid); if (!it) continue;
+    const before = it.qty ?? 0;
+    it.qty = Math.round((before + sign * amt) * 100) / 100;
+    log.push({t: now, type, s: sid, n: it.name, u: it.unit, d: sign * amt, a: it.qty, note: note || ""});
+    changed.push(it);
+  }
+  if (!log.length) return;
+  checkStockAlerts(changed);
+  saveStock();
+  addStockLog(log);
+  if (st.tab === "stock") renderStock();
+}
+function checkStockAlerts(items){
+  const fresh = [];
+  for (const it of items){
+    const p = pctOf(it);
+    if (p != null && p <= (it.alert ?? 20)){ if (!it.alerted){ it.alerted = true; fresh.push(it); } }
+    else it.alerted = false;
+  }
+  if (!fresh.length) return;
+  const txt = fresh.map(it => `${it.name} %${Math.round(pctOf(it))}`).join(", ");
+  setTimeout(() => toast(`Stok azaldı: ${txt}`), 2600); // masa kapandı bildiriminden sonra görünsün
+  try {
+    if ("Notification" in window && Notification.permission === "granted" && navigator.serviceWorker){
+      navigator.serviceWorker.ready.then(r => fresh.forEach(it => r.showNotification("C'up · Stok azaldı", {
+        body: `${it.name}: %${Math.round(pctOf(it))} kaldı (${fmtQty(it)})`, icon: "icons/icon-192.png", badge: "icons/icon-192.png", tag: "stok-" + it.id
+      }))).catch(() => {});
+    }
+  } catch(_) {}
+}
+function ensureStockSeed(){
+  if (!st.stockLoaded || !st.menuLoaded || st.stock.seeded) return;
+  st.stock.items = DEF_STOCK.map((d,i) => ({id: "st" + String(i+1).padStart(3,"0"), ...d, qty: null, full: null, alert: 20, alerted: false}));
+  const byName = Object.fromEntries(st.stock.items.map(x => [x.name, x.id]));
+  let touched = false;
+  for (const it of st.menu.items){ if (it.use && it.use.length) continue; const u = recipeFor(it.name, byName); if (u){ it.use = u; touched = true; } }
+  st.stock.seeded = 1;
+  saveStock();
+  if (touched) saveMenu(true);
+}
+function prodStockLow(item){ return (item.use||[]).some(u => { const s = sById(u.s); return s && (isLow(s) || (s.qty != null && s.qty <= 0)); }); }
+
+/* Stok ekranı */
+function stockRowHTML(it){
+  const p = pctOf(it), lv = levelOf(it);
+  return `<div class="stk-row ${lv}">
+    <div style="min-width:0">
+      <div class="stk-name">${esc(it.name)}${lv === "low" ? ` <span class="pill void">Azaldı</span>` : ""}${it.qty != null && it.qty <= 0 ? ` <span class="pill void">Bitti</span>` : ""}</div>
+      <div class="stk-q num">${esc(fmtQty(it))}${p != null ? ` · <b>%${Math.round(p)}</b>` : ""}</div>
+      <div class="stk-bar"><i style="width:${p == null ? 0 : Math.max(3, Math.min(100, p))}%"></i></div>
+    </div>
+    <div class="row stk-act"><button class="btn sm in" data-sin="${it.id}">+ Giriş</button><button class="btn sm" data-scount="${it.id}">Sayım</button><button class="icon-btn" data-sedit="${it.id}" aria-label="${esc(it.name)} düzenle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button></div>
+  </div>`;
+}
+function stockListHTML(){
+  const q = (st.stkQ || "").trim().toLocaleLowerCase("tr");
+  const items = st.stock.items.filter(x => !q || x.name.toLocaleLowerCase("tr").includes(q));
+  const cats = STOCK_CATS.concat([...new Set(st.stock.items.map(x => x.cat))].filter(c => !STOCK_CATS.includes(c)));
+  const html = cats.map(c => { const xs = items.filter(x => x.cat === c); return xs.length ? `<div class="card"><h3 class="cath" style="--c:${catColor(c)}">${esc(c)} <span class="muted num" style="font-weight:600">· ${xs.length}</span></h3>${xs.map(stockRowHTML).join("")}</div>` : ""; }).join("");
+  return html || `<div class="card empty">${q ? "Bu aramaya uyan stok kalemi yok." : "Stok kalemi yok. “+ Stok kalemi” ile ekleyin."}</div>`;
+}
+const LOGT = {sat:["Satış","void"], giris:["Giriş","cash"], sayim:["Sayım","card"], iptal:["İptal iade","warnp"]};
+function renderStock(){
+  const v = $("#v-stock");
+  if (!isUnlocked()){ if (!v.querySelector(".lockbox")) renderLockView("stock"); return; }
+  if (v.contains(document.activeElement) && document.activeElement.matches("input,select")) { const l = $("#stk-list"); if (l) l.innerHTML = stockListHTML(); return; }
+  const items = st.stock.items, low = items.filter(isLow), na = items.filter(x => x.qty == null);
+  const canNotif = "Notification" in window && Notification.permission === "default";
+  v.innerHTML = `
+    <div class="row" style="justify-content:space-between"><div class="row"><h2 class="h2">Stok</h2>${lockBtn}</div>
+      <div class="row">${canNotif ? `<button class="btn" data-snotif>Bildirimleri aç</button>` : ""}<button class="btn primary" data-sadd>+ Stok kalemi</button></div></div>
+    <div class="stk-sum">
+      <div class="stk-k"><b class="num">${items.length}</b><span>stok kalemi</span></div>
+      <div class="stk-k low"><b class="num">${low.length}</b><span>azalan</span></div>
+      <div class="stk-k na"><b class="num">${na.length}</b><span>sayım bekliyor</span></div>
+    </div>
+    ${na.length && na.length === items.length ? `<div class="banner">Başlamak için her kalemde <b>Sayım</b>'a basıp elinizdeki miktarı girin. Sonra satılan ürünler reçetelerine göre stoktan kendiliğinden düşer; bir kalem %20'nin altına inince uyarı gelir.</div>` : ""}
+    ${low.length ? `<div class="card stk-alert"><h3>Azalan stoklar</h3>${low.map(stockRowHTML).join("")}</div>` : ""}
+    <input class="inp" id="stk-q" type="search" placeholder="Stok ara" value="${esc(st.stkQ || "")}" autocomplete="off">
+    <div id="stk-list" style="display:flex;flex-direction:column;gap:16px">${stockListHTML()}</div>
+    <div class="card"><h3>Son hareketler</h3>${st.stockLog.length ? `<div class="list">${st.stockLog.slice(0,40).map(e => { const [lbl,cls] = LOGT[e.type] || [e.type,""]; const d = new Date(e.t);
+      return `<div class="li"><span class="num muted" style="width:86px;font-size:12px">${d.getDate()} ${MSHORT[d.getMonth()]} ${hm(e.t)}</span><span class="pill ${cls}">${lbl}</span><span class="grow" style="min-width:0">${esc(e.n)}${e.note ? ` <span class="muted" style="font-size:12px">· ${esc(e.note)}</span>` : ""}</span><span class="r ${e.d < 0 ? "neg" : "pos"}">${e.d > 0 ? "+" : ""}${fmtN(e.d)} ${esc(e.u)}</span></div>`; }).join("")}</div>` : `<div class="empty">Henüz stok hareketi yok.</div>`}</div>`;
+}
+function openStockEntry(id, mode){
+  const it = sById(id); if (!it) return;
+  const ps = {inPack: mode === "giris" && it.pack > 0, val: ""};
+  const draw = () => {
+    const amt = (parseFloat(String(ps.val).replace(",", ".")) || 0) * (ps.inPack ? it.pack : 1);
+    const after = mode === "giris" ? (it.qty ?? 0) + amt : amt;
+    showModal(`
+      <h2>${esc(it.name)}</h2>
+      <p class="muted" style="margin:0">${mode === "giris" ? "Gelen malı ekleyin." : "Elinizde şu an tam olarak ne kadar var?"} Şu an: <b>${esc(fmtQty(it))}</b></p>
+      ${it.pack > 0 ? `<div class="seg" role="group" style="align-self:flex-start"><button data-pu="1" aria-pressed="${ps.inPack}">${esc(it.packName || "paket")} (${it.pack} ${it.unit})</button><button data-pu="0" aria-pressed="${!ps.inPack}">${it.unit}</button></div>` : ""}
+      <div class="field"><label for="se-amt">${mode === "giris" ? "Gelen miktar" : "Sayılan miktar"} (${ps.inPack ? esc(it.packName || "paket") : it.unit})</label><input class="inp num" id="se-amt" inputmode="decimal" value="${esc(ps.val)}" placeholder="0"></div>
+      ${mode === "giris" ? `<div class="field"><label for="se-note">Not (isteğe bağlı)</label><input class="inp" id="se-note" placeholder="Örn. tedarikçi, fatura no"></div>` : ""}
+      <div class="sumrow big"><span>${mode === "giris" ? "Yeni stok" : "Kaydedilecek"}</span><span>${esc(fmtQty(it, Math.round(after*100)/100))}</span></div>
+      <div class="row" style="justify-content:flex-end"><button class="btn" data-x>Vazgeç</button><button class="btn primary" data-ok>Kaydet</button></div>`,
+      e => {
+        const pu = e.target.closest("[data-pu]"); if (pu){ ps.val = $("#se-amt").value; ps.inPack = pu.dataset.pu === "1"; return draw(); }
+        if (e.target.closest("[data-ok]")){
+          const raw = $("#se-amt").value.trim(); const n = parseFloat(raw.replace(",", "."));
+          if (raw === "" || !(n >= 0)){ toast("Miktarı girin."); return; }
+          const a = Math.round(n * (ps.inPack ? it.pack : 1) * 100) / 100, before = it.qty ?? 0;
+          if (mode === "giris"){ if (!(a > 0)){ toast("Miktarı girin."); return; } it.qty = Math.round((before + a)*100)/100; it.full = it.qty; }
+          else { it.qty = a; if (!(it.full > 0) || a > it.full) it.full = a; }
+          const entry = {t: Date.now(), type: mode, s: it.id, n: it.name, u: it.unit, d: Math.round((it.qty - before)*100)/100, a: it.qty, note: mode === "giris" ? ($("#se-note")?.value.trim() || "") : ""};
+          checkStockAlerts([it]); saveStock(); addStockLog([entry]); hideModal(); renderStock();
+          toast(mode === "giris" ? `${it.name}: +${fmtN(a)} ${it.unit}` : `${it.name}: ${fmtQty(it)}`);
+        }
+      });
+    $("#se-amt").addEventListener("input", e => { ps.val = e.target.value; const box = $("#modal .sumrow.big span:last-child"); if (box){ const a2 = (parseFloat(ps.val.replace(",", ".")) || 0) * (ps.inPack ? it.pack : 1); box.textContent = fmtQty(it, Math.round((mode === "giris" ? (it.qty ?? 0) + a2 : a2)*100)/100); } });
+    setTimeout(() => $("#se-amt")?.focus(), 40);
+  };
+  draw();
+}
+function openStockEdit(id){
+  const ex = id ? sById(id) : null;
+  const it = ex ? {...ex} : {id: "st" + uid(), name: "", cat: STOCK_CATS[0], unit: "adet", pack: 0, packName: "", qty: null, full: null, alert: 20, alerted: false};
+  const cats = STOCK_CATS.concat([...new Set(st.stock.items.map(x => x.cat))].filter(c => !STOCK_CATS.includes(c)));
+  const used = ex ? st.menu.items.filter(m => (m.use||[]).some(u => u.s === ex.id)).map(m => m.name) : [];
+  showModal(`
+    <h2>${ex ? "Stok kalemini düzenle" : "Yeni stok kalemi"}</h2>
+    <form id="sedit-form" class="form" autocomplete="off" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+      <div class="field" style="grid-column:1/-1"><label for="sf-name">Ad</label><input class="inp" id="sf-name" maxlength="60" value="${esc(it.name)}" placeholder="Örn. Absolut Votka"></div>
+      <div class="field"><label for="sf-cat">Grup</label><select class="inp" id="sf-cat">${cats.map(c => `<option ${c === it.cat ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></div>
+      <div class="field"><label for="sf-unit">Ölçü birimi</label><select class="inp" id="sf-unit">${UNIT_OPTS.map(([u,l]) => `<option value="${u}" ${u === it.unit ? "selected" : ""}>${l}</option>`).join("")}</select></div>
+      <div class="field"><label for="sf-pack">Bir paketteki miktar</label><input class="inp num" id="sf-pack" inputmode="decimal" value="${it.pack || ""}" placeholder="Örn. şişe için 70"></div>
+      <div class="field"><label for="sf-pname">Paket adı</label><input class="inp" id="sf-pname" value="${esc(it.packName || "")}" placeholder="şişe, kasa, koli…"></div>
+      <div class="field"><label for="sf-full">Tam stok seviyesi</label><input class="inp num" id="sf-full" inputmode="decimal" value="${it.full ?? ""}" placeholder="Girişte kendiliğinden"></div>
+      <div class="field"><label for="sf-alert">Uyarı eşiği (%)</label><input class="inp num" id="sf-alert" inputmode="decimal" value="${it.alert ?? 20}"></div>
+      <div class="pinmsg" id="sf-msg" style="grid-column:1/-1;text-align:left"></div>
+    </form>
+    ${used.length ? `<p class="muted" style="margin:0;font-size:13px">Kullanan ürünler: ${esc(used.join(", "))}</p>` : ""}
+    <div class="row" style="justify-content:space-between">${ex ? `<button class="btn danger" data-sdel>Sil</button>` : "<span></span>"}<div class="row"><button class="btn" data-x>Vazgeç</button><button class="btn primary" data-ok>Kaydet</button></div></div>`,
+    e => {
+      if (e.target.closest("[data-sdel]")){
+        return confirmBox("Stok kalemi silinsin mi?", `${ex.name} silinecek${used.length ? ` ve ${used.length} ürünün reçetesinden çıkarılacak` : ""}.`, "Sil", () => {
+          st.stock.items = st.stock.items.filter(x => x.id !== ex.id);
+          let t = false; for (const m of st.menu.items){ if ((m.use||[]).some(u => u.s === ex.id)){ m.use = m.use.filter(u => u.s !== ex.id); t = true; } }
+          saveStock(); if (t) saveMenu(true); renderStock(); toast("Stok kalemi silindi");
+        });
+      }
+      if (e.target.closest("[data-ok]")){
+        const name = $("#sf-name").value.trim().replace(/\s+/g, " ");
+        if (!name){ $("#sf-msg").textContent = "Adı yazın"; return; }
+        if (st.stock.items.some(x => x.id !== it.id && x.name.toLocaleLowerCase("tr") === name.toLocaleLowerCase("tr"))){ $("#sf-msg").textContent = "Bu adla bir stok kalemi zaten var"; return; }
+        const num = v => { const n = parseFloat(String(v).replace(",", ".")); return n >= 0 ? n : null; };
+        Object.assign(it, {name, cat: $("#sf-cat").value, unit: $("#sf-unit").value, pack: num($("#sf-pack").value) || 0, packName: $("#sf-pname").value.trim(), alert: Math.min(100, num($("#sf-alert").value) ?? 20)});
+        const f = num($("#sf-full").value); it.full = f > 0 ? f : (it.full ?? null);
+        if (ex) Object.assign(ex, it); else st.stock.items.push(it);
+        checkStockAlerts([ex || it]); saveStock(); hideModal(); renderStock(); toast("Stok kaydedildi");
+      }
+    });
+}
+function openRecipe(pid){
+  const item = st.menu.items.find(x => x.id === pid); if (!item) return;
+  let rows = (item.use || []).map(u => ({...u}));
+  const cats = STOCK_CATS.concat([...new Set(st.stock.items.map(x => x.cat))].filter(c => !STOCK_CATS.includes(c)));
+  const opts = sel => cats.map(c => { const xs = st.stock.items.filter(x => x.cat === c); return xs.length ? `<optgroup label="${esc(c)}">${xs.map(x => `<option value="${x.id}" ${x.id === sel ? "selected" : ""}>${esc(x.name)} (${x.unit})</option>`).join("")}</optgroup>` : ""; }).join("");
+  const sync = () => document.querySelectorAll("#rcp-rows .rcp-row").forEach((r,i) => { rows[i].s = r.querySelector("select").value; rows[i].q = parseFloat(r.querySelector("input").value.replace(",", ".")) || 0; });
+  const draw = () => {
+    showModal(`
+      <h2>${esc(item.name)} · Reçete</h2>
+      <p class="muted" style="margin:0;font-size:14px">Bu ürün 1 adet satılınca stoktan düşecek malzemeler.</p>
+      <div id="rcp-rows" style="display:flex;flex-direction:column;gap:8px">${rows.length ? rows.map((r,i) => `
+        <div class="rcp-row"><select class="inp" aria-label="Malzeme">${opts(r.s)}</select><input class="inp num" inputmode="decimal" value="${r.q || ""}" placeholder="0" aria-label="Miktar"><span class="muted rcp-u">${esc(sById(r.s)?.unit || "")}</span><button class="icon-btn" data-rdel="${i}" aria-label="Kaldır">×</button></div>`).join("") : `<div class="empty" style="padding:10px">Reçete yok. Bu ürün satılınca stok düşmez.</div>`}</div>
+      <button class="btn" data-radd ${st.stock.items.length ? "" : "disabled"} style="align-self:flex-start">+ Malzeme ekle</button>
+      <div class="row" style="justify-content:flex-end"><button class="btn" data-x>Vazgeç</button><button class="btn primary" data-ok>Kaydet</button></div>`,
+      e => {
+        if (e.target.closest("[data-radd]")){ sync(); rows.push({s: st.stock.items[0]?.id, q: 1}); return draw(); }
+        const d = e.target.closest("[data-rdel]"); if (d){ sync(); rows.splice(+d.dataset.rdel, 1); return draw(); }
+        if (e.target.closest("[data-ok]")){ sync(); item.use = rows.filter(r => r.s && r.q > 0).map(r => ({s: r.s, q: Math.round(r.q*100)/100})); saveMenu(true); hideModal(); renderMenu(); toast(`${item.name} reçetesi kaydedildi`); }
+      });
+    document.querySelectorAll("#rcp-rows select").forEach(s => s.addEventListener("change", () => { const u = s.closest(".rcp-row").querySelector(".rcp-u"); u.textContent = sById(s.value)?.unit || ""; }));
+  };
+  draw();
+}
+$("#v-stock").addEventListener("click", e => {
+  const a = id => e.target.closest(id);
+  let b;
+  if ((b = a("[data-sin]"))) return openStockEntry(b.dataset.sin, "giris");
+  if ((b = a("[data-scount]"))) return openStockEntry(b.dataset.scount, "sayim");
+  if ((b = a("[data-sedit]"))) return openStockEdit(b.dataset.sedit);
+  if (a("[data-sadd]")) return openStockEdit(null);
+  if (a("[data-snotif]")) { try { Notification.requestPermission().then(p => { toast(p === "granted" ? "Bildirimler açıldı" : "Bildirim izni verilmedi"); renderStock(); }); } catch(_) {} }
+});
+$("#v-stock").addEventListener("input", e => { if (e.target.id === "stk-q"){ st.stkQ = e.target.value; $("#stk-list").innerHTML = stockListHTML(); } });
+
+/* Kategori renkleri */
+const CAT_COLORS = {"Kahve":"#8B5A2B","Çay":"#3E8E41","Soğuk İçecek":"#1B8DB8","Bira 33 cl":"#C98A00","Bira 50 cl":"#B87400","C'up Kokteyl":"#C2185B","Klasik Kokteyl":"#7B4FC9","Viski":"#B8561C","Atıştırmalık":"#6B8E23",
+  "Bira":"#C98A00","Kokteyl Alkolleri":"#7B4FC9","İçecek":"#1B8DB8","Kahve & Süt":"#8B5A2B","Diğer":"#5F6C84"};
+const CAT_FALLBACK = ["#2F6FB3","#C2185B","#2B8455","#B8561C","#7B4FC9","#1B8DB8","#C98A00","#6B8E23"];
+function catColor(c){ if (CAT_COLORS[c]) return CAT_COLORS[c]; let h = 0; for (const ch of String(c)) h = (h*31 + ch.charCodeAt(0)) >>> 0; return CAT_FALLBACK[h % CAT_FALLBACK.length]; }
 
 /* ---------- Header ---------- */
 function renderHeader(){
+  const lowN = (st.stock.items||[]).filter(isLow).length, sc = $("#stkAlert");
+  if (sc){ sc.hidden = !lowN; sc.textContent = `Stok: ${lowN} azalan`; }
   const s = summarize(todayKey, st.today);
   $("#todayRev").textContent = tl(s.rev);
   $("#openCount").textContent = Object.values(st.tables).filter(t => t.lines.length).length;
@@ -666,6 +1008,7 @@ function renderHeader(){
 }
 
 /* ---------- Tabs ---------- */
+$("#stkAlert").addEventListener("click", () => setTab("stock"));
 document.querySelector(".tabbar").addEventListener("click", e => {
   const b = e.target.closest("button[data-tab]"); if (!b) return;
   setTab(b.dataset.tab);
@@ -674,11 +1017,12 @@ function setTab(tab){
   if (tab === "tables" || tab === "reports") st.unlockedUntil = 0;
   st.tab = tab;
   document.querySelectorAll(".tabbar button").forEach(b => { if (b.dataset.tab===tab) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
-  for (const v of ["tables","reports","exp","menu"]) $("#v-"+v).hidden = v !== tab;
+  for (const v of ["tables","reports","exp","stock","menu"]) $("#v-"+v).hidden = v !== tab;
   $("#main").scrollTop = 0; $("#main").classList.remove("tight");
   if (tab==="tables") renderTables();
   if (tab==="reports") refreshReports();
   if (tab==="exp") renderExp();
+  if (tab==="stock") renderStock();
   if (tab==="menu") renderMenu();
 }
 function renderAll(){ renderHeader(); renderTables(); }
@@ -857,7 +1201,7 @@ function renderSheetHead(){
 function cats(){ const c = [...st.menu.cats]; for (const i of st.menu.items) if (!c.includes(i.cat)) c.push(i.cat); return c; }
 function renderChips(){
   const el = $("#sh-chips"); if (!el) return;
-  el.innerHTML = ["Tümü", ...cats()].map(c => `<button class="chip" data-cat="${esc(c)}" aria-pressed="${st.cat===c}">${esc(c)}</button>`).join("");
+  el.innerHTML = ["Tümü", ...cats()].map(c => `<button class="chip" data-cat="${esc(c)}" style="--c:${c === "Tümü" ? "var(--ink)" : catColor(c)}" aria-pressed="${st.cat===c}">${esc(c)}</button>`).join("");
 }
 function renderProds(){
   const el = $("#sh-prods"); if (!el) return;
@@ -865,7 +1209,7 @@ function renderProds(){
   const o = st.tables[st.openTid];
   const qty = {}; for (const l of o?.lines||[]) qty[l.id] = (qty[l.id]||0) + l.qty;
   const items = st.menu.items.filter(i => (st.cat==="Tümü" || i.cat===st.cat) && (!q || i.name.toLocaleLowerCase("tr").includes(q)));
-  el.innerHTML = items.length ? items.map(i => `<button class="prod" data-pid="${esc(i.id)}"><span class="pn">${esc(i.name)}</span><span class="pp">${tl(i.price)}</span>${qty[i.id] ? `<span class="q">${qty[i.id]}</span>` : ""}</button>`).join("")
+  el.innerHTML = items.length ? items.map(i => `<button class="prod${prodStockLow(i) ? " lowstk" : ""}" data-pid="${esc(i.id)}" style="--c:${catColor(i.cat)}"><span class="pn">${esc(i.name)}</span><span class="pp">${tl(i.price)}${prodStockLow(i) ? ` · <b class="stk-warn">stok az</b>` : ""}</span>${qty[i.id] ? `<span class="q">${qty[i.id]}</span>` : ""}</button>`).join("")
     : `<div class="empty" style="grid-column:1/-1">${st.menu.items.length ? "Bu aramaya uyan ürün yok." : "Menü boş. Menü sekmesinden ürün ekleyin."}</div>`;
 }
 function renderLines(){
@@ -1008,9 +1352,11 @@ async function closeBill(tid, qty, c){
   const now = Date.now(), date = bizDate(now), id = uid();
   const bill = {t: now, opened: o.openedAt, table: tid, lines: paidLines.map(x => ({n:x.l.name, p:x.l.price, q:x.q})), sub: c.sub, disc: Math.round(c.d*100)/100, total: c.total, cash: c.cash, card: c.card};
   if (rest.length || o.paid) bill.part = true;
+  const stk = usageFor(paidLines.map(x => ({id: x.l.id, q: x.q}))); if (Object.keys(stk).length) bill.stk = stk;
   try {
     await writeDay(date, {bills: {[id]: bill}});
   } catch(e){ toast("Hesap kaydedilemedi, tekrar deneyin."); hideModal(); return; }
+  if (bill.stk) applyStock(bill.stk, -1, "sat", TBY[tid].name);
   if (rest.length){
     const cur = st.tables[tid] || o; // kayıt sırasında masa verisi yenilenmiş olabilir
     const pl = (cur.paidLines || []).concat(paidLines.map(x => ({n: x.l.name, p: x.l.price, q: x.q, t: now})));
@@ -1176,10 +1522,10 @@ function renderReports(){
     </div>
     ${repLoading ? `<div class="muted">Yükleniyor…</div>` : ""}
     <div class="kpis">
-      <div class="kpi"><div class="l">Gelir</div><div class="v num">${tl(T.rev)}</div><div class="s num">${T.n} adisyon</div></div>
-      <div class="kpi exp"><div class="l">Gider</div><div class="v num">${tl(T.exp)}</div><div class="s">${ecats.length} kalem türü</div></div>
-      <div class="kpi net"><div class="l">Net</div><div class="v num ${net>=0?"pos":"neg"}">${net<0?"−":""}${tl(Math.abs(net))}</div><div class="s">gelir − gider</div></div>
-      <div class="kpi"><div class="l">Ort. adisyon</div><div class="v num">${tl(T.n ? T.rev/T.n : 0)}</div><div class="s num">indirim ${tl(T.disc)}</div></div>
+      <div class="kpi" style="--kc:#2F6FB3"><div class="l">Gelir</div><div class="v num">${tl(T.rev)}</div><div class="s num">${T.n} adisyon</div></div>
+      <div class="kpi exp" style="--kc:#C2413B"><div class="l">Gider</div><div class="v num">${tl(T.exp)}</div><div class="s">${ecats.length} kalem türü</div></div>
+      <div class="kpi net" style="--kc:#2B8455"><div class="l">Net</div><div class="v num ${net>=0?"pos":"neg"}">${net<0?"−":""}${tl(Math.abs(net))}</div><div class="s">gelir − gider</div></div>
+      <div class="kpi" style="--kc:#7B4FC9"><div class="l">Ort. adisyon</div><div class="v num">${tl(T.n ? T.rev/T.n : 0)}</div><div class="s num">indirim ${tl(T.disc)}</div></div>
     </div>
     <div class="card">
       <div class="row" style="justify-content:space-between;margin-bottom:8px"><h3 style="margin:0">${mode==="day" ? "Saatlik gelir" : mode==="year" ? "Aylık gelir ve gider" : "Günlük gelir ve gider"}</h3>
@@ -1212,7 +1558,10 @@ $("#v-reports").addEventListener("click", e => {
   const vd = e.target.closest("[data-void]");
   if (vd){ const id = vd.dataset.void, date = st.rep.anchor;
     requirePin(() => confirmBox("Adisyon iptal edilsin mi?", "İptal edilen adisyon gelirden düşülür, listede çizili görünür.", "İptal et", async () => {
-      try { await writeDay(date, {bills: {[id]: {void: true, voidAt: Date.now()}}}); toast("Adisyon iptal edildi"); } catch(_) { toast("İptal kaydedilemedi."); }
+      const dd = date === todayKey ? st.today : repDayDoc; const ob = dd?.bills?.[id];
+      const back = ob && ob.stk && !ob.void ? {stk: JSON.parse(JSON.stringify(ob.stk)), name: TBY[ob.table]?.name || ob.table} : null; // iptalden önce al
+      try { await writeDay(date, {bills: {[id]: {void: true, voidAt: Date.now()}}}); toast("Adisyon iptal edildi"); } catch(_) { toast("İptal kaydedilemedi."); return; }
+      if (back) applyStock(back.stk, +1, "iptal", back.name + " adisyonu");
     }), "Adisyon iptali için yönetici şifresi gerekiyor."); }
 });
 
@@ -1272,10 +1621,10 @@ $("#v-exp").addEventListener("submit", async e => {
 });
 
 /* ---------- Menu & settings ---------- */
-async function saveMenu(){
+async function saveMenu(silent){
   const cs = []; for (const i of st.menu.items) if (i.cat && !cs.includes(i.cat)) cs.push(i.cat);
   st.menu.cats = st.menu.cats.filter(c => cs.includes(c)).concat(cs.filter(c => !st.menu.cats.includes(c)));
-  try { await st.db.doc("config/menu").set({ver: MENU_VER, cats: st.menu.cats, items: st.menu.items}); toast("Menü kaydedildi"); } catch(_) { toast("Menü kaydedilemedi."); }
+  try { await st.db.doc("config/menu").set(JSON.parse(JSON.stringify({ver: MENU_VER, cats: st.menu.cats, items: st.menu.items}))); if (!silent) toast("Menü kaydedildi"); } catch(_) { toast("Menü kaydedilemedi."); }
 }
 function renderMenu(){
   const v = $("#v-menu");
@@ -1283,13 +1632,14 @@ function renderMenu(){
   if (v.contains(document.activeElement) && document.activeElement.matches("input")) return; // don't clobber typing
   const cs = cats();
   v.innerHTML = `
-    <div class="row" style="justify-content:space-between"><h2 class="h2">Menü ve fiyatlar</h2><div class="row">${lockBtn}<button class="btn primary" data-add>+ Ürün ekle</button></div></div>
+    <div class="row" style="justify-content:space-between"><div><h2 class="h2">Menü ve fiyatlar</h2><div class="muted" style="font-size:13px">Kutu simgesi: ürünün reçetesi (satılınca stoktan ne düşeceği)</div></div><div class="row">${lockBtn}<button class="btn primary" data-add>+ Ürün ekle</button></div></div>
     <datalist id="catlist">${cs.map(c => `<option value="${esc(c)}">`).join("")}</datalist>
-    ${cs.length ? cs.map(c => `<div class="card"><h3>${esc(c)}</h3>${st.menu.items.filter(i => i.cat===c).map(i => `
+    ${cs.length ? cs.map(c => `<div class="card"><h3 class="cath" style="--c:${catColor(c)}">${esc(c)}</h3>${st.menu.items.filter(i => i.cat===c).map(i => `
       <div class="menu-row" data-id="${esc(i.id)}">
         <input class="inp" id="mn-${esc(i.id)}" data-f="name" value="${esc(i.name)}" aria-label="Ürün adı">
         <input class="inp catsel" id="mc-${esc(i.id)}" data-f="cat" list="catlist" value="${esc(i.cat)}" aria-label="Kategori">
         <input class="inp num" id="mp-${esc(i.id)}" data-f="price" inputmode="decimal" value="${i.price}" aria-label="Fiyat (₺)">
+        <button class="icon-btn rcp${(i.use||[]).length ? " on" : ""}" data-rcp aria-label="${esc(i.name)} reçetesi" title="Reçete (stoktan düşecekler)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>${(i.use||[]).length ? `<span>${i.use.length}</span>` : ""}</button>
         <button class="icon-btn" data-del aria-label="${esc(i.name)} sil">×</button>
       </div>`).join("")}</div>`).join("") : `<div class="card empty">Menüde ürün yok. “Ürün ekle” ile başlayın.</div>`}
     <div class="card">
@@ -1407,6 +1757,7 @@ $("#v-menu").addEventListener("change", e => {
 }, true);
 $("#v-menu").addEventListener("click", e => {
   if (e.target.closest("[data-backup]")) { doBackup(); return; }
+  const rb = e.target.closest("[data-rcp]"); if (rb) { openRecipe(rb.closest(".menu-row").dataset.id); return; }
   if (e.target.closest("[data-chpin]")) { showModal(`<div id="pinhost"></div>`); pinPad($("#pinhost"), {setup:true, onSuccess: () => { hideModal(); renderMenu(); }, onCancel: hideModal}); return; }
   if (e.target.closest("[data-add]")){ openAddProduct(); return; }
   const d = e.target.closest("[data-del]");

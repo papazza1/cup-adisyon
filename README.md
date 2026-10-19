@@ -12,3 +12,8 @@ gider girişi ve günlük / haftalık / aylık / yıllık gelir-gider raporları
 - Tek dosya: `index.html` (HTML + CSS + JS, kütüphane yok). Veri katmanı `memoryStore()`; Firestore benzeri `doc/collection` arayüzü.
 - `index.html` değişince `sw.js` içindeki `VERSION` değerini artırın, iPad'ler güncellemeyi alsın.
 - Veri modeli: `config/menu`, `config/settings`, `tables/<masa>`, `days/<YYYY-MM-DD>` (bills, exp), `summ/<YYYY-MM-DD>` (günlük özet).
+
+## Stok
+- `stock/items` → `{seeded, items:[{id,name,cat,unit(cl|ml|g|adet),pack,packName,qty,full,alert,alerted}]}`; `stock/log` → son 400 hareket.
+- Menü ürünlerinde `use:[{s:stokId,q:miktar}]` reçetesi. Hesap kapanınca (ayrı ödemede her parçada) düşülür, adisyonda `stk` olarak saklanır; iptalde geri eklenir.
+- Yüzde = qty / full. `full` her girişte yeni miktara eşitlenir. Eşik (varsayılan %20) geçilince bildirim + başlıkta "Stok: n azalan".

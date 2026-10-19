@@ -1,5 +1,5 @@
 // C'up offline cache. Bump VERSION when index.html changes so iPads pick up the update.
-const VERSION = "cup-v20";
+const VERSION = "cup-v21";
 const CORE = ["./", "index.html", "plan-v3.jpg", "manifest.webmanifest", "apple-touch-icon.png", "icons/icon-192.png", "icons/icon-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => {
@@ -21,3 +21,5 @@ self.addEventListener("fetch", e => {
     return r;
   }).catch(() => hit)));
 });
+
+self.addEventListener("notificationclick", e => { e.notification.close(); e.waitUntil(self.clients.matchAll({type: "window", includeUncontrolled: true}).then(cs => cs.length ? cs[0].focus() : self.clients.openWindow("./"))); });
