@@ -470,7 +470,7 @@ const bizDate = (ts = Date.now()) => ymd(new Date(ts - (st.settings.dayStartHour
 
 /* ---------- Store backends ---------- */
 const MENU_VER = 5;
-const APP_VERSION = "2026-10-22-2";
+const APP_VERSION = "2026-10-22-3";
 /* Clouds Up menüsü (kâğıt menüden, 18 Ekim 2026) */
 const CUP_MENU = {"ver": 5, "cats": ["Kahve", "Çay", "Soğuk İçecek", "Bira 33 cl", "Bira 50 cl", "C'up Kokteyl", "Klasik Kokteyl", "Viski", "Atıştırmalık"], "items": [{"id": "c001", "name": "Türk Kahvesi", "cat": "Kahve", "price": 90}, {"id": "c002", "name": "Türk Kahvesi Double", "cat": "Kahve", "price": 150}, {"id": "c003", "name": "Espresso", "cat": "Kahve", "price": 120}, {"id": "c004", "name": "Espresso Double", "cat": "Kahve", "price": 180}, {"id": "c005", "name": "Americano", "cat": "Kahve", "price": 200}, {"id": "c006", "name": "Cappuccino", "cat": "Kahve", "price": 240}, {"id": "c007", "name": "Mocha", "cat": "Kahve", "price": 260}, {"id": "c008", "name": "White Mocha", "cat": "Kahve", "price": 260}, {"id": "c009", "name": "Flat White", "cat": "Kahve", "price": 220}, {"id": "c010", "name": "Latte", "cat": "Kahve", "price": 240}, {"id": "c011", "name": "Affogato", "cat": "Kahve", "price": 400}, {"id": "c012", "name": "Çay", "cat": "Çay", "price": 50}, {"id": "c013", "name": "Fincan Çay", "cat": "Çay", "price": 80}, {"id": "c014", "name": "Bitki Çayı", "cat": "Çay", "price": 120}, {"id": "c015", "name": "Su", "cat": "Soğuk İçecek", "price": 40}, {"id": "c016", "name": "Soda", "cat": "Soğuk İçecek", "price": 80}, {"id": "c017", "name": "Churchill", "cat": "Soğuk İçecek", "price": 130}, {"id": "c018", "name": "Kola", "cat": "Soğuk İçecek", "price": 150}, {"id": "c019", "name": "Soğuk Çay", "cat": "Soğuk İçecek", "price": 150}, {"id": "c020", "name": "Meyve Suyu", "cat": "Soğuk İçecek", "price": 140}, {"id": "c021", "name": "Enerji İçeceği", "cat": "Soğuk İçecek", "price": 200}, {"id": "c030", "name": "Tuborg 33cl", "cat": "Bira 33 cl", "price": 270}, {"id": "c031", "name": "Efes 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c032", "name": "Efes Glutensiz 33cl", "cat": "Bira 33 cl", "price": 400}, {"id": "c033", "name": "Carlsberg 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c034", "name": "Stella 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c035", "name": "Corona 33cl", "cat": "Bira 33 cl", "price": 450}, {"id": "c036", "name": "Blanc 33cl", "cat": "Bira 33 cl", "price": 350}, {"id": "c037", "name": "Miller 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c022", "name": "Tuborg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c023", "name": "Efes 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c024", "name": "Efes Glutensiz 50cl", "cat": "Bira 50 cl", "price": 400}, {"id": "c025", "name": "Carlsberg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c026", "name": "Stella 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c027", "name": "Corona 50cl", "cat": "Bira 50 cl", "price": 450}, {"id": "c028", "name": "Blanc 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c029", "name": "Miller 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c038", "name": "Vanilia Hibiscus", "cat": "C'up Kokteyl", "price": 800}, {"id": "c039", "name": "Passion Zencefil", "cat": "C'up Kokteyl", "price": 800}, {"id": "c040", "name": "Ahududu Lime", "cat": "C'up Kokteyl", "price": 800}, {"id": "c041", "name": "Kakule Vişne", "cat": "C'up Kokteyl", "price": 800}, {"id": "c042", "name": "Kuzu Kulağı - Yeşil Elma", "cat": "C'up Kokteyl", "price": 800}, {"id": "c043", "name": "Espresso Martini", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c044", "name": "Iceland", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c045", "name": "Cin Tonik", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c046", "name": "Pina Colada", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c047", "name": "Mudslide", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c048", "name": "Johnnie Walker Black Label Tek", "cat": "Viski", "price": 600}, {"id": "c052", "name": "Chivas Regal Tek", "cat": "Viski", "price": 600}, {"id": "c056", "name": "Chivas Regal 18 Tek", "cat": "Viski", "price": 750}, {"id": "c059", "name": "Jameson Tek", "cat": "Viski", "price": 500}, {"id": "c049", "name": "Johnnie Walker Black Label Duble", "cat": "Viski", "price": 1100}, {"id": "c053", "name": "Chivas Regal Duble", "cat": "Viski", "price": 1100}, {"id": "c057", "name": "Chivas Regal 18 Duble", "cat": "Viski", "price": 1400}, {"id": "c060", "name": "Jameson Duble", "cat": "Viski", "price": 1000}, {"id": "c050", "name": "Johnnie Walker Black Label 35cl", "cat": "Viski", "price": 4500}, {"id": "c054", "name": "Chivas Regal 35cl", "cat": "Viski", "price": 4500}, {"id": "c051", "name": "Johnnie Walker Black Label 70cl", "cat": "Viski", "price": 7000}, {"id": "c055", "name": "Chivas Regal 70cl", "cat": "Viski", "price": 7000}, {"id": "c058", "name": "Chivas Regal 18 70cl", "cat": "Viski", "price": 10000}, {"id": "c061", "name": "Jameson 70cl", "cat": "Viski", "price": 6000}, {"id": "c062", "name": "Karışık Çerez", "cat": "Atıştırmalık", "price": 250}, {"id": "c063", "name": "Turşu", "cat": "Atıştırmalık", "price": 200}, {"id": "c064", "name": "Cips", "cat": "Atıştırmalık", "price": 200}]};
 const DEMO_MENU = CUP_MENU;
@@ -479,19 +479,77 @@ const DEMO_MENU = CUP_MENU;
    SEED = starting menu; used only on first run. */
 const SEED = {"config/menu": CUP_MENU};
 const LS_KEY = "cup-adisyon-db-v1";
-function memoryStore(){
-  let mem = null;
-  try { mem = JSON.parse(localStorage.getItem(LS_KEY) || "null"); } catch(_) { mem = null; }
-  if (!mem) mem = Object.assign({"config/menu": JSON.parse(JSON.stringify(DEMO_MENU)), "config/settings": {dayStartHour:0}}, JSON.parse(JSON.stringify(SEED)));
-  const save = () => { try { localStorage.setItem(LS_KEY, JSON.stringify(mem)); } catch(_) {} };
-  save();
+/* Kalıcı kayıt: IndexedDB (her belge ayrı anahtar). localStorage ~5 MB ile sınırlı olduğu için
+   aylar içinde dolup kayıtları sessizce kaybediyordu; artık yalnızca IndexedDB açılamazsa yedek yol. */
+const IDB_NAME = "cup-adisyon", IDB_STORE = "docs";
+function idbOpen(){
+  return new Promise((res, rej) => {
+    if (!("indexedDB" in window)) return rej(new Error("no-idb"));
+    const r = indexedDB.open(IDB_NAME, 1);
+    r.onupgradeneeded = () => { if (!r.result.objectStoreNames.contains(IDB_STORE)) r.result.createObjectStore(IDB_STORE); };
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); r.onblocked = () => rej(new Error("blocked"));
+  });
+}
+function idbAll(idb){
+  return new Promise((res, rej) => {
+    const out = {}, tx = idb.transaction(IDB_STORE, "readonly"), os = tx.objectStore(IDB_STORE);
+    const rq = os.openCursor();
+    rq.onsuccess = () => { const c = rq.result; if (c){ out[c.key] = c.value; c.continue(); } };
+    tx.oncomplete = () => res(out); tx.onerror = () => rej(tx.error);
+  });
+}
+function idbWrite(idb, puts, dels, clear){
+  return new Promise((res, rej) => {
+    const tx = idb.transaction(IDB_STORE, "readwrite"), os = tx.objectStore(IDB_STORE);
+    if (clear) os.clear();
+    for (const k of dels) os.delete(k);
+    for (const [k, v] of puts) os.put(v, k);
+    tx.oncomplete = () => res(); tx.onerror = () => rej(tx.error); tx.onabort = () => rej(tx.error || new Error("abort"));
+  });
+}
+let saveFailShown = false;
+function saveFailed(){
+  if (saveFailShown) return; saveFailShown = true;
+  const b = document.createElement("div"); b.className = "updbar"; b.style.background = "var(--bad)"; b.setAttribute("role","alert");
+  b.innerHTML = `<span>Kayıt yapılamıyor! Menü → Yedek al'dan hemen yedek alın.</span><button type="button">Tamam</button>`;
+  b.querySelector("button").onclick = () => { b.remove(); saveFailShown = false; };
+  document.body.appendChild(b);
+}
+async function memoryStore(){
+  let mem = null, idb = null;
+  try { idb = await idbOpen(); mem = await idbAll(idb); if (!Object.keys(mem).length) mem = null; } catch(_) { idb = null; mem = null; }
+  let migrated = false;
+  if (!mem){ try { mem = JSON.parse(localStorage.getItem(LS_KEY) || "null"); migrated = !!(mem && idb); } catch(_) { mem = null; } }
+  let seeded = false;
+  if (!mem){ mem = Object.assign({"config/menu": JSON.parse(JSON.stringify(DEMO_MENU)), "config/settings": {dayStartHour:0}}, JSON.parse(JSON.stringify(SEED))); seeded = true; }
+  const dirty = new Set(); let flushT = null, clearAll = false, chain = Promise.resolve();
+  const flush = () => {
+    flushT = null;
+    if (!dirty.size && !clearAll) return chain;
+    const keys = [...dirty]; dirty.clear(); const clr = clearAll; clearAll = false;
+    if (idb){
+      const puts = [], dels = [];
+      for (const k of keys){ if (k in mem) puts.push([k, JSON.parse(JSON.stringify(mem[k]))]); else dels.push(k); }
+      chain = chain.then(() => idbWrite(idb, puts, dels, clr)).catch(() => saveFailed());
+    } else {
+      try { localStorage.setItem(LS_KEY, JSON.stringify(mem)); } catch(_) { saveFailed(); }
+    }
+    return chain;
+  };
+  const mark = path => { dirty.add(path); if (!flushT) flushT = setTimeout(flush, 0); };
+  if (!idb || migrated || seeded){ clearAll = !!idb; for (const k of Object.keys(mem)) dirty.add(k); }
+  await flush();
+  if (migrated){ try { const chk = await idbAll(idb); if (Object.keys(chk).length >= Object.keys(mem).length) localStorage.removeItem(LS_KEY); } catch(_) {} }
+  const flushNow = () => { clearTimeout(flushT); flush(); };
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") flushNow(); });
+  window.addEventListener("pagehide", flushNow);
   const subs = [];
-  const notify = () => { save(); subs.forEach(f => f()); };
+  const notify = () => subs.forEach(f => f());
   const docRef = path => ({
     async get(){ return {exists: path in mem, data: () => mem[path], id: path.split("/").pop()}; },
-    async set(d){ mem[path] = JSON.parse(JSON.stringify(d)); notify(); },
-    async update(d){ if(!(path in mem)) throw {code:"invalid_argument"}; deepMerge(mem[path], JSON.parse(JSON.stringify(d))); notify(); },
-    async delete(){ delete mem[path]; notify(); },
+    async set(d){ mem[path] = JSON.parse(JSON.stringify(d)); mark(path); notify(); },
+    async update(d){ if(!(path in mem)) throw {code:"invalid_argument"}; deepMerge(mem[path], JSON.parse(JSON.stringify(d))); mark(path); notify(); },
+    async delete(){ delete mem[path]; mark(path); notify(); },
     async acquire(){ return {acquired:true}; },
     onSnapshot(fn){ const f = () => fn({exists: path in mem, data: () => mem[path], id: path.split("/").pop(), metadata:{}}); subs.push(f); setTimeout(f); return () => subs.splice(subs.indexOf(f),1); },
   });
@@ -503,9 +561,10 @@ function memoryStore(){
     async get(){ const docs = this._docs(); return {docs, size:docs.length, empty:!docs.length}; },
     onSnapshot(fn){ const f = () => { const docs = this._docs(); fn({docs, size:docs.length, empty:!docs.length, metadata:{}}); }; subs.push(f); setTimeout(f); return () => subs.splice(subs.indexOf(f),1); },
   });
-  return { doc: docRef, collection: p => coll(p),
+  return { doc: docRef, collection: p => coll(p), kind: idb ? "idb" : "ls",
     _dump: () => JSON.parse(JSON.stringify(mem)),
-    _load: obj => { mem = JSON.parse(JSON.stringify(obj)); notify(); } };
+    _load: async obj => { mem = JSON.parse(JSON.stringify(obj)); clearAll = true; for (const k of Object.keys(mem)) dirty.add(k); clearTimeout(flushT); await flush(); notify(); },
+    _flush: () => { clearTimeout(flushT); return flush(); } };
 }
 function deepMerge(a,b){ for (const k in b){ if (b[k] && typeof b[k]==="object" && !Array.isArray(b[k]) && a[k] && typeof a[k]==="object" && !Array.isArray(a[k])) deepMerge(a[k],b[k]); else a[k]=b[k]; } return a; }
 
@@ -570,7 +629,7 @@ async function boot(){
   renderAll();
   let db = null;
   try { db = window.claude?.use ? await window.claude.use("db") : null; } catch(_) { db = null; }
-  st.db = db || memoryStore();
+  st.db = db || await memoryStore();
   st.live = !!db;
   $("#conn").classList.toggle("off", !st.live);
   if (!st.live) $("#conn").parentElement.hidden = true;
@@ -732,7 +791,7 @@ function renderLockView(tab){
 function requirePin(fn, sub){
   if (isUnlocked()) return fn();
   showModal(`<div id="pinhost"></div>`);
-  pinPad($("#pinhost"), {sub: sub || "Bu işlem için yönetici şifresi gerekiyor.", onSuccess: () => { hideModal(); fn(); }, onCancel: hideModal});
+  pinPad($("#pinhost"), {sub: sub || "Bu işlem için yönetici şifresi gerekiyor.", onSuccess: () => { hideModal(); if (!["menu","exp","stock"].includes(st.tab)) st.unlockedUntil = 0; fn(); }, onCancel: hideModal});
 }
 document.addEventListener("pointerdown", () => { if (isUnlocked() && (st.tab === "menu" || st.tab === "exp" || st.tab === "stock")) unlock(); if (st.tab === "reports" && isRepUnlocked()) repUnlock(); }, true);
 const lockBtn = `<button class="btn sm" data-lock>${LOCK_ICON.replace('width="26" height="26"','width="15" height="15"')} Kilitle</button>`;
@@ -823,8 +882,8 @@ function usageFor(lines){
 function applyStock(map, sign, type, note){
   const now = Date.now(), log = [], changed = [];
   for (const [sid, amt] of Object.entries(map||{})){
-    const it = sById(sid); if (!it) continue;
-    const before = it.qty ?? 0;
+    const it = sById(sid); if (!it || it.qty == null) continue; // sayımı yapılmamış kalem: düşme
+    const before = it.qty;
     it.qty = Math.round((before + sign * amt) * 100) / 100;
     log.push({t: now, type, s: sid, n: it.name, u: it.unit, d: sign * amt, a: it.qty, note: note || ""});
     changed.push(it);
@@ -1276,7 +1335,7 @@ $("#sheet").addEventListener("click", e => {
   if (a==="hidebill") return $("#sheet").classList.remove("show-bill");
   if (a==="pay") return tid === STAGE_ID ? openStageExp(tid) : openPay(tid);
   if (a==="move") return openMove(tid);
-  if (a==="clear") return confirmBox("Masayı boşalt?", `${TBY[tid].name} adisyonundaki tüm ürünler silinecek. Satış olarak kaydedilmez.`, "Boşalt", () => mutateTable(tid, o => o.lines = []));
+  if (a==="clear") return requirePin(() => confirmBox("Masayı boşalt?", `${TBY[tid].name} adisyonundaki tüm ürünler silinecek. Satış olarak kaydedilmez.`, "Boşalt", () => mutateTable(tid, o => o.lines = [])), "Masayı boşaltmak için yönetici şifresi gerekiyor.");
   const c = e.target.closest("[data-cat]"); if (c){ st.cat = c.dataset.cat; renderChips(); renderProds(); return; }
   const p = e.target.closest("[data-pid]");
   if (p){ const it = st.menu.items.find(i => i.id===p.dataset.pid); if (!it) return;
@@ -1722,6 +1781,11 @@ function renderMenu(){
       <div class="row"><button class="btn primary" data-backup>Yedek al</button>
       <label class="btn" for="restore-file" style="cursor:pointer">Yedekten geri yükle</label>
       <input type="file" id="restore-file" accept=".json,application/json" hidden></div>
+    </div>
+    <div class="card">
+      <h3>Verileri sıfırla</h3>
+      <p class="muted" style="margin:0 0 10px;font-size:14px">Tüm satışlar, giderler, açık masalar, stok miktarları ve stok hareketleri silinir. Menü, fiyatlar, reçeteler, stok kalemleri, gün dönümü ayarı ve iki şifre kalır. Geri alınamaz; önce yedek alın.</p>
+      <button class="btn danger" data-wipe>Verileri sıfırla</button>
     </div>` : ""}`;
 }
 /* Add product: step 1 pick an existing list or name a new one, step 2 product name + price */
@@ -1792,6 +1856,26 @@ $("#v-menu").addEventListener("change", e => {
   if (f!=="price" && !val) { toast("Boş bırakılamaz."); return; }
   it[f] = val; saveMenu().then(() => { if (f==="cat") { document.activeElement?.blur(); renderMenu(); } });
 });
+function openWipe(){
+  const dump = st.db._dump();
+  const nDays = Object.keys(dump).filter(k => k.startsWith("days/")).length, nOpen = Object.keys(dump).filter(k => k.startsWith("tables/")).length;
+  showModal(`<h2>Veriler sıfırlansın mı?</h2>
+    <p class="muted" style="margin:0">${nDays} günlük satış/gider kaydı${nOpen ? `, ${nOpen} açık masa` : ""}, stok miktarları ve stok hareketleri silinecek. Menü, reçeteler, stok kalemleri ve şifreler kalacak. <b>Geri alınamaz.</b></p>
+    <div class="field"><label for="wipe-ok">Onaylamak için SIFIRLA yazın</label><input class="inp" id="wipe-ok" autocomplete="off" autocapitalize="characters"></div>
+    <div class="row" style="justify-content:flex-end"><button class="btn" data-x>Vazgeç</button><button class="btn danger" data-wipego>Sıfırla</button></div>`,
+    async e => {
+      if (!e.target.closest("[data-wipego]")) return;
+      if (($("#wipe-ok").value || "").trim().toLocaleUpperCase("tr") !== "SIFIRLA"){ toast("Onay için SIFIRLA yazın."); return; }
+      e.target.closest("[data-wipego]").disabled = true;
+      const d = st.db._dump(), out = {};
+      for (const [k, v] of Object.entries(d)){ if (/^(tables|days|summ)\//.test(k) || k === "stock/log") continue; out[k] = v; }
+      if (out["stock/items"]) out["stock/items"] = {...out["stock/items"], items: (out["stock/items"].items || []).map(x => ({...x, qty: null, full: null, alerted: false}))};
+      for (const tid of Object.keys(wt.timers)) clearTimeout(wt.timers[tid]); wt.dirty.clear();
+      st.tables = {}; st.stockLog = [];
+      try { await st.db._load(out); } catch(_) { toast("Sıfırlanamadı."); return; }
+      toast("Veriler sıfırlandı"); setTimeout(() => location.reload(), 700);
+    });
+}
 async function doBackup(){
   const data = {app:"cup-adisyon", version:1, savedAt:new Date().toISOString(), docs: st.db._dump()};
   const name = `cup-yedek-${ymd(new Date())}.json`;
@@ -1813,14 +1897,15 @@ $("#v-menu").addEventListener("change", e => {
     if (!docs || typeof docs !== "object") { toast("Bu bir C'up yedeği değil."); return; }
     const days = Object.keys(docs).filter(k => k.startsWith("days/")).length;
     confirmBox("Yedek geri yüklensin mi?", `${days} günlük kayıt yüklenecek. Bu iPad'deki mevcut veriler yedektekiyle değiştirilecek.`, "Geri yükle", () => {
-      const cur = st.db._dump()["config/lock"]; docs = Object.assign({}, docs); if (cur) docs["config/lock"] = cur; else delete docs["config/lock"];
-      st.tables = {}; st.db._load(docs); repKey = ""; toast("Yedek geri yüklendi");
-      setTimeout(() => location.reload(), 600);
+      const dump = st.db._dump(); docs = Object.assign({}, docs);
+      for (const k of ["config/lock","config/replock"]){ if (dump[k]) docs[k] = dump[k]; else delete docs[k]; }
+      st.tables = {}; Promise.resolve(st.db._load(docs)).then(() => { repKey = ""; toast("Yedek geri yüklendi"); setTimeout(() => location.reload(), 600); });
     });
   });
 }, true);
 $("#v-menu").addEventListener("click", e => {
   if (e.target.closest("[data-backup]")) { doBackup(); return; }
+  if (e.target.closest("[data-wipe]")) { openWipe(); return; }
   const rb = e.target.closest("[data-rcp]"); if (rb) { openRecipe(rb.closest(".menu-row").dataset.id); return; }
   if (e.target.closest("[data-chpin]")) { showModal(`<div id="pinhost"></div>`); pinPad($("#pinhost"), {setup:true, onSuccess: () => { hideModal(); renderMenu(); }, onCancel: hideModal}); return; }
   if (e.target.closest("[data-add]")){ openAddProduct(); return; }
@@ -1842,6 +1927,7 @@ async function checkUpdate(){
       b.innerHTML = `<span>Yeni sürüm hazır</span><button type="button">Güncelle</button>`;
       b.querySelector("button").onclick = async () => {
         for (const tid of [...wt.dirty]) { try { await flushTable(tid); } catch(_) {} }
+        try { await st.db._flush?.(); } catch(_) {}
         try { const regs = await navigator.serviceWorker?.getRegistrations?.(); for (const g of regs||[]) await g.update(); } catch(_) {}
         location.reload();
       };
