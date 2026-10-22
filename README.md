@@ -21,3 +21,4 @@ gider girişi ve günlük / haftalık / aylık / yıllık gelir-gider raporları
 ## Rapor şifresi ve Sahne
 - Raporlar ve başlıktaki "Bugün" cirosu ayrı 6 haneli şifreyle korunur (`config/replock`). İlk açılışta belirlenir; sekmeden çıkınca veya 5 dk boşta kalınca kilitlenir.
 - `SAHNE` masası satış değildir: "Gidere aktar" ile kapanır, ciroya girmez; ürünler stoktan düşer ve `days/<tarih>.exp` içine `cat:"Sahne"` gideri yazılır (tutar düzenlenebilir, varsayılan menü fiyatı). Gider silinirse stok geri eklenir.
+ 
