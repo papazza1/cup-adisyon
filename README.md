@@ -17,3 +17,7 @@ gider girişi ve günlük / haftalık / aylık / yıllık gelir-gider raporları
 - `stock/items` → `{seeded, items:[{id,name,cat,unit(cl|ml|g|adet),pack,packName,qty,full,alert,alerted}]}`; `stock/log` → son 400 hareket.
 - Menü ürünlerinde `use:[{s:stokId,q:miktar}]` reçetesi. Hesap kapanınca (ayrı ödemede her parçada) düşülür, adisyonda `stk` olarak saklanır; iptalde geri eklenir.
 - Yüzde = qty / full. `full` her girişte yeni miktara eşitlenir. Eşik (varsayılan %20) geçilince bildirim + başlıkta "Stok: n azalan".
+
+## Rapor şifresi ve Sahne
+- Raporlar ayrı 6 haneli şifreyle korunur (`config/replock`). İlk açılışta belirlenir; sekmeden çıkınca veya 5 dk boşta kalınca kilitlenir.
+- `SAHNE` masası satış değildir: "Gidere aktar" ile kapanır, ciroya girmez; ürünler stoktan düşer ve `days/<tarih>.exp` içine `cat:"Sahne"` gideri yazılır (tutar düzenlenebilir, varsayılan menü fiyatı). Gider silinirse stok geri eklenir.

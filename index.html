@@ -423,7 +423,8 @@ const TABLES = [
 ].map(([id,name,zone,x,y,round]) => ({id,name,zone,x,y,round:!!round}));
 const TBY = Object.fromEntries(TABLES.map(t => [t.id,t]));
 const ZNAME = Object.fromEntries(GRID_ZONES);
-const EXP_CATS = ["Malzeme / Market","Personel","Kira","Elektrik / Su / Doğalgaz","Vergi / Muhasebe","Bakım / Onarım","Diğer"];
+const STAGE_ID = "SAHNE";
+const EXP_CATS = ["Sahne","Malzeme / Market","Personel","Kira","Elektrik / Su / Doğalgaz","Vergi / Muhasebe","Bakım / Onarım","Diğer"];
 const LONG_MIN = 120;
 
 /* ---------- Helpers ---------- */
@@ -462,14 +463,14 @@ const st = {
   openTid: null, cat: "Tümü", q: "",
   rep: {mode:"day", anchor: null},
   expDate: null,
-  lock: null, unlockedUntil: 0,
+  lock: null, unlockedUntil: 0, repLock: null, repUnlockedUntil: 0,
   stock: {items: [], seeded: 0}, stockLog: [], stockLoaded: false, menuLoaded: false, stkQ: "",
 };
 const bizDate = (ts = Date.now()) => ymd(new Date(ts - (st.settings.dayStartHour||0)*3600e3));
 
 /* ---------- Store backends ---------- */
 const MENU_VER = 5;
-const APP_VERSION = "2026-10-19-1";
+const APP_VERSION = "2026-10-22-1";
 /* Clouds Up menüsü (kâğıt menüden, 18 Ekim 2026) */
 const CUP_MENU = {"ver": 5, "cats": ["Kahve", "Çay", "Soğuk İçecek", "Bira 33 cl", "Bira 50 cl", "C'up Kokteyl", "Klasik Kokteyl", "Viski", "Atıştırmalık"], "items": [{"id": "c001", "name": "Türk Kahvesi", "cat": "Kahve", "price": 90}, {"id": "c002", "name": "Türk Kahvesi Double", "cat": "Kahve", "price": 150}, {"id": "c003", "name": "Espresso", "cat": "Kahve", "price": 120}, {"id": "c004", "name": "Espresso Double", "cat": "Kahve", "price": 180}, {"id": "c005", "name": "Americano", "cat": "Kahve", "price": 200}, {"id": "c006", "name": "Cappuccino", "cat": "Kahve", "price": 240}, {"id": "c007", "name": "Mocha", "cat": "Kahve", "price": 260}, {"id": "c008", "name": "White Mocha", "cat": "Kahve", "price": 260}, {"id": "c009", "name": "Flat White", "cat": "Kahve", "price": 220}, {"id": "c010", "name": "Latte", "cat": "Kahve", "price": 240}, {"id": "c011", "name": "Affogato", "cat": "Kahve", "price": 400}, {"id": "c012", "name": "Çay", "cat": "Çay", "price": 50}, {"id": "c013", "name": "Fincan Çay", "cat": "Çay", "price": 80}, {"id": "c014", "name": "Bitki Çayı", "cat": "Çay", "price": 120}, {"id": "c015", "name": "Su", "cat": "Soğuk İçecek", "price": 40}, {"id": "c016", "name": "Soda", "cat": "Soğuk İçecek", "price": 80}, {"id": "c017", "name": "Churchill", "cat": "Soğuk İçecek", "price": 130}, {"id": "c018", "name": "Kola", "cat": "Soğuk İçecek", "price": 150}, {"id": "c019", "name": "Soğuk Çay", "cat": "Soğuk İçecek", "price": 150}, {"id": "c020", "name": "Meyve Suyu", "cat": "Soğuk İçecek", "price": 140}, {"id": "c021", "name": "Enerji İçeceği", "cat": "Soğuk İçecek", "price": 200}, {"id": "c030", "name": "Tuborg 33cl", "cat": "Bira 33 cl", "price": 270}, {"id": "c031", "name": "Efes 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c032", "name": "Efes Glutensiz 33cl", "cat": "Bira 33 cl", "price": 400}, {"id": "c033", "name": "Carlsberg 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c034", "name": "Stella 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c035", "name": "Corona 33cl", "cat": "Bira 33 cl", "price": 450}, {"id": "c036", "name": "Blanc 33cl", "cat": "Bira 33 cl", "price": 350}, {"id": "c037", "name": "Miller 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c022", "name": "Tuborg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c023", "name": "Efes 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c024", "name": "Efes Glutensiz 50cl", "cat": "Bira 50 cl", "price": 400}, {"id": "c025", "name": "Carlsberg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c026", "name": "Stella 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c027", "name": "Corona 50cl", "cat": "Bira 50 cl", "price": 450}, {"id": "c028", "name": "Blanc 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c029", "name": "Miller 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c038", "name": "Vanilia Hibiscus", "cat": "C'up Kokteyl", "price": 800}, {"id": "c039", "name": "Passion Zencefil", "cat": "C'up Kokteyl", "price": 800}, {"id": "c040", "name": "Ahududu Lime", "cat": "C'up Kokteyl", "price": 800}, {"id": "c041", "name": "Kakule Vişne", "cat": "C'up Kokteyl", "price": 800}, {"id": "c042", "name": "Kuzu Kulağı - Yeşil Elma", "cat": "C'up Kokteyl", "price": 800}, {"id": "c043", "name": "Espresso Martini", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c044", "name": "Iceland", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c045", "name": "Cin Tonik", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c046", "name": "Pina Colada", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c047", "name": "Mudslide", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c048", "name": "Johnnie Walker Black Label Tek", "cat": "Viski", "price": 600}, {"id": "c052", "name": "Chivas Regal Tek", "cat": "Viski", "price": 600}, {"id": "c056", "name": "Chivas Regal 18 Tek", "cat": "Viski", "price": 750}, {"id": "c059", "name": "Jameson Tek", "cat": "Viski", "price": 500}, {"id": "c049", "name": "Johnnie Walker Black Label Duble", "cat": "Viski", "price": 1100}, {"id": "c053", "name": "Chivas Regal Duble", "cat": "Viski", "price": 1100}, {"id": "c057", "name": "Chivas Regal 18 Duble", "cat": "Viski", "price": 1400}, {"id": "c060", "name": "Jameson Duble", "cat": "Viski", "price": 1000}, {"id": "c050", "name": "Johnnie Walker Black Label 35cl", "cat": "Viski", "price": 4500}, {"id": "c054", "name": "Chivas Regal 35cl", "cat": "Viski", "price": 4500}, {"id": "c051", "name": "Johnnie Walker Black Label 70cl", "cat": "Viski", "price": 7000}, {"id": "c055", "name": "Chivas Regal 70cl", "cat": "Viski", "price": 7000}, {"id": "c058", "name": "Chivas Regal 18 70cl", "cat": "Viski", "price": 10000}, {"id": "c061", "name": "Jameson 70cl", "cat": "Viski", "price": 6000}, {"id": "c062", "name": "Karışık Çerez", "cat": "Atıştırmalık", "price": 250}, {"id": "c063", "name": "Turşu", "cat": "Atıştırmalık", "price": 200}, {"id": "c064", "name": "Cips", "cat": "Atıştırmalık", "price": 200}]};
 const DEMO_MENU = CUP_MENU;
@@ -615,6 +616,7 @@ async function boot(){
     if (st.tab==="menu") renderMenu();
   }, onDbErr);
   st.db.doc("config/lock").onSnapshot(s => { st.lock = s.exists ? s.data() : null; }, onDbErr);
+  st.db.doc("config/replock").onSnapshot(s => { st.repLock = s.exists ? s.data() : null; if (st.tab==="reports" && !isRepUnlocked() && !$("#v-reports").querySelector(".lockbox")) renderReports(); }, onDbErr);
   st.db.doc("stock/items").onSnapshot(s => {
     if (s.exists){ const d = s.data(); st.stock = {items: (d.items||[]).map(x => ({...x})), seeded: d.seeded || 0}; }
     st.stockLoaded = true; ensureStockSeed(); renderHeader();
@@ -646,6 +648,7 @@ function subscribeToday(){
   }, onDbErr);
 }
 function tick(){ subscribeToday(); renderHeader(); if (st.tab==="tables") renderTables(); renderSheetHead();
+  if (st.tab==="reports" && !isRepUnlocked() && !$("#v-reports").querySelector(".lockbox")) renderReports();
   if ((st.tab==="menu" || st.tab==="exp" || st.tab==="stock") && !isUnlocked() && !document.querySelector("#v-"+st.tab+" .lockbox")){ document.activeElement?.blur?.(); st.tab==="menu" ? renderMenu() : st.tab==="stock" ? renderStock() : renderExp(); } }
 
 /* ---------- Admin PIN lock ---------- */
@@ -653,6 +656,18 @@ const UNLOCK_MS = 5*60e3;
 const isUnlocked = () => Date.now() < st.unlockedUntil;
 const unlock = () => { st.unlockedUntil = Date.now() + UNLOCK_MS; };
 const hasPin = () => !!(st.lock && st.lock.hash);
+/* Raporlar: ayrı 6 haneli şifre (config/replock) */
+const REP_LEN = 6;
+const isRepUnlocked = () => Date.now() < st.repUnlockedUntil;
+const repUnlock = () => { st.repUnlockedUntil = Date.now() + UNLOCK_MS; };
+const KIND = {
+  admin: {get: () => st.lock, set: v => st.lock = v, path: "config/lock", unlock: () => unlock(), min: 4,
+    newTitle: () => hasPin() ? "Yeni şifre belirleyin" : "Yönetici şifresi belirleyin",
+    newSub: "4–6 haneli bir şifre seçin. Ürün, fiyat, gider ve adisyon iptali bu şifreyle açılır."},
+  rep: {get: () => st.repLock, set: v => st.repLock = v, path: "config/replock", unlock: () => repUnlock(), min: REP_LEN,
+    newTitle: () => st.repLock?.hash ? "Yeni rapor şifresi" : "Rapor şifresi belirleyin",
+    newSub: "Raporlar için 6 haneli ayrı bir şifre seçin. Yönetici şifresinden farklı olabilir."},
+};
 async function hashPin(pin, salt){
   const txt = salt + ":" + pin + ":cup";
   try { if (crypto && crypto.subtle){ const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(txt)); return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2,"0")).join(""); } } catch(_) {}
@@ -662,11 +677,13 @@ let pinFails = 0, pinBlockedUntil = 0;
 const LOCK_ICON = `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>`;
 /* opts: {sub, setup:boolean (force new PIN), onSuccess, onCancel} */
 function pinPad(el, opts){
-  const s = {buf:"", stage: (opts.setup || !hasPin()) ? "new" : "enter", first:"", err:""};
+  const K = KIND[opts.kind || "admin"];
+  const L = () => K.get(); const has = () => !!(L() && L().hash);
+  const s = {buf:"", stage: (opts.setup || !has()) ? "new" : "enter", first:"", err:""};
   const draw = shake => {
-    const n = s.stage === "enter" ? (st.lock.len || 4) : 6;
-    const title = s.stage === "enter" ? "Şifre gerekli" : s.stage === "new" ? (hasPin() ? "Yeni şifre belirleyin" : "Yönetici şifresi belirleyin") : "Şifreyi tekrar girin";
-    const sub = s.stage === "enter" ? (opts.sub || "") : s.stage === "new" ? "4–6 haneli bir şifre seçin. Ürün, fiyat, gider ve adisyon iptali bu şifreyle açılır." : "Aynı şifreyi bir kez daha girin.";
+    const n = s.stage === "enter" ? (L().len || 4) : 6;
+    const title = s.stage === "enter" ? (opts.title || "Şifre gerekli") : s.stage === "new" ? K.newTitle() : "Şifreyi tekrar girin";
+    const sub = s.stage === "enter" ? (opts.sub || "") : s.stage === "new" ? K.newSub : "Aynı şifreyi bir kez daha girin.";
     el.innerHTML = `<div class="lockbox${shake ? " shake" : ""}">
       <div class="lk">${LOCK_ICON}</div><h2>${title}</h2>${sub ? `<p>${esc(sub)}</p>` : ""}
       <div class="pindots" aria-label="${s.buf.length} hane girildi">${Array.from({length:n}, (_,i) => `<i class="${i < s.buf.length ? "on" : ""}"></i>`).join("")}</div>
@@ -680,18 +697,18 @@ function pinPad(el, opts){
   const submit = async () => {
     if (s.stage === "enter"){
       if (Date.now() < pinBlockedUntil){ s.err = `Çok fazla deneme. ${Math.ceil((pinBlockedUntil-Date.now())/1000)} sn bekleyin.`; s.buf = ""; return draw(true); }
-      const h = await hashPin(s.buf, st.lock.salt);
-      if (h === st.lock.hash){ pinFails = 0; unlock(); el.onclick = null; return opts.onSuccess(); }
+      const h = await hashPin(s.buf, L().salt);
+      if (h === L().hash){ pinFails = 0; K.unlock(); el.onclick = null; return opts.onSuccess(); }
       pinFails++; if (pinFails >= 5){ pinBlockedUntil = Date.now() + 30000; pinFails = 0; }
       s.err = "Yanlış şifre"; s.buf = ""; return draw(true);
     }
-    if (s.buf.length < 4){ s.err = "En az 4 hane girin"; return draw(true); }
+    if (s.buf.length < K.min){ s.err = K.min === 6 ? "6 hane girin" : `En az ${K.min} hane girin`; return draw(true); }
     if (s.stage === "new"){ s.first = s.buf; s.buf = ""; s.err = ""; s.stage = "confirm"; return draw(); }
     if (s.buf !== s.first){ s.err = "Şifreler aynı değil, baştan girin"; s.buf = ""; s.first = ""; s.stage = "new"; return draw(true); }
     const salt = uid();
     const lock = {hash: await hashPin(s.buf, salt), salt, len: s.buf.length, at: Date.now()};
-    try { await st.db.doc("config/lock").set(lock); } catch(_) { s.err = "Şifre kaydedilemedi"; return draw(true); }
-    st.lock = lock; unlock(); el.onclick = null; toast("Şifre kaydedildi"); opts.onSuccess();
+    try { await st.db.doc(K.path).set(lock); } catch(_) { s.err = "Şifre kaydedilemedi"; return draw(true); }
+    K.set(lock); K.unlock(); el.onclick = null; toast("Şifre kaydedildi"); opts.onSuccess();
   };
   el.onclick = e => {
     const b = e.target.closest("[data-pin]"); if (!b) return;
@@ -702,7 +719,8 @@ function pinPad(el, opts){
     if (k === "ok") return submit();
     if (s.buf.length >= 6) return;
     s.buf += k; s.err = ""; draw();
-    if (s.stage === "enter" && s.buf.length === (st.lock.len || 4)) submit();
+    if (s.stage === "enter" && s.buf.length === (L().len || 4)) submit();
+    else if (s.stage !== "enter" && K.min === 6 && s.buf.length === 6) submit();
   };
   draw();
 }
@@ -716,9 +734,11 @@ function requirePin(fn, sub){
   showModal(`<div id="pinhost"></div>`);
   pinPad($("#pinhost"), {sub: sub || "Bu işlem için yönetici şifresi gerekiyor.", onSuccess: () => { hideModal(); fn(); }, onCancel: hideModal});
 }
-document.addEventListener("pointerdown", () => { if (isUnlocked() && (st.tab === "menu" || st.tab === "exp" || st.tab === "stock")) unlock(); }, true);
+document.addEventListener("pointerdown", () => { if (isUnlocked() && (st.tab === "menu" || st.tab === "exp" || st.tab === "stock")) unlock(); if (st.tab === "reports" && isRepUnlocked()) repUnlock(); }, true);
 const lockBtn = `<button class="btn sm" data-lock>${LOCK_ICON.replace('width="26" height="26"','width="15" height="15"')} Kilitle</button>`;
-document.addEventListener("click", e => { if (e.target.closest("[data-lock]")){ st.unlockedUntil = 0; if (st.tab==="menu") renderMenu(); if (st.tab==="exp") renderExp(); if (st.tab==="stock") renderStock(); toast("Kilitlendi"); } });
+document.addEventListener("click", e => { if (e.target.closest("[data-replock]")){ st.repUnlockedUntil = 0; renderReports(); toast("Raporlar kilitlendi"); return; }
+  if (e.target.closest("[data-repnew]")){ const v = $("#v-reports"); pinPad(v, {kind:"rep", setup:true, onSuccess: renderReports, onCancel: renderReports}); return; }
+  if (e.target.closest("[data-lock]")){ st.unlockedUntil = 0; if (st.tab==="menu") renderMenu(); if (st.tab==="exp") renderExp(); if (st.tab==="stock") renderStock(); toast("Kilitlendi"); } });
 
 /* ---------- Stok ---------- */
 const STOCK_CATS = ["Viski","Bira","Kokteyl Alkolleri","İçecek","Kahve & Süt","Çay","Atıştırmalık","Diğer"];
@@ -864,7 +884,7 @@ function stockListHTML(){
   const html = cats.map(c => { const xs = items.filter(x => x.cat === c); return xs.length ? `<div class="card"><h3 class="cath" style="--c:${catColor(c)}">${esc(c)} <span class="muted num" style="font-weight:600">· ${xs.length}</span></h3>${xs.map(stockRowHTML).join("")}</div>` : ""; }).join("");
   return html || `<div class="card empty">${q ? "Bu aramaya uyan stok kalemi yok." : "Stok kalemi yok. “+ Stok kalemi” ile ekleyin."}</div>`;
 }
-const LOGT = {sat:["Satış","void"], giris:["Giriş","cash"], sayim:["Sayım","card"], iptal:["İptal iade","warnp"]};
+const LOGT = {sat:["Satış","void"], giris:["Giriş","cash"], sayim:["Sayım","card"], iptal:["İptal iade","warnp"], sahne:["Sahne","warnp"]};
 function renderStock(){
   const v = $("#v-stock");
   if (!isUnlocked()){ if (!v.querySelector(".lockbox")) renderLockView("stock"); return; }
@@ -1015,6 +1035,7 @@ document.querySelector(".tabbar").addEventListener("click", e => {
 });
 function setTab(tab){
   if (tab === "tables" || tab === "reports") st.unlockedUntil = 0;
+  if (tab !== "reports") st.repUnlockedUntil = 0;
   st.tab = tab;
   document.querySelectorAll(".tabbar button").forEach(b => { if (b.dataset.tab===tab) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current"); });
   for (const v of ["tables","reports","exp","stock","menu"]) $("#v-"+v).hidden = v !== tab;
@@ -1232,7 +1253,8 @@ function renderLines(){
   const paid = o?.paid || 0; $("#sh-paid").hidden = !paid; $("#sh-paidv").textContent = tl(paid); $("#sh-totl").textContent = paid ? "Kalan" : "Toplam";
   $("#sh-cnt").textContent = cnt ? `${cnt} ürün` : "";
   $("#sh-pb").textContent = cnt ? `Adisyon · ${cnt} ürün · ${tl(tot)}` : "Adisyon boş";
-  document.querySelector('#sheet [data-act="pay"]').disabled = !cnt;
+  const payBtn = document.querySelector('#sheet [data-act="pay"]');
+  payBtn.disabled = !cnt; payBtn.textContent = st.openTid === STAGE_ID ? "Gidere aktar" : "Hesabı al";
   document.querySelector('#sheet [data-act="clear"]').disabled = !cnt;
   document.querySelector('#sheet [data-act="move"]').disabled = !cnt;
 }
@@ -1250,7 +1272,7 @@ $("#sheet").addEventListener("click", e => {
   if (a==="close") return closeSheet();
   if (a==="showbill") return $("#sheet").classList.add("show-bill");
   if (a==="hidebill") return $("#sheet").classList.remove("show-bill");
-  if (a==="pay") return openPay(tid);
+  if (a==="pay") return tid === STAGE_ID ? openStageExp(tid) : openPay(tid);
   if (a==="move") return openMove(tid);
   if (a==="clear") return confirmBox("Masayı boşalt?", `${TBY[tid].name} adisyonundaki tüm ürünler silinecek. Satış olarak kaydedilmez.`, "Boşalt", () => mutateTable(tid, o => o.lines = []));
   const c = e.target.closest("[data-cat]"); if (c){ st.cat = c.dataset.cat; renderChips(); renderProds(); return; }
@@ -1342,6 +1364,38 @@ function openPay(tid){
     restore(); setTimeout(restore, 40);
   };
   draw();
+}
+/* Sahne: satış değil, gider. Ciroya girmez; stoktan düşer, "Sahne" kalemiyle gidere yazılır. */
+function openStageExp(tid){
+  const o = st.tables[tid]; if (!o || !o.lines.length) return;
+  const menuTot = linesTotal(o.lines);
+  let amt = String(menuTot);
+  const draw = () => {
+    showModal(`<h2>Sahne · Gidere aktar</h2>
+      <p class="muted" style="margin:0;font-size:13px">Sahne ikramı satış sayılmaz; ciroya eklenmez. Ürünler stoktan düşer ve tutar Giderler'e “Sahne” kalemiyle yazılır.</p>
+      <div class="list" style="max-height:200px;overflow-y:auto">${o.lines.map(l => `<div class="li"><span class="grow">${l.qty} × ${esc(l.name)}</span><span class="r">${tl(l.qty*l.price)}</span></div>`).join("")}</div>
+      <div class="sumrow"><span class="muted">Menü fiyatıyla</span><span>${tl(menuTot)}</span></div>
+      <div class="field"><label for="stg-amt">Gidere yazılacak tutar (₺)</label><input class="inp num" id="stg-amt" inputmode="decimal" value="${esc(amt)}"></div>
+      <p class="muted" style="margin:0;font-size:12px">İsterseniz maliyet tutarını yazın; boş bırakılırsa 0 olarak kaydedilir.</p>
+      <div class="row" style="justify-content:flex-end"><button class="btn" data-x>Vazgeç</button><button class="btn good" data-stgok>Gidere aktar, masayı kapat</button></div>`,
+      async e => { const b = e.target.closest("[data-stgok]"); if (!b) return;
+        amt = ($("#stg-amt")?.value || "").replace(/\./g,"").replace(",", ".");
+        b.disabled = true; await closeStage(tid, Math.max(0, parseFloat(amt) || 0)); });
+  };
+  draw();
+}
+async function closeStage(tid, amt){
+  const o = st.tables[tid]; if (!o) return hideModal();
+  const now = Date.now(), date = bizDate(now), id = uid();
+  const desc = "Sahne: " + o.lines.map(l => `${l.qty}× ${l.name}`).join(", ");
+  const item = {t: now, cat: "Sahne", desc, amt: Math.round(amt*100)/100, stage: true, lines: o.lines.map(l => ({n:l.name, p:l.price, q:l.qty}))};
+  const stk = usageFor(o.lines.map(l => ({id: l.id, q: l.qty}))); if (Object.keys(stk).length) item.stk = stk;
+  try { await writeDay(date, {exp: {[id]: item}}); }
+  catch(e){ toast("Gidere aktarılamadı, tekrar deneyin."); hideModal(); return; }
+  if (item.stk) applyStock(item.stk, -1, "sahne", "Sahne");
+  delete st.tables[tid]; wt.dirty.add(tid); await flushTable(tid);
+  hideModal(); closeSheet(); renderHeader();
+  toast(`Sahne gidere aktarıldı · ${tl(item.amt)}`);
 }
 /* qty[i] = how many of line i are being paid now */
 async function closeBill(tid, qty, c){
@@ -1500,7 +1554,12 @@ function niceStep(x){ const p = Math.pow(10, Math.floor(Math.log10(x||1))); cons
 function axisTL(v){ return v>=1000 ? "₺"+(v/1000).toLocaleString("tr-TR",{maximumFractionDigits:1})+"B" : "₺"+v; }
 
 function renderReports(){
-  const v = $("#v-reports"); const {mode, anchor} = st.rep;
+  const v = $("#v-reports");
+  if (!isRepUnlocked()){
+    if (!v.querySelector(".lockbox")) pinPad(v, {kind:"rep", title:"Rapor şifresi", sub:"Gelir, gider ve adisyon raporları ayrı şifreyle korunuyor.", onSuccess: () => refreshReports()});
+    return;
+  }
+  const {mode, anchor} = st.rep;
   const {T, buckets} = reportData();
   const net = T.rev - T.exp;
   const prods = Object.values(T.prod).sort((a,b) => b.r-a.r).slice(0,10);
@@ -1511,6 +1570,7 @@ function renderReports(){
   const bills = dayDoc ? Object.entries(dayDoc.bills||{}).sort((a,b) => b[1].t - a[1].t) : [];
   const exps = dayDoc ? Object.entries(dayDoc.exp||{}).filter(([,e]) => !e.del) : [];
   v.innerHTML = `
+    <div class="row" style="justify-content:flex-end;gap:8px"><button class="btn sm" data-repnew>Rapor şifresini değiştir</button><button class="btn sm" data-replock>${LOCK_ICON.replace('width="26" height="26"','width="15" height="15"')} Kilitle</button></div>
     <div class="row" style="justify-content:space-between">
       <div class="seg" role="group" aria-label="Dönem">${[["day","Gün"],["week","Hafta"],["month","Ay"],["year","Yıl"]].map(([k,l]) => `<button data-mode="${k}" aria-pressed="${mode===k}">${l}</button>`).join("")}</div>
       <div class="row" style="flex-wrap:nowrap">
@@ -1606,7 +1666,8 @@ $("#v-exp").addEventListener("click", e => {
   const n = e.target.closest("[data-ed]"); if (n){ st.expDate = ymd(addDays(parseYmd(st.expDate), +n.dataset.ed)); renderExp(); return; }
   const d = e.target.closest("[data-delexp]");
   if (d){ const id = d.dataset.delexp, date = st.expDate;
-    confirmBox("Gider silinsin mi?", "Bu kayıt raporlardan çıkarılır.", "Sil", async () => { try { await writeDay(date, {exp: {[id]: {del: true}}}); if (date!==todayKey) expKey = null, renderExp(); toast("Gider silindi"); } catch(_) { toast("Silinemedi."); } }); }
+    const dd = date === todayKey ? st.today : expDoc; const ox = dd?.exp?.[id];
+    confirmBox("Gider silinsin mi?", ox?.stk ? "Bu kayıt raporlardan çıkarılır, sahne ürünleri stoğa geri eklenir." : "Bu kayıt raporlardan çıkarılır.", "Sil", async () => { try { await writeDay(date, {exp: {[id]: {del: true}}}); if (ox?.stk) applyStock(ox.stk, 1, "iptal", "Sahne gideri silindi"); if (date!==todayKey) expKey = null, renderExp(); toast("Gider silindi"); } catch(_) { toast("Silinemedi."); } }); }
 });
 $("#v-exp").addEventListener("change", e => { if (e.target.id==="exp-date" && e.target.value){ st.expDate = e.target.value; renderExp(); } });
 $("#v-exp").addEventListener("submit", async e => {
