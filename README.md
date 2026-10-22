@@ -26,4 +26,4 @@ gider girişi ve günlük / haftalık / aylık / yıllık gelir-gider raporları
 ## Güvenlik notları
 - Masayı **Boşalt** ve adisyon **iptal** yönetici şifresi ister; bu şifre girildikten sonra Menü/Gider/Stok kendiliğinden açık kalmaz.
 - Sayımı yapılmamış stok kalemi satışta eksiye düşürülmez.
-- Menü → **Verileri sıfırla**: satış, gider, açık masa, stok miktarı ve hareketlerini siler; menü, reçeteler, stok kalemleri, ayarlar ve iki şifre kalır.
+- Sıfırlama yok. Menü → Yedek: **Tam yedek** (her şey) ve **Yıllık yedek** (seçilen yılın satış/giderleri + menü/ayarlar, şifresiz). Yıllık yedek geri yüklenince mevcut veriye eklenir, hiçbir şeyi silmez.
