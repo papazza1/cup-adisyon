@@ -461,7 +461,7 @@ const st = {
   tab: "tables",
   planMode: null,
   openTid: null, cat: "Tümü", q: "",
-  rep: {mode:"day", anchor: null},
+  rep: {mode:"day", anchor: null, view: "ozet"},
   expDate: null,
   lock: null, unlockedUntil: 0, repLock: null, repUnlockedUntil: 0,
   stock: {items: [], seeded: 0}, stockLog: [], stockLoaded: false, menuLoaded: false, stkQ: "",
@@ -470,7 +470,7 @@ const bizDate = (ts = Date.now()) => ymd(new Date(ts - (st.settings.dayStartHour
 
 /* ---------- Store backends ---------- */
 const MENU_VER = 5;
-const APP_VERSION = "2026-10-29-1";
+const APP_VERSION = "2026-10-30-1";
 /* Clouds Up menüsü (kâğıt menüden, 18 Ekim 2026) */
 const CUP_MENU = {"ver": 5, "cats": ["Kahve", "Çay", "Soğuk İçecek", "Bira 33 cl", "Bira 50 cl", "C'up Kokteyl", "Klasik Kokteyl", "Viski", "Atıştırmalık"], "items": [{"id": "c001", "name": "Türk Kahvesi", "cat": "Kahve", "price": 90}, {"id": "c002", "name": "Türk Kahvesi Double", "cat": "Kahve", "price": 150}, {"id": "c003", "name": "Espresso", "cat": "Kahve", "price": 120}, {"id": "c004", "name": "Espresso Double", "cat": "Kahve", "price": 180}, {"id": "c005", "name": "Americano", "cat": "Kahve", "price": 200}, {"id": "c006", "name": "Cappuccino", "cat": "Kahve", "price": 240}, {"id": "c007", "name": "Mocha", "cat": "Kahve", "price": 260}, {"id": "c008", "name": "White Mocha", "cat": "Kahve", "price": 260}, {"id": "c009", "name": "Flat White", "cat": "Kahve", "price": 220}, {"id": "c010", "name": "Latte", "cat": "Kahve", "price": 240}, {"id": "c011", "name": "Affogato", "cat": "Kahve", "price": 400}, {"id": "c012", "name": "Çay", "cat": "Çay", "price": 50}, {"id": "c013", "name": "Fincan Çay", "cat": "Çay", "price": 80}, {"id": "c014", "name": "Bitki Çayı", "cat": "Çay", "price": 120}, {"id": "c015", "name": "Su", "cat": "Soğuk İçecek", "price": 40}, {"id": "c016", "name": "Soda", "cat": "Soğuk İçecek", "price": 80}, {"id": "c017", "name": "Churchill", "cat": "Soğuk İçecek", "price": 130}, {"id": "c018", "name": "Kola", "cat": "Soğuk İçecek", "price": 150}, {"id": "c019", "name": "Soğuk Çay", "cat": "Soğuk İçecek", "price": 150}, {"id": "c020", "name": "Meyve Suyu", "cat": "Soğuk İçecek", "price": 140}, {"id": "c021", "name": "Enerji İçeceği", "cat": "Soğuk İçecek", "price": 200}, {"id": "c030", "name": "Tuborg 33cl", "cat": "Bira 33 cl", "price": 270}, {"id": "c031", "name": "Efes 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c032", "name": "Efes Glutensiz 33cl", "cat": "Bira 33 cl", "price": 400}, {"id": "c033", "name": "Carlsberg 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c034", "name": "Stella 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c035", "name": "Corona 33cl", "cat": "Bira 33 cl", "price": 450}, {"id": "c036", "name": "Blanc 33cl", "cat": "Bira 33 cl", "price": 350}, {"id": "c037", "name": "Miller 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c022", "name": "Tuborg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c023", "name": "Efes 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c024", "name": "Efes Glutensiz 50cl", "cat": "Bira 50 cl", "price": 400}, {"id": "c025", "name": "Carlsberg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c026", "name": "Stella 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c027", "name": "Corona 50cl", "cat": "Bira 50 cl", "price": 450}, {"id": "c028", "name": "Blanc 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c029", "name": "Miller 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c038", "name": "Vanilia Hibiscus", "cat": "C'up Kokteyl", "price": 800}, {"id": "c039", "name": "Passion Zencefil", "cat": "C'up Kokteyl", "price": 800}, {"id": "c040", "name": "Ahududu Lime", "cat": "C'up Kokteyl", "price": 800}, {"id": "c041", "name": "Kakule Vişne", "cat": "C'up Kokteyl", "price": 800}, {"id": "c042", "name": "Kuzu Kulağı - Yeşil Elma", "cat": "C'up Kokteyl", "price": 800}, {"id": "c043", "name": "Espresso Martini", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c044", "name": "Iceland", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c045", "name": "Cin Tonik", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c046", "name": "Pina Colada", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c047", "name": "Mudslide", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c048", "name": "Johnnie Walker Black Label Tek", "cat": "Viski", "price": 600}, {"id": "c052", "name": "Chivas Regal Tek", "cat": "Viski", "price": 600}, {"id": "c056", "name": "Chivas Regal 18 Tek", "cat": "Viski", "price": 750}, {"id": "c059", "name": "Jameson Tek", "cat": "Viski", "price": 500}, {"id": "c049", "name": "Johnnie Walker Black Label Duble", "cat": "Viski", "price": 1100}, {"id": "c053", "name": "Chivas Regal Duble", "cat": "Viski", "price": 1100}, {"id": "c057", "name": "Chivas Regal 18 Duble", "cat": "Viski", "price": 1400}, {"id": "c060", "name": "Jameson Duble", "cat": "Viski", "price": 1000}, {"id": "c050", "name": "Johnnie Walker Black Label 35cl", "cat": "Viski", "price": 4500}, {"id": "c054", "name": "Chivas Regal 35cl", "cat": "Viski", "price": 4500}, {"id": "c051", "name": "Johnnie Walker Black Label 70cl", "cat": "Viski", "price": 7000}, {"id": "c055", "name": "Chivas Regal 70cl", "cat": "Viski", "price": 7000}, {"id": "c058", "name": "Chivas Regal 18 70cl", "cat": "Viski", "price": 10000}, {"id": "c061", "name": "Jameson 70cl", "cat": "Viski", "price": 6000}, {"id": "c062", "name": "Karışık Çerez", "cat": "Atıştırmalık", "price": 250}, {"id": "c063", "name": "Turşu", "cat": "Atıştırmalık", "price": 200}, {"id": "c064", "name": "Cips", "cat": "Atıştırmalık", "price": 200}]};
 const DEMO_MENU = CUP_MENU;
@@ -621,6 +621,7 @@ function summarize(date, d){
     out.exp += e.amt||0; out.expCat[e.cat] = (out.expCat[e.cat]||0) + (e.amt||0);
   }
   out.prod = Object.values(prod);
+  out.rm = Object.values(d?.rm||{}).map(r => ({t:r.t, table:r.table, n:r.n, p:r.p, q:r.q, why:r.why||""}));
   return out;
 }
 
@@ -1335,7 +1336,7 @@ $("#sheet").addEventListener("click", e => {
   if (a==="hidebill") return $("#sheet").classList.remove("show-bill");
   if (a==="pay") return tid === STAGE_ID ? openStageExp(tid) : openPay(tid);
   if (a==="move") return openMove(tid);
-  if (a==="clear") return requirePin(() => confirmBox("Masayı boşalt?", `${TBY[tid].name} adisyonundaki tüm ürünler silinecek. Satış olarak kaydedilmez.`, "Boşalt", () => mutateTable(tid, o => o.lines = [])), "Masayı boşaltmak için yönetici şifresi gerekiyor.");
+  if (a==="clear") return requirePin(() => confirmBox("Masayı boşalt?", `${TBY[tid].name} adisyonundaki tüm ürünler silinecek. Satış olarak kaydedilmez.`, "Boşalt", () => { const ls = (st.tables[tid]?.lines || []).map(l => ({n: l.name, p: l.price, q: l.qty})); mutateTable(tid, o => o.lines = []); logRemoval(tid, ls, "Masa boşaltıldı"); }), "Masayı boşaltmak için yönetici şifresi gerekiyor.");
   const c = e.target.closest("[data-cat]"); if (c){ st.cat = c.dataset.cat; renderChips(); renderProds(); return; }
   const p = e.target.closest("[data-pid]");
   if (p){ const it = st.menu.items.find(i => i.id===p.dataset.pid); if (!it) return;
@@ -1344,6 +1345,13 @@ $("#sheet").addEventListener("click", e => {
   const dec = e.target.closest("[data-dec]"); if (dec){ askRemove(tid, +dec.dataset.dec); return; }
 });
 
+/* Çıkarılan ürün kaydı: days/<tarih>.rm (yalnızca ekleme yapar, hiçbir kaydı silmez) */
+function logRemoval(tid, items, why){
+  const now = Date.now(), patch = {};
+  items.filter(x => x.q > 0).forEach((x, i) => { patch[uid() + i] = {t: now, table: tid, n: x.n, p: x.p, q: x.q, why}; });
+  if (!Object.keys(patch).length) return;
+  writeDay(bizDate(now), {rm: patch}).catch(() => toast("Çıkarma kaydı yazılamadı."));
+}
 /* Adisyondan ürün çıkarma: her seferinde Evet/Hayır sorulur */
 function askRemove(tid, i){
   const l = st.tables[tid]?.lines[i]; if (!l) return;
@@ -1356,11 +1364,14 @@ function askRemove(tid, i){
     e => {
       if (!e.target.closest("[data-yes]")) return;
       hideModal();
+      let gone = null;
       mutateTable(tid, o => {
         const j = o.lines.findIndex(x => (key && x.k === key) || (!key && x.id === id && x.price === price));
         if (j < 0) return;
+        gone = {n: o.lines[j].name, p: o.lines[j].price, q: 1};
         if (--o.lines[j].qty <= 0) o.lines.splice(j, 1);
       });
+      if (gone) logRemoval(tid, [gone], "Çıkarıldı");
     });
 }
 
@@ -1589,10 +1600,12 @@ function reportData(){
   let summs;
   if (mode==="day") summs = [summarize(s, s===todayKey ? st.today : repDayDoc)];
   else { summs = repSumms.filter(x => x.date !== todayKey); if (todayKey >= s && todayKey <= e) summs.push(summarize(todayKey, st.today)); }
-  const T = {rev:0,n:0,cash:0,card:0,disc:0,exp:0,expCat:{},prod:{}};
+  const T = {rev:0,n:0,cash:0,card:0,disc:0,exp:0,expCat:{},prod:{},rm:[]};
   for (const x of summs){ T.rev+=x.rev; T.n+=x.n; T.cash+=x.cash; T.card+=x.card; T.disc+=x.disc; T.exp+=x.exp;
     for (const k in x.expCat) T.expCat[k]=(T.expCat[k]||0)+x.expCat[k];
-    for (const [n,q,r] of x.prod||[]){ const p = T.prod[n]||(T.prod[n]={n,q:0,r:0}); p.q+=q; p.r+=r; } }
+    for (const [n,q,r] of x.prod||[]){ const p = T.prod[n]||(T.prod[n]={n,q:0,r:0}); p.q+=q; p.r+=r; }
+    for (const r of x.rm||[]) T.rm.push(r); }
+  T.rm.sort((a,b) => b.t - a.t);
   // buckets
   let buckets = [];
   if (mode==="day"){
@@ -1651,9 +1664,10 @@ function renderReports(){
   const dayDoc = mode==="day" ? (anchor===todayKey ? st.today : repDayDoc) : null;
   const bills = dayDoc ? Object.entries(dayDoc.bills||{}).sort((a,b) => b[1].t - a[1].t) : [];
   const exps = dayDoc ? Object.entries(dayDoc.exp||{}).filter(([,e]) => !e.del) : [];
-  v.innerHTML = `
-    <div class="row" style="justify-content:flex-end;gap:8px"><button class="btn sm" data-repnew>Rapor şifresini değiştir</button><button class="btn sm" data-replock>${LOCK_ICON.replace('width="26" height="26"','width="15" height="15"')} Kilitle</button></div>
-    <div class="row" style="justify-content:space-between">
+  const rmN = T.rm.reduce((s,r) => s + r.q, 0);
+  const viewSeg = `<div class="seg" role="group" aria-label="Rapor bölümü"><button data-rview="ozet" aria-pressed="${st.rep.view!=="rm"}">Özet</button><button data-rview="rm" aria-pressed="${st.rep.view==="rm"}">Çıkarılan ürünler${rmN ? ` (${rmN})` : ""}</button></div>`;
+  const topRow = `<div class="row" style="justify-content:space-between;gap:8px">${viewSeg}<div class="row" style="gap:8px"><button class="btn sm" data-repnew>Rapor şifresini değiştir</button><button class="btn sm" data-replock>${LOCK_ICON.replace('width="26" height="26"','width="15" height="15"')} Kilitle</button></div></div>`;
+  const periodRow = `<div class="row" style="justify-content:space-between">
       <div class="seg" role="group" aria-label="Dönem">${[["day","Gün"],["week","Hafta"],["month","Ay"],["year","Yıl"]].map(([k,l]) => `<button data-mode="${k}" aria-pressed="${mode===k}">${l}</button>`).join("")}</div>
       <div class="row" style="flex-wrap:nowrap">
         <button class="icon-btn" data-nav="-1" aria-label="Önceki">‹</button>
@@ -1661,8 +1675,31 @@ function renderReports(){
         <button class="icon-btn" data-nav="1" aria-label="Sonraki">›</button>
         ${isToday ? "" : `<button class="btn sm" data-nav="0">Bugün</button>`}
       </div>
+    </div>${repLoading ? `<div class="muted">Yükleniyor…</div>` : ""}`;
+  if (st.rep.view === "rm"){
+    const rmVal = T.rm.reduce((s,r) => s + r.p*r.q, 0);
+    const byProd = {}; for (const r of T.rm){ const x = byProd[r.n] || (byProd[r.n] = {n:r.n, q:0, v:0}); x.q += r.q; x.v += r.p*r.q; }
+    const tops = Object.values(byProd).sort((a,b) => b.q - a.q || b.v - a.v);
+    const byTable = {}; for (const r of T.rm){ byTable[r.table] = (byTable[r.table]||0) + r.q; }
+    const tabs = Object.entries(byTable).sort((a,b) => b[1]-a[1]);
+    const when = r => { const d = new Date(r.t); return mode === "day" ? hm(r.t) : `${d.getDate()} ${MSHORT[d.getMonth()]} ${hm(r.t)}`; };
+    v.innerHTML = `${topRow}${periodRow}
+    <div class="kpis">
+      <div class="kpi exp" style="--kc:#C2413B"><div class="l">Çıkarılan ürün</div><div class="v num">${rmN}</div><div class="s num">${T.rm.length} kayıt</div></div>
+      <div class="kpi" style="--kc:#B8561C"><div class="l">Menü fiyatıyla tutar</div><div class="v num">${tl(rmVal)}</div><div class="s">adisyondan düşülen</div></div>
     </div>
-    ${repLoading ? `<div class="muted">Yükleniyor…</div>` : ""}
+    <div class="card"><h3>Çıkarılan ürünler</h3>${T.rm.length ? `<div class="list">${T.rm.map(r => `
+      <div class="li"><span class="num muted" style="width:${mode==="day" ? 44 : 92}px;font-size:13px">${when(r)}</span><b style="width:56px">${esc(TBY[r.table]?.name || r.table)}</b>
+        <span class="grow" style="min-width:0">${r.q} × ${esc(r.n)}${r.why === "Masa boşaltıldı" ? ` <span class="pill void">Masa boşaltıldı</span>` : ""}</span>
+        <span class="r">${tl(r.p*r.q)}</span></div>`).join("")}</div>` : `<div class="empty">Bu dönemde adisyondan ürün çıkarılmamış.</div>`}</div>
+    ${T.rm.length ? `<div class="grid2">
+      <div class="card"><h3>En çok çıkarılan ürünler</h3><div class="list">${tops.slice(0,10).map(x => `<div class="li"><span class="grow">${esc(x.n)} <span class="muted num">× ${x.q}</span></span><span class="r">${tl(x.v)}</span></div>`).join("")}</div></div>
+      <div class="card"><h3>Masalara göre</h3><div class="list">${tabs.map(([t,q]) => `<div class="li"><span class="grow">${esc(TBY[t]?.name || t)}</span><span class="r num">${q} ürün</span></div>`).join("")}</div></div>
+    </div>` : ""}
+    <p class="muted" style="font-size:13px;margin:0">Kayıt 30 Ekim 2026'dan itibaren tutuluyor. Masa aktarma ve ödeme çıkarma sayılmaz.</p>`;
+    return;
+  }
+  v.innerHTML = `${topRow}${periodRow}
     <div class="kpis">
       <div class="kpi" style="--kc:#2F6FB3"><div class="l">Gelir</div><div class="v num">${tl(T.rev)}</div><div class="s num">${T.n} adisyon</div></div>
       <div class="kpi exp" style="--kc:#C2413B"><div class="l">Gider</div><div class="v num">${tl(T.exp)}</div><div class="s">${ecats.length} kalem türü</div></div>
@@ -1695,6 +1732,7 @@ function renderReports(){
   `;
 }
 $("#v-reports").addEventListener("click", e => {
+  const rv = e.target.closest("[data-rview]"); if (rv){ st.rep.view = rv.dataset.rview; renderReports(); return; }
   const m = e.target.closest("[data-mode]"); if (m){ st.rep.mode = m.dataset.mode; refreshReports(); return; }
   const n = e.target.closest("[data-nav]"); if (n){ const d = +n.dataset.nav; st.rep.anchor = d===0 ? todayKey : shift(st.rep.mode, st.rep.anchor, d); refreshReports(); return; }
   const vd = e.target.closest("[data-void]");
