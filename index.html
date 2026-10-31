@@ -298,6 +298,12 @@ body.is-dragging *{-webkit-user-select:none;user-select:none}
 .iplan .tbl{position:absolute;transform:translate(-50%,-50%);width:7.2%;height:7.3%;padding:0;background:transparent;border:2.5px solid transparent;border-radius:9px;color:#fff;box-shadow:none;transition:background .12s,border-color .12s}
 .iplan .tbl.round{width:6.4%;height:7.0%;border-radius:50%}
 .iplan .tbl:not(.open):not(.long) > *{visibility:hidden}
+.tbl .cn{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:700;line-height:1.15}
+.iplan .tbl .cn{position:absolute;left:50%;top:100%;transform:translate(-50%,4px);max-width:none;width:max-content;max-width:calc(var(--t)*2.4);padding:2px 7px;border-radius:7px;background:#14213A;color:#fff;font-size:calc(var(--t)*.17);box-shadow:0 2px 6px rgba(0,0,0,.45);visibility:visible !important;z-index:2;pointer-events:none}
+.iplan .tbl.named:not(.open){border-color:#fff;border-style:dashed;background:rgba(20,33,58,.35)}
+.cname-btn{display:inline-flex;align-items:center;gap:6px;max-width:100%;margin-top:2px;padding:3px 10px;border-radius:999px;border:1.5px dashed var(--line);background:transparent;color:var(--accent);font-weight:700;font-size:14px;cursor:pointer}
+.cname-btn.has{border-style:solid;border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.cname-btn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .iplan .tbl:active{transform:translate(-50%,-50%) scale(.95);border-color:#2F6FB3;background:rgba(47,111,179,.18)}
 .iplan .tbl .nm{font-size:calc(var(--t)*.32);font-family:var(--f-ui);font-weight:800;letter-spacing:-.01em}
 .iplan .tbl .amt{font-size:calc(var(--t)*.21);font-weight:700}
@@ -470,7 +476,7 @@ const bizDate = (ts = Date.now()) => ymd(new Date(ts - (st.settings.dayStartHour
 
 /* ---------- Store backends ---------- */
 const MENU_VER = 5;
-const APP_VERSION = "2026-10-30-1";
+const APP_VERSION = "2026-10-31-1";
 /* Clouds Up menüsü (kâğıt menüden, 18 Ekim 2026) */
 const CUP_MENU = {"ver": 5, "cats": ["Kahve", "Çay", "Soğuk İçecek", "Bira 33 cl", "Bira 50 cl", "C'up Kokteyl", "Klasik Kokteyl", "Viski", "Atıştırmalık"], "items": [{"id": "c001", "name": "Türk Kahvesi", "cat": "Kahve", "price": 90}, {"id": "c002", "name": "Türk Kahvesi Double", "cat": "Kahve", "price": 150}, {"id": "c003", "name": "Espresso", "cat": "Kahve", "price": 120}, {"id": "c004", "name": "Espresso Double", "cat": "Kahve", "price": 180}, {"id": "c005", "name": "Americano", "cat": "Kahve", "price": 200}, {"id": "c006", "name": "Cappuccino", "cat": "Kahve", "price": 240}, {"id": "c007", "name": "Mocha", "cat": "Kahve", "price": 260}, {"id": "c008", "name": "White Mocha", "cat": "Kahve", "price": 260}, {"id": "c009", "name": "Flat White", "cat": "Kahve", "price": 220}, {"id": "c010", "name": "Latte", "cat": "Kahve", "price": 240}, {"id": "c011", "name": "Affogato", "cat": "Kahve", "price": 400}, {"id": "c012", "name": "Çay", "cat": "Çay", "price": 50}, {"id": "c013", "name": "Fincan Çay", "cat": "Çay", "price": 80}, {"id": "c014", "name": "Bitki Çayı", "cat": "Çay", "price": 120}, {"id": "c015", "name": "Su", "cat": "Soğuk İçecek", "price": 40}, {"id": "c016", "name": "Soda", "cat": "Soğuk İçecek", "price": 80}, {"id": "c017", "name": "Churchill", "cat": "Soğuk İçecek", "price": 130}, {"id": "c018", "name": "Kola", "cat": "Soğuk İçecek", "price": 150}, {"id": "c019", "name": "Soğuk Çay", "cat": "Soğuk İçecek", "price": 150}, {"id": "c020", "name": "Meyve Suyu", "cat": "Soğuk İçecek", "price": 140}, {"id": "c021", "name": "Enerji İçeceği", "cat": "Soğuk İçecek", "price": 200}, {"id": "c030", "name": "Tuborg 33cl", "cat": "Bira 33 cl", "price": 270}, {"id": "c031", "name": "Efes 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c032", "name": "Efes Glutensiz 33cl", "cat": "Bira 33 cl", "price": 400}, {"id": "c033", "name": "Carlsberg 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c034", "name": "Stella 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c035", "name": "Corona 33cl", "cat": "Bira 33 cl", "price": 450}, {"id": "c036", "name": "Blanc 33cl", "cat": "Bira 33 cl", "price": 350}, {"id": "c037", "name": "Miller 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c022", "name": "Tuborg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c023", "name": "Efes 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c024", "name": "Efes Glutensiz 50cl", "cat": "Bira 50 cl", "price": 400}, {"id": "c025", "name": "Carlsberg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c026", "name": "Stella 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c027", "name": "Corona 50cl", "cat": "Bira 50 cl", "price": 450}, {"id": "c028", "name": "Blanc 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c029", "name": "Miller 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c038", "name": "Vanilia Hibiscus", "cat": "C'up Kokteyl", "price": 800}, {"id": "c039", "name": "Passion Zencefil", "cat": "C'up Kokteyl", "price": 800}, {"id": "c040", "name": "Ahududu Lime", "cat": "C'up Kokteyl", "price": 800}, {"id": "c041", "name": "Kakule Vişne", "cat": "C'up Kokteyl", "price": 800}, {"id": "c042", "name": "Kuzu Kulağı - Yeşil Elma", "cat": "C'up Kokteyl", "price": 800}, {"id": "c043", "name": "Espresso Martini", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c044", "name": "Iceland", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c045", "name": "Cin Tonik", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c046", "name": "Pina Colada", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c047", "name": "Mudslide", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c048", "name": "Johnnie Walker Black Label Tek", "cat": "Viski", "price": 600}, {"id": "c052", "name": "Chivas Regal Tek", "cat": "Viski", "price": 600}, {"id": "c056", "name": "Chivas Regal 18 Tek", "cat": "Viski", "price": 750}, {"id": "c059", "name": "Jameson Tek", "cat": "Viski", "price": 500}, {"id": "c049", "name": "Johnnie Walker Black Label Duble", "cat": "Viski", "price": 1100}, {"id": "c053", "name": "Chivas Regal Duble", "cat": "Viski", "price": 1100}, {"id": "c057", "name": "Chivas Regal 18 Duble", "cat": "Viski", "price": 1400}, {"id": "c060", "name": "Jameson Duble", "cat": "Viski", "price": 1000}, {"id": "c050", "name": "Johnnie Walker Black Label 35cl", "cat": "Viski", "price": 4500}, {"id": "c054", "name": "Chivas Regal 35cl", "cat": "Viski", "price": 4500}, {"id": "c051", "name": "Johnnie Walker Black Label 70cl", "cat": "Viski", "price": 7000}, {"id": "c055", "name": "Chivas Regal 70cl", "cat": "Viski", "price": 7000}, {"id": "c058", "name": "Chivas Regal 18 70cl", "cat": "Viski", "price": 10000}, {"id": "c061", "name": "Jameson 70cl", "cat": "Viski", "price": 6000}, {"id": "c062", "name": "Karışık Çerez", "cat": "Atıştırmalık", "price": 250}, {"id": "c063", "name": "Turşu", "cat": "Atıştırmalık", "price": 200}, {"id": "c064", "name": "Cips", "cat": "Atıştırmalık", "price": 200}]};
 const DEMO_MENU = CUP_MENU;
@@ -581,8 +587,8 @@ async function flushTable(tid){
   const ref = st.db.doc("tables/"+tid);
   const p = (async () => {
     try {
-      if (!t || !t.lines.length) await ref.delete();
-      else await ref.set({lines: t.lines, openedAt: t.openedAt, paid: t.paid || 0, paidLines: t.paidLines || [], updatedAt: Date.now()});
+      if (!t || (!t.lines.length && !t.cname)) await ref.delete();
+      else await ref.set({lines: t.lines, openedAt: t.openedAt, paid: t.paid || 0, paidLines: t.paidLines || [], cname: t.cname || "", updatedAt: Date.now()});
     } catch(e){ toast("Kaydedilemedi: " + (e.code||"bağlantı")); }
   })();
   wt.inflight[tid] = p; await p; wt.inflight[tid] = null;
@@ -685,7 +691,7 @@ async function boot(){
   st.db.doc("stock/log").onSnapshot(s => { if (s.exists) st.stockLog = (s.data().log || []).slice(); }, onDbErr);
   st.db.collection("tables").onSnapshot(snap => {
     const seen = new Set();
-    for (const d of snap.docs){ seen.add(d.id); if (!busy(d.id)) { const v = d.data(); st.tables[d.id] = {lines: (v.lines||[]).map(l => ({...l})), openedAt: v.openedAt||Date.now(), paid: v.paid||0, paidLines: (v.paidLines||[]).map(x => ({...x}))}; } }
+    for (const d of snap.docs){ seen.add(d.id); if (!busy(d.id)) { const v = d.data(); st.tables[d.id] = {lines: (v.lines||[]).map(l => ({...l})), openedAt: v.openedAt||Date.now(), paid: v.paid||0, paidLines: (v.paidLines||[]).map(x => ({...x})), cname: v.cname || ""}; } }
     for (const id of Object.keys(st.tables)) if (!seen.has(id) && !busy(id)) delete st.tables[id];
     renderTables(); renderSheet(); renderHeader();
   }, onDbErr);
@@ -1115,8 +1121,9 @@ function tileHTML(t, cls=""){
   const o = st.tables[t.id]; const open = o && o.lines.length;
   const long = open && (Date.now()-o.openedAt)/60000 >= LONG_MIN;
   const c = ["tbl", cls, t.round?"round":"", open?"open":"", long?"long":""].join(" ");
-  const aria = open ? `${t.name}, açık, ${tl(linesTotal(o.lines))}` : `${t.name}, boş`;
-  return `<button class="${c}" data-tid="${t.id}" aria-label="${esc(aria)}"><span class="nm">${esc(t.round ? t.name.replace("Bar ","") : t.name)}</span>${open ? `<span class="amt">${tlShort(linesTotal(o.lines))}</span><span class="tm">${elapsed(o.openedAt)}</span>` : ""}</button>`;
+  const cn = o?.cname || "";
+  const aria = (open ? `${t.name}, açık, ${tl(linesTotal(o.lines))}` : `${t.name}, boş`) + (cn ? `, ${cn}` : "");
+  return `<button class="${c}${cn ? " named" : ""}" data-tid="${t.id}" aria-label="${esc(aria)}"><span class="nm">${esc(t.round ? t.name.replace("Bar ","") : t.name)}</span>${open ? `<span class="amt">${tlShort(linesTotal(o.lines))}</span><span class="tm">${elapsed(o.openedAt)}</span>` : ""}${cn ? `<span class="cn">${esc(cn)}</span>` : ""}</button>`;
 }
 const IMG_W = 1312, IMG_H = 1199;
 const IMG_POS = {"B6": [464, 84], "B5": [802, 84], "B4": [1150, 84], "B1": [464, 232], "B2": [804, 232], "B3": [1150, 232], "T5": [465, 390], "T6": [1138, 390], "T4": [234, 488], "T3": [802, 488], "T1": [465, 568], "T2": [1143, 568], "K3": [200, 740], "S6": [461, 738], "S7": [1164, 738], "S5": [802, 792], "K2": [142, 858], "S4": [462, 857], "S3": [1164, 854], "S1": [638, 966], "S2": [990, 966], "K1": [142, 1016], "BAR1": [438, 1121], "BAR2": [597, 1121], "BAR3": [757, 1120], "BAR4": [911, 1120], "SAHNE": [1168, 1068]};
@@ -1251,7 +1258,7 @@ function renderSheet(full){
     s.innerHTML = `
       <div class="sheet-head">
         <button class="icon-btn" data-act="close" aria-label="Masalara dön"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-        <div style="flex:1;min-width:0"><div class="t" id="sh-t"></div><div class="z" id="sh-z"></div></div>
+        <div style="flex:1;min-width:0"><div class="row" style="gap:10px;flex-wrap:nowrap;min-width:0"><div class="t" id="sh-t"></div><button class="cname-btn" data-act="cname" id="sh-cn"></button></div><div class="z" id="sh-z"></div></div>
         <button class="btn sm" data-act="move">Masa taşı</button>
       </div>
       <div class="sheet-body">
@@ -1279,6 +1286,8 @@ function renderSheetHead(){
   const tid = st.openTid; if (!tid || !$("#sh-t")) return;
   const t = TBY[tid], o = st.tables[tid];
   $("#sh-t").textContent = t.name;
+  const cn = o?.cname || "", cb = $("#sh-cn");
+  if (cb){ cb.classList.toggle("has", !!cn); cb.innerHTML = cn ? `<span>${esc(cn)}</span> ✎` : "+ İsim ver"; cb.setAttribute("aria-label", cn ? `Müşteri ismi: ${cn}, değiştir` : "Masaya müşteri ismi ver"); }
   $("#sh-z").textContent = ZNAME[t.zone] + (o && o.lines.length ? ` · açılış ${hm(o.openedAt)} · ${elapsed(o.openedAt)}` : " · boş masa");
 }
 function cats(){ const c = [...st.menu.cats]; for (const i of st.menu.items) if (!c.includes(i.cat)) c.push(i.cat); return c; }
@@ -1324,7 +1333,7 @@ function mutateTable(tid, fn){
   const o = st.tables[tid] || (st.tables[tid] = {lines:[], openedAt: Date.now()});
   if (!o.lines.length) o.openedAt = Date.now();
   fn(o);
-  if (!o.lines.length) delete st.tables[tid];
+  if (!o.lines.length && !o.cname) delete st.tables[tid];
   scheduleWrite(tid);
   renderLines(); renderProds(); renderSheetHead(); renderHeader();
 }
@@ -1336,7 +1345,8 @@ $("#sheet").addEventListener("click", e => {
   if (a==="hidebill") return $("#sheet").classList.remove("show-bill");
   if (a==="pay") return tid === STAGE_ID ? openStageExp(tid) : openPay(tid);
   if (a==="move") return openMove(tid);
-  if (a==="clear") return requirePin(() => confirmBox("Masayı boşalt?", `${TBY[tid].name} adisyonundaki tüm ürünler silinecek. Satış olarak kaydedilmez.`, "Boşalt", () => { const ls = (st.tables[tid]?.lines || []).map(l => ({n: l.name, p: l.price, q: l.qty})); mutateTable(tid, o => o.lines = []); logRemoval(tid, ls, "Masa boşaltıldı"); }), "Masayı boşaltmak için yönetici şifresi gerekiyor.");
+  if (a==="cname") return openCname(tid);
+  if (a==="clear") return requirePin(() => confirmBox("Masayı boşalt?", `${TBY[tid].name} adisyonundaki tüm ürünler silinecek. Satış olarak kaydedilmez.`, "Boşalt", () => { const ls = (st.tables[tid]?.lines || []).map(l => ({n: l.name, p: l.price, q: l.qty})); mutateTable(tid, o => { o.lines = []; o.cname = ""; }); logRemoval(tid, ls, "Masa boşaltıldı"); }), "Masayı boşaltmak için yönetici şifresi gerekiyor.");
   const c = e.target.closest("[data-cat]"); if (c){ st.cat = c.dataset.cat; renderChips(); renderProds(); return; }
   const p = e.target.closest("[data-pid]");
   if (p){ const it = st.menu.items.find(i => i.id===p.dataset.pid); if (!it) return;
@@ -1345,6 +1355,33 @@ $("#sheet").addEventListener("click", e => {
   const dec = e.target.closest("[data-dec]"); if (dec){ askRemove(tid, +dec.dataset.dec); return; }
 });
 
+/* Masaya müşteri ismi: hesap tamamen alınınca (veya masa boşaltılınca) kendiliğinden silinir */
+function openCname(tid){
+  const cur = st.tables[tid]?.cname || "";
+  showModal(`<h2>${esc(TBY[tid].name)} · Müşteri ismi</h2>
+    <form id="cn-form" class="field" autocomplete="off"><label for="cn-inp">İsim</label>
+      <input class="inp" id="cn-inp" maxlength="24" value="${esc(cur)}" placeholder="Örn. Ahmet Bey" autocapitalize="words"></form>
+    <p class="muted" style="margin:0;font-size:13px">Hesap tamamen alınınca isim kendiliğinden silinir.</p>
+    <div class="row" style="justify-content:space-between">${cur ? `<button class="btn danger" data-cnclear>İsmi kaldır</button>` : "<span></span>"}
+      <div class="row"><button class="btn" data-x>Vazgeç</button><button class="btn primary" data-cnok>Kaydet</button></div></div>`,
+    e => {
+      if (e.target.closest("[data-cnclear]")) return setCname(tid, "");
+      if (e.target.closest("[data-cnok]")) return setCname(tid, $("#cn-inp").value);
+    });
+  $("#cn-form").addEventListener("submit", e => { e.preventDefault(); setCname(tid, $("#cn-inp").value); });
+  setTimeout(() => { const i = $("#cn-inp"); if (i){ i.focus(); i.select(); } }, 40);
+}
+function setCname(tid, name){
+  name = String(name || "").trim().replace(/\s+/g, " ").slice(0, 24);
+  hideModal();
+  const o = st.tables[tid];
+  if (!o && !name) return;
+  if (o) o.cname = name; else st.tables[tid] = {lines: [], openedAt: Date.now(), cname: name};
+  if (!st.tables[tid].lines.length && !name) delete st.tables[tid];
+  scheduleWrite(tid);
+  renderSheetHead(); renderTables();
+  toast(name ? `${TBY[tid].name}: ${name}` : `${TBY[tid].name}: isim kaldırıldı`);
+}
 /* Çıkarılan ürün kaydı: days/<tarih>.rm (yalnızca ekleme yapar, hiçbir kaydı silmez) */
 function logRemoval(tid, items, why){
   const now = Date.now(), patch = {};
@@ -1416,7 +1453,7 @@ function openPay(tid){
              <span class="r" style="min-width:72px">${q ? tl(q*l.price) : "—"}</span></div>`; }).join("")}</div>`
       : `<div class="list" style="max-height:180px;overflow-y:auto">${o.lines.map(l => `<div class="li"><span class="grow">${l.qty} × ${esc(l.name)}</span><span class="r">${tl(l.qty*l.price)}</span></div>`).join("")}</div>`;
     showModal(`
-      <h2>${esc(TBY[tid].name)} · Hesap</h2>
+      <h2>${esc(TBY[tid].name)}${o.cname ? ` · ${esc(o.cname)}` : ""} · Hesap</h2>
       <div class="seg" role="group" aria-label="Hesap türü" style="align-self:flex-start"><button data-pmode="all" aria-pressed="${!pick}">Tümünü al</button><button data-pmode="pick" aria-pressed="${pick}">Ürün seçerek al</button></div>
       ${o.paid ? `<div class="sumrow" style="color:var(--bad)"><span>Daha önce ödenen${(o.paidLines||[]).length ? ": " + esc((o.paidLines||[]).map(x => x.q + "× " + x.n).join(", ")) : ""}</span><span>${tl(o.paid)}</span></div>` : ""}
       ${linesHTML}
@@ -1497,6 +1534,7 @@ async function closeBill(tid, qty, c){
   const rest = o.lines.map((l,i) => ({...l, qty: l.qty - Math.min(l.qty, qty[i]||0)})).filter(l => l.qty > 0);
   const now = Date.now(), date = bizDate(now), id = uid();
   const bill = {t: now, opened: o.openedAt, table: tid, lines: paidLines.map(x => ({n:x.l.name, p:x.l.price, q:x.q})), sub: c.sub, disc: Math.round(c.d*100)/100, total: c.total, cash: c.cash, card: c.card};
+  if (o.cname) bill.cname = o.cname;
   if (rest.length || o.paid) bill.part = true;
   const stk = usageFor(paidLines.map(x => ({id: x.l.id, q: x.q}))); if (Object.keys(stk).length) bill.stk = stk;
   try {
@@ -1535,6 +1573,7 @@ function transferTable(from, to){
   dst.openedAt = Math.min(dst.openedAt, src.openedAt);
   dst.paid = Math.round(((dst.paid||0) + (src.paid||0))*100)/100;
   dst.paidLines = (dst.paidLines||[]).concat(src.paidLines||[]);
+  if (!dst.cname && src.cname) dst.cname = src.cname;
   delete st.tables[from]; scheduleWrite(from); scheduleWrite(to);
   renderHeader(); if (st.tab==="tables") renderTables();
   toast(`${TBY[from].name} → ${TBY[to].name} aktarıldı`);
@@ -1722,7 +1761,7 @@ function renderReports(){
     ${mode==="day" ? `
     <div class="card"><h3>Adisyonlar</h3>${bills.length ? `<div class="list">${bills.map(([id,b]) => `
       <details class="li" style="display:block"><summary class="row" style="flex-wrap:nowrap">
-        <span class="num muted" style="width:44px">${hm(b.t)}</span><b style="width:52px">${esc(TBY[b.table]?.name || b.table)}</b>
+        <span class="num muted" style="width:44px">${hm(b.t)}</span><b style="width:52px">${esc(TBY[b.table]?.name || b.table)}</b>${b.cname ? `<span class="muted" style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(b.cname)}</span>` : ""}
         <span class="grow">${b.part && !b.void ? `<span class="pill">Ayrı ödeme</span> ` : ""}${b.void ? `<span class="pill void">İptal</span>` : b.cash && b.card ? `<span class="pill cash">Nakit</span> <span class="pill card">Kart</span>` : b.card ? `<span class="pill card">Kart</span>` : `<span class="pill cash">Nakit</span>`}</span>
         <span class="r ${b.void?"voided":""}">${tl(b.total)}</span></summary>
         <div class="bill-lines">${(b.lines||[]).map(l => `${l.q} × ${esc(l.n)} — ${tl(l.q*l.p)}`).join("<br>")}${b.disc ? `<br>İndirim −${tl(b.disc)}` : ""}${b.cash && b.card ? `<br>Nakit ${tl(b.cash)} · Kart ${tl(b.card)}` : ""}
