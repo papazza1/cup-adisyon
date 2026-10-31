@@ -470,13 +470,13 @@ const st = {
   rep: {mode:"day", anchor: null, view: "ozet"},
   expDate: null,
   lock: null, unlockedUntil: 0, repLock: null, repUnlockedUntil: 0,
-  stock: {items: [], seeded: 0}, stockLog: [], stockLoaded: false, menuLoaded: false, stkQ: "",
+  stock: {items: [], seeded: 0}, stockGroups: [], stockLog: [], stockLoaded: false, menuLoaded: false, stkQ: "",
 };
 const bizDate = (ts = Date.now()) => ymd(new Date(ts - (st.settings.dayStartHour||0)*3600e3));
 
 /* ---------- Store backends ---------- */
 const MENU_VER = 5;
-const APP_VERSION = "2026-10-31-4";
+const APP_VERSION = "2026-10-31-5";
 /* Clouds Up menüsü (kâğıt menüden, 18 Ekim 2026) */
 const CUP_MENU = {"ver": 5, "cats": ["Kahve", "Çay", "Soğuk İçecek", "Bira 33 cl", "Bira 50 cl", "C'up Kokteyl", "Klasik Kokteyl", "Viski", "Atıştırmalık"], "items": [{"id": "c001", "name": "Türk Kahvesi", "cat": "Kahve", "price": 90}, {"id": "c002", "name": "Türk Kahvesi Double", "cat": "Kahve", "price": 150}, {"id": "c003", "name": "Espresso", "cat": "Kahve", "price": 120}, {"id": "c004", "name": "Espresso Double", "cat": "Kahve", "price": 180}, {"id": "c005", "name": "Americano", "cat": "Kahve", "price": 200}, {"id": "c006", "name": "Cappuccino", "cat": "Kahve", "price": 240}, {"id": "c007", "name": "Mocha", "cat": "Kahve", "price": 260}, {"id": "c008", "name": "White Mocha", "cat": "Kahve", "price": 260}, {"id": "c009", "name": "Flat White", "cat": "Kahve", "price": 220}, {"id": "c010", "name": "Latte", "cat": "Kahve", "price": 240}, {"id": "c011", "name": "Affogato", "cat": "Kahve", "price": 400}, {"id": "c012", "name": "Çay", "cat": "Çay", "price": 50}, {"id": "c013", "name": "Fincan Çay", "cat": "Çay", "price": 80}, {"id": "c014", "name": "Bitki Çayı", "cat": "Çay", "price": 120}, {"id": "c015", "name": "Su", "cat": "Soğuk İçecek", "price": 40}, {"id": "c016", "name": "Soda", "cat": "Soğuk İçecek", "price": 80}, {"id": "c017", "name": "Churchill", "cat": "Soğuk İçecek", "price": 130}, {"id": "c018", "name": "Kola", "cat": "Soğuk İçecek", "price": 150}, {"id": "c019", "name": "Soğuk Çay", "cat": "Soğuk İçecek", "price": 150}, {"id": "c020", "name": "Meyve Suyu", "cat": "Soğuk İçecek", "price": 140}, {"id": "c021", "name": "Enerji İçeceği", "cat": "Soğuk İçecek", "price": 200}, {"id": "c030", "name": "Tuborg 33cl", "cat": "Bira 33 cl", "price": 270}, {"id": "c031", "name": "Efes 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c032", "name": "Efes Glutensiz 33cl", "cat": "Bira 33 cl", "price": 400}, {"id": "c033", "name": "Carlsberg 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c034", "name": "Stella 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c035", "name": "Corona 33cl", "cat": "Bira 33 cl", "price": 450}, {"id": "c036", "name": "Blanc 33cl", "cat": "Bira 33 cl", "price": 350}, {"id": "c037", "name": "Miller 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c022", "name": "Tuborg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c023", "name": "Efes 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c024", "name": "Efes Glutensiz 50cl", "cat": "Bira 50 cl", "price": 400}, {"id": "c025", "name": "Carlsberg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c026", "name": "Stella 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c027", "name": "Corona 50cl", "cat": "Bira 50 cl", "price": 450}, {"id": "c028", "name": "Blanc 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c029", "name": "Miller 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c038", "name": "Vanilia Hibiscus", "cat": "C'up Kokteyl", "price": 800}, {"id": "c039", "name": "Passion Zencefil", "cat": "C'up Kokteyl", "price": 800}, {"id": "c040", "name": "Ahududu Lime", "cat": "C'up Kokteyl", "price": 800}, {"id": "c041", "name": "Kakule Vişne", "cat": "C'up Kokteyl", "price": 800}, {"id": "c042", "name": "Kuzu Kulağı - Yeşil Elma", "cat": "C'up Kokteyl", "price": 800}, {"id": "c043", "name": "Espresso Martini", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c044", "name": "Iceland", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c045", "name": "Cin Tonik", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c046", "name": "Pina Colada", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c047", "name": "Mudslide", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c048", "name": "Johnnie Walker Black Label Tek", "cat": "Viski", "price": 600}, {"id": "c052", "name": "Chivas Regal Tek", "cat": "Viski", "price": 600}, {"id": "c056", "name": "Chivas Regal 18 Tek", "cat": "Viski", "price": 750}, {"id": "c059", "name": "Jameson Tek", "cat": "Viski", "price": 500}, {"id": "c049", "name": "Johnnie Walker Black Label Duble", "cat": "Viski", "price": 1100}, {"id": "c053", "name": "Chivas Regal Duble", "cat": "Viski", "price": 1100}, {"id": "c057", "name": "Chivas Regal 18 Duble", "cat": "Viski", "price": 1400}, {"id": "c060", "name": "Jameson Duble", "cat": "Viski", "price": 1000}, {"id": "c050", "name": "Johnnie Walker Black Label 35cl", "cat": "Viski", "price": 4500}, {"id": "c054", "name": "Chivas Regal 35cl", "cat": "Viski", "price": 4500}, {"id": "c051", "name": "Johnnie Walker Black Label 70cl", "cat": "Viski", "price": 7000}, {"id": "c055", "name": "Chivas Regal 70cl", "cat": "Viski", "price": 7000}, {"id": "c058", "name": "Chivas Regal 18 70cl", "cat": "Viski", "price": 10000}, {"id": "c061", "name": "Jameson 70cl", "cat": "Viski", "price": 6000}, {"id": "c062", "name": "Karışık Çerez", "cat": "Atıştırmalık", "price": 250}, {"id": "c063", "name": "Turşu", "cat": "Atıştırmalık", "price": 200}, {"id": "c064", "name": "Cips", "cat": "Atıştırmalık", "price": 200}]};
 const DEMO_MENU = CUP_MENU;
@@ -689,6 +689,7 @@ async function boot(){
     if (st.tab === "stock") renderStock(); if (st.openTid) renderProds();
   }, onDbErr);
   st.db.doc("stock/log").onSnapshot(s => { if (s.exists) st.stockLog = (s.data().log || []).slice(); }, onDbErr);
+  st.db.doc("stock/groups").onSnapshot(s => { st.stockGroups = s.exists ? (s.data().list || []).slice() : []; if (st.tab === "stock") renderStock(); }, onDbErr);
   st.db.collection("tables").onSnapshot(snap => {
     const seen = new Set();
     for (const d of snap.docs){ seen.add(d.id); if (!busy(d.id)) { const v = d.data(); st.tables[d.id] = {lines: (v.lines||[]).map(l => ({...l})), openedAt: v.openedAt||Date.now(), paid: v.paid||0, paidLines: (v.paidLines||[]).map(x => ({...x})), cname: v.cname || ""}; } }
@@ -809,6 +810,14 @@ document.addEventListener("click", e => { if (e.target.closest("[data-replock]")
 /* ---------- Stok ---------- */
 const COCKTAIL_CAT = "Cocktail Malzemeleri"; // boşken de görünür
 const STOCK_CATS = ["Viski","Şarap","Bira","Kokteyl Alkolleri","İçecek","Kahve & Süt","Çay",COCKTAIL_CAT,"Atıştırmalık","Diğer"];
+/* Grup sırası: hazır gruplar → kullanıcının açtığı gruplar → (kalemlerde kalmış eski adlar) → Diğer hep en altta */
+function stockCats(){
+  const base = STOCK_CATS.filter(c => c !== "Diğer");
+  const custom = (st.stockGroups || []).filter(c => !STOCK_CATS.includes(c));
+  const extra = [...new Set(st.stock.items.map(x => x.cat))].filter(c => c && !base.includes(c) && !custom.includes(c) && c !== "Diğer");
+  return base.concat(custom, extra, ["Diğer"]);
+}
+const isOpenGroup = c => c === COCKTAIL_CAT || (st.stockGroups || []).includes(c); // boşken de görünen gruplar
 const UNIT_OPTS = [["cl","cl (santilitre)"],["ml","ml (mililitre)"],["g","g (gram)"],["adet","adet"]];
 const DEF_STOCK = (() => {
   const L = []; const add = (cat, unit, pack, packName, names) => names.forEach(n => L.push({name:n, cat, unit, pack, packName}));
@@ -947,11 +956,15 @@ function stockRowHTML(it){
 function stockListHTML(){
   const q = (st.stkQ || "").trim().toLocaleLowerCase("tr");
   const items = st.stock.items.filter(x => !q || x.name.toLocaleLowerCase("tr").includes(q));
-  const cx = items.filter(x => x.cat === COCKTAIL_CAT);
-  const cocktail = (cx.length || !q) ? `<div class="card"><div class="row" style="justify-content:space-between;margin-bottom:6px"><h3 class="cath" style="--c:${catColor(COCKTAIL_CAT)};margin:0"><span lang="en">Cocktail</span> Malzemeleri <span class="muted num" style="font-weight:600">· ${cx.length}</span></h3><button class="btn sm primary" data-sadd-cat="${esc(COCKTAIL_CAT)}">+ Malzeme ekle</button></div>${cx.length ? cx.map(stockRowHTML).join("") : `<div class="empty" style="padding:10px">Henüz malzeme yok. “+ Malzeme ekle” ile şurup, püre, meyve, garnitür gibi kokteyl malzemelerini girin.</div>`}</div>` : "";
-  const extra = [...new Set(st.stock.items.map(x => x.cat))].filter(c => !STOCK_CATS.includes(c));
-  const cats = STOCK_CATS.slice(0, -1).concat(extra, ["Diğer"]); // Diğer hep en altta
-  const html = cats.map(c => { const xs = items.filter(x => x.cat === c); if (c === COCKTAIL_CAT) return cocktail; return xs.length ? `<div class="card"><h3 class="cath" style="--c:${catColor(c)}">${esc(c)} <span class="muted num" style="font-weight:600">· ${xs.length}</span></h3>${xs.map(stockRowHTML).join("")}</div>` : ""; }).join("");
+  const head = c => c === COCKTAIL_CAT ? `<span lang="en">Cocktail</span> Malzemeleri` : esc(c);
+  const html = stockCats().map(c => {
+    const xs = items.filter(x => x.cat === c);
+    if (isOpenGroup(c)){
+      if (!xs.length && q) return "";
+      return `<div class="card"><div class="row" style="justify-content:space-between;margin-bottom:6px"><h3 class="cath" style="--c:${catColor(c)};margin:0">${head(c)} <span class="muted num" style="font-weight:600">· ${xs.length}</span></h3><button class="btn sm primary" data-sadd-cat="${esc(c)}">+ Ekle</button></div>${xs.length ? xs.map(stockRowHTML).join("") : `<div class="empty" style="padding:10px">Henüz kalem yok. “+ Ekle” ile bu gruba ekleyin.</div>`}</div>`;
+    }
+    return xs.length ? `<div class="card"><h3 class="cath" style="--c:${catColor(c)}">${esc(c)} <span class="muted num" style="font-weight:600">· ${xs.length}</span></h3>${xs.map(stockRowHTML).join("")}</div>` : "";
+  }).join("");
   return html || `<div class="card empty">${q ? "Bu aramaya uyan stok kalemi yok." : "Stok kalemi yok. “+ Stok kalemi” ile ekleyin."}</div>`;
 }
 const LOGT = {sat:["Satış","void"], giris:["Giriş","cash"], sayim:["Sayım","card"], iptal:["İptal iade","warnp"], sahne:["Sahne","warnp"]};
@@ -963,7 +976,7 @@ function renderStock(){
   const canNotif = "Notification" in window && Notification.permission === "default";
   v.innerHTML = `
     <div class="row" style="justify-content:space-between"><div class="row"><h2 class="h2">Stok</h2>${lockBtn}</div>
-      <div class="row">${canNotif ? `<button class="btn" data-snotif>Bildirimleri aç</button>` : ""}<button class="btn primary" data-sadd>+ Stok kalemi</button></div></div>
+      <div class="row">${canNotif ? `<button class="btn" data-snotif>Bildirimleri aç</button>` : ""}<button class="btn" data-sgroup>+ Grup</button><button class="btn primary" data-sadd>+ Stok kalemi</button></div></div>
     <div class="stk-sum">
       <div class="stk-k"><b class="num">${items.length}</b><span>stok kalemi</span></div>
       <div class="stk-k low"><b class="num">${low.length}</b><span>azalan</span></div>
@@ -1008,10 +1021,42 @@ function openStockEntry(id, mode){
   };
   draw();
 }
+/* Stok grupları: yeni grup aç; boş olan kendi grubunu kaldır (kalem silinmez) */
+function openStockGroups(){
+  const norm = x => x.trim().replace(/\s+/g, " ");
+  const draw = msg => {
+    const mine = (st.stockGroups || []).filter(c => !STOCK_CATS.includes(c));
+    showModal(`<h2>Stok grupları</h2>
+      <form id="sg-form" class="field" autocomplete="off"><label for="sg-name">Yeni grup adı</label>
+        <div class="row" style="flex-wrap:nowrap"><input class="inp" id="sg-name" maxlength="30" placeholder="Örn. Tatlılar"><button class="btn primary" type="submit" style="flex:0 0 auto">Grup ekle</button></div>
+        <div class="pinmsg" id="sg-msg" style="text-align:left">${esc(msg || "")}</div></form>
+      <p class="muted" style="margin:0;font-size:13px">Yeni gruplar Stok sayfasında Atıştırmalık'ın altında, Diğer'in üstünde görünür. Kalem eklerken Grup listesinden de seçilebilir.</p>
+      ${mine.length ? `<div class="list">${mine.map(c => { const n = st.stock.items.filter(x => x.cat === c).length; return `<div class="li"><span class="grow"><b>${esc(c)}</b> <span class="muted num">· ${n} kalem</span></span>${n ? `<span class="muted" style="font-size:12px">Dolu grup silinemez</span>` : `<button class="btn sm danger" data-sgdel="${esc(c)}">Kaldır</button>`}</div>`; }).join("")}</div>` : ""}
+      <div class="row" style="justify-content:flex-end"><button class="btn" data-x>Kapat</button></div>`,
+      e => {
+        const d = e.target.closest("[data-sgdel]"); if (!d) return;
+        const c = d.dataset.sgdel; if (st.stock.items.some(x => x.cat === c)) return draw("Bu grupta kalem var, kaldırılamaz.");
+        st.stockGroups = (st.stockGroups || []).filter(x => x !== c);
+        st.db.doc("stock/groups").set({list: st.stockGroups}).catch(() => toast("Kaydedilemedi."));
+        renderStock(); toast(`${c} grubu kaldırıldı`); draw();
+      });
+    $("#sg-form").addEventListener("submit", e => {
+      e.preventDefault();
+      const v = norm($("#sg-name").value);
+      if (!v) return draw("Grup adını yazın.");
+      if (stockCats().some(c => c.toLocaleLowerCase("tr") === v.toLocaleLowerCase("tr"))) return draw("Bu adla bir grup zaten var.");
+      st.stockGroups = (st.stockGroups || []).concat([v]);
+      st.db.doc("stock/groups").set({list: st.stockGroups}).catch(() => toast("Grup kaydedilemedi."));
+      renderStock(); toast(`${v} grubu eklendi`); draw();
+    });
+    setTimeout(() => $("#sg-name")?.focus(), 40);
+  };
+  draw();
+}
 function openStockEdit(id, presetCat){
   const ex = id ? sById(id) : null;
   const it = ex ? {...ex} : {id: "st" + uid(), name: "", cat: presetCat || STOCK_CATS[0], unit: "adet", pack: 0, packName: "", qty: null, full: null, alert: 20, alerted: false};
-  const cats = STOCK_CATS.concat([...new Set(st.stock.items.map(x => x.cat))].filter(c => !STOCK_CATS.includes(c)));
+  const cats = stockCats();
   const used = ex ? st.menu.items.filter(m => (m.use||[]).some(u => u.s === ex.id)).map(m => m.name) : [];
   showModal(`
     <h2>${ex ? "Stok kalemini düzenle" : "Yeni stok kalemi"}</h2>
@@ -1050,7 +1095,7 @@ function openStockEdit(id, presetCat){
 function openRecipe(pid){
   const item = st.menu.items.find(x => x.id === pid); if (!item) return;
   let rows = (item.use || []).map(u => ({...u}));
-  const cats = STOCK_CATS.concat([...new Set(st.stock.items.map(x => x.cat))].filter(c => !STOCK_CATS.includes(c)));
+  const cats = stockCats();
   const opts = sel => cats.map(c => { const xs = st.stock.items.filter(x => x.cat === c); return xs.length ? `<optgroup label="${esc(c)}">${xs.map(x => `<option value="${x.id}" ${x.id === sel ? "selected" : ""}>${esc(x.name)} (${x.unit})</option>`).join("")}</optgroup>` : ""; }).join("");
   const sync = () => document.querySelectorAll("#rcp-rows .rcp-row").forEach((r,i) => { rows[i].s = r.querySelector("select").value; rows[i].q = parseFloat(r.querySelector("input").value.replace(",", ".")) || 0; });
   const draw = () => {
@@ -1078,6 +1123,7 @@ $("#v-stock").addEventListener("click", e => {
   if ((b = a("[data-sedit]"))) return openStockEdit(b.dataset.sedit);
   if (a("[data-sadd]")) return openStockEdit(null);
   if ((b = a("[data-sadd-cat]"))) return openStockEdit(null, b.dataset.saddCat);
+  if (a("[data-sgroup]")) return openStockGroups();
   if (a("[data-snotif]")) { try { Notification.requestPermission().then(p => { toast(p === "granted" ? "Bildirimler açıldı" : "Bildirim izni verilmedi"); renderStock(); }); } catch(_) {} }
 });
 $("#v-stock").addEventListener("input", e => { if (e.target.id === "stk-q"){ st.stkQ = e.target.value; $("#stk-list").innerHTML = stockListHTML(); } });
