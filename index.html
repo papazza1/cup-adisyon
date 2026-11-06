@@ -476,7 +476,7 @@ const bizDate = (ts = Date.now()) => ymd(new Date(ts - (st.settings.dayStartHour
 
 /* ---------- Store backends ---------- */
 const MENU_VER = 5;
-const APP_VERSION = "2026-11-06-1";
+const APP_VERSION = "2026-11-06-2";
 /* Clouds Up menüsü (kâğıt menüden, 18 Ekim 2026) */
 const CUP_MENU = {"ver": 5, "cats": ["Kahve", "Çay", "Soğuk İçecek", "Bira 33 cl", "Bira 50 cl", "C'up Kokteyl", "Klasik Kokteyl", "Viski", "Atıştırmalık"], "items": [{"id": "c001", "name": "Türk Kahvesi", "cat": "Kahve", "price": 90}, {"id": "c002", "name": "Türk Kahvesi Double", "cat": "Kahve", "price": 150}, {"id": "c003", "name": "Espresso", "cat": "Kahve", "price": 120}, {"id": "c004", "name": "Espresso Double", "cat": "Kahve", "price": 180}, {"id": "c005", "name": "Americano", "cat": "Kahve", "price": 200}, {"id": "c006", "name": "Cappuccino", "cat": "Kahve", "price": 240}, {"id": "c007", "name": "Mocha", "cat": "Kahve", "price": 260}, {"id": "c008", "name": "White Mocha", "cat": "Kahve", "price": 260}, {"id": "c009", "name": "Flat White", "cat": "Kahve", "price": 220}, {"id": "c010", "name": "Latte", "cat": "Kahve", "price": 240}, {"id": "c011", "name": "Affogato", "cat": "Kahve", "price": 400}, {"id": "c012", "name": "Çay", "cat": "Çay", "price": 50}, {"id": "c013", "name": "Fincan Çay", "cat": "Çay", "price": 80}, {"id": "c014", "name": "Bitki Çayı", "cat": "Çay", "price": 120}, {"id": "c015", "name": "Su", "cat": "Soğuk İçecek", "price": 40}, {"id": "c016", "name": "Soda", "cat": "Soğuk İçecek", "price": 80}, {"id": "c017", "name": "Churchill", "cat": "Soğuk İçecek", "price": 130}, {"id": "c018", "name": "Kola", "cat": "Soğuk İçecek", "price": 150}, {"id": "c019", "name": "Soğuk Çay", "cat": "Soğuk İçecek", "price": 150}, {"id": "c020", "name": "Meyve Suyu", "cat": "Soğuk İçecek", "price": 140}, {"id": "c021", "name": "Enerji İçeceği", "cat": "Soğuk İçecek", "price": 200}, {"id": "c030", "name": "Tuborg 33cl", "cat": "Bira 33 cl", "price": 270}, {"id": "c031", "name": "Efes 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c032", "name": "Efes Glutensiz 33cl", "cat": "Bira 33 cl", "price": 400}, {"id": "c033", "name": "Carlsberg 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c034", "name": "Stella 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c035", "name": "Corona 33cl", "cat": "Bira 33 cl", "price": 450}, {"id": "c036", "name": "Blanc 33cl", "cat": "Bira 33 cl", "price": 350}, {"id": "c037", "name": "Miller 33cl", "cat": "Bira 33 cl", "price": 300}, {"id": "c022", "name": "Tuborg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c023", "name": "Efes 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c024", "name": "Efes Glutensiz 50cl", "cat": "Bira 50 cl", "price": 400}, {"id": "c025", "name": "Carlsberg 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c026", "name": "Stella 50cl", "cat": "Bira 50 cl", "price": 300}, {"id": "c027", "name": "Corona 50cl", "cat": "Bira 50 cl", "price": 450}, {"id": "c028", "name": "Blanc 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c029", "name": "Miller 50cl", "cat": "Bira 50 cl", "price": 350}, {"id": "c038", "name": "Vanilia Hibiscus", "cat": "C'up Kokteyl", "price": 800}, {"id": "c039", "name": "Passion Zencefil", "cat": "C'up Kokteyl", "price": 800}, {"id": "c040", "name": "Ahududu Lime", "cat": "C'up Kokteyl", "price": 800}, {"id": "c041", "name": "Kakule Vişne", "cat": "C'up Kokteyl", "price": 800}, {"id": "c042", "name": "Kuzu Kulağı - Yeşil Elma", "cat": "C'up Kokteyl", "price": 800}, {"id": "c043", "name": "Espresso Martini", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c044", "name": "Iceland", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c045", "name": "Cin Tonik", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c046", "name": "Pina Colada", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c047", "name": "Mudslide", "cat": "Klasik Kokteyl", "price": 800}, {"id": "c048", "name": "Johnnie Walker Black Label Tek", "cat": "Viski", "price": 600}, {"id": "c052", "name": "Chivas Regal Tek", "cat": "Viski", "price": 600}, {"id": "c056", "name": "Chivas Regal 18 Tek", "cat": "Viski", "price": 750}, {"id": "c059", "name": "Jameson Tek", "cat": "Viski", "price": 500}, {"id": "c049", "name": "Johnnie Walker Black Label Duble", "cat": "Viski", "price": 1100}, {"id": "c053", "name": "Chivas Regal Duble", "cat": "Viski", "price": 1100}, {"id": "c057", "name": "Chivas Regal 18 Duble", "cat": "Viski", "price": 1400}, {"id": "c060", "name": "Jameson Duble", "cat": "Viski", "price": 1000}, {"id": "c050", "name": "Johnnie Walker Black Label 35cl", "cat": "Viski", "price": 4500}, {"id": "c054", "name": "Chivas Regal 35cl", "cat": "Viski", "price": 4500}, {"id": "c051", "name": "Johnnie Walker Black Label 70cl", "cat": "Viski", "price": 7000}, {"id": "c055", "name": "Chivas Regal 70cl", "cat": "Viski", "price": 7000}, {"id": "c058", "name": "Chivas Regal 18 70cl", "cat": "Viski", "price": 10000}, {"id": "c061", "name": "Jameson 70cl", "cat": "Viski", "price": 6000}, {"id": "c062", "name": "Karışık Çerez", "cat": "Atıştırmalık", "price": 250}, {"id": "c063", "name": "Turşu", "cat": "Atıştırmalık", "price": 200}, {"id": "c064", "name": "Cips", "cat": "Atıştırmalık", "price": 200}]};
 const DEMO_MENU = CUP_MENU;
@@ -927,6 +927,11 @@ function usageFor(lines){
   }
   return map;
 }
+/* Masaya eklenen ürün ANINDA stoktan düşer; satır üzerinde l.sq = stoktan düşülmüş adet tutulur.
+   Adisyondan çıkarılan/boşaltılan ürün stoğa geri döner. Hesapta yalnızca henüz düşülmemiş adetler düşülür
+   (bu sürümden önce masaya eklenmiş ürünler gibi). */
+function stockOut(tid, id, q){ const m = usageFor([{id, q}]); if (Object.keys(m).length) applyStock(m, -1, "sat", (TBY[tid]?.name || tid) + " masası"); }
+function stockBack(tid, id, q, why){ if (!(q > 0)) return; const m = usageFor([{id, q}]); if (Object.keys(m).length) applyStock(m, +1, "iade", (TBY[tid]?.name || tid) + " · " + (why || "adisyondan çıkarıldı")); }
 /* sign: -1 satış, +1 iptal/iade */
 function applyStock(map, sign, type, note){
   const now = Date.now(), log = [], changed = [];
@@ -999,7 +1004,7 @@ function stockListHTML(){
   }).join("");
   return html || `<div class="card empty">${q ? "Bu aramaya uyan stok kalemi yok." : "Stok kalemi yok. “+ Stok kalemi” ile ekleyin."}</div>`;
 }
-const LOGT = {sat:["Satış","void"], giris:["Giriş","cash"], sayim:["Sayım","card"], iptal:["İptal iade","warnp"], sahne:["Sahne","warnp"]};
+const LOGT = {sat:["Satış","void"], giris:["Giriş","cash"], sayim:["Sayım","card"], iptal:["İptal iade","warnp"], sahne:["Sahne","warnp"], iade:["Adisyondan iade","warnp"]};
 function renderStock(){
   const v = $("#v-stock");
   if (!isUnlocked()){ if (!v.querySelector(".lockbox")) renderLockView("stock"); return; }
@@ -1429,12 +1434,13 @@ $("#sheet").addEventListener("click", e => {
   if (a==="pay") return tid === STAGE_ID ? openStageExp(tid) : openPay(tid);
   if (a==="move") return openMove(tid);
   if (a==="cname") return openCname(tid);
-  if (a==="clear") return requirePin(() => confirmBox("Masayı boşalt?", `${TBY[tid].name} adisyonundaki tüm ürünler silinecek. Satış olarak kaydedilmez.`, "Boşalt", () => { const ls = (st.tables[tid]?.lines || []).map(l => ({n: l.name, p: l.price, q: l.qty})); mutateTable(tid, o => { o.lines = []; o.cname = ""; }); logRemoval(tid, ls, "Masa boşaltıldı"); }), "Masayı boşaltmak için yönetici şifresi gerekiyor.");
+  if (a==="clear") return requirePin(() => confirmBox("Masayı boşalt?", `${TBY[tid].name} adisyonundaki tüm ürünler silinecek. Satış olarak kaydedilmez.`, "Boşalt", () => { const cur = st.tables[tid]?.lines || []; const ls = cur.map(l => ({n: l.name, p: l.price, q: l.qty})); const back = cur.map(l => ({id: l.id, q: Math.min(l.qty, l.sq||0)})); mutateTable(tid, o => { o.lines = []; o.cname = ""; }); logRemoval(tid, ls, "Masa boşaltıldı"); back.forEach(b => stockBack(tid, b.id, b.q, "masa boşaltıldı")); }), "Masayı boşaltmak için yönetici şifresi gerekiyor.");
   const c = e.target.closest("[data-cat]"); if (c){ st.cat = c.dataset.cat; renderChips(); renderProds(); return; }
   const p = e.target.closest("[data-pid]");
   if (p){ const it = st.menu.items.find(i => i.id===p.dataset.pid); if (!it) return;
-    mutateTable(tid, o => { const l = o.lines.find(l => l.id===it.id && l.price===it.price); if (l) l.qty++; else o.lines.push({k:uid(), id:it.id, name:it.name, price:it.price, qty:1}); }); return; }
-  const inc = e.target.closest("[data-inc]"); if (inc){ mutateTable(tid, o => o.lines[+inc.dataset.inc].qty++); return; }
+    mutateTable(tid, o => { const l = o.lines.find(l => l.id===it.id && l.price===it.price); if (l){ l.qty++; l.sq = (l.sq||0) + 1; } else o.lines.push({k:uid(), id:it.id, name:it.name, price:it.price, qty:1, sq:1}); });
+    stockOut(tid, it.id, 1); return; }
+  const inc = e.target.closest("[data-inc]"); if (inc){ let pid = null; mutateTable(tid, o => { const l = o.lines[+inc.dataset.inc]; if (!l) return; l.qty++; l.sq = (l.sq||0) + 1; pid = l.id; }); if (pid) stockOut(tid, pid, 1); return; }
   const dec = e.target.closest("[data-dec]"); if (dec){ askRemove(tid, +dec.dataset.dec); return; }
 });
 
@@ -1488,10 +1494,12 @@ function askRemove(tid, i){
       mutateTable(tid, o => {
         const j = o.lines.findIndex(x => (key && x.k === key) || (!key && x.id === id && x.price === price));
         if (j < 0) return;
-        gone = {n: o.lines[j].name, p: o.lines[j].price, q: 1};
-        if (--o.lines[j].qty <= 0) o.lines.splice(j, 1);
+        const L = o.lines[j];
+        gone = {n: L.name, p: L.price, q: 1, id: L.id, back: 0};
+        L.qty--; if ((L.sq||0) > L.qty){ gone.back = L.sq - L.qty; L.sq = L.qty; } // stoktan düşülmüş birim çıkarıldıysa geri ver
+        if (L.qty <= 0) o.lines.splice(j, 1);
       });
-      if (gone) logRemoval(tid, [gone], "Çıkarıldı");
+      if (gone){ logRemoval(tid, [{n: gone.n, p: gone.p, q: 1}], "Çıkarıldı"); stockBack(tid, gone.id, gone.back, "adisyondan çıkarıldı"); }
     });
 }
 
@@ -1604,7 +1612,8 @@ async function closeStage(tid, amt){
   const stk = usageFor(o.lines.map(l => ({id: l.id, q: l.qty}))); if (Object.keys(stk).length) item.stk = stk;
   try { await writeDay(date, {exp: {[id]: item}}); }
   catch(e){ toast("Gidere aktarılamadı, tekrar deneyin."); hideModal(); return; }
-  if (item.stk) applyStock(item.stk, -1, "sahne", "Sahne");
+  const left = usageFor(o.lines.map(l => ({id: l.id, q: l.qty - Math.min(l.qty, l.sq||0)})).filter(x => x.q > 0));
+  if (Object.keys(left).length) applyStock(left, -1, "sahne", "Sahne");
   delete st.tables[tid]; wt.dirty.add(tid); await flushTable(tid);
   hideModal(); closeSheet(); renderHeader();
   toast(`Sahne gidere aktarıldı · ${tl(item.amt)}`);
@@ -1614,16 +1623,18 @@ async function closeBill(tid, qty, c){
   const o = st.tables[tid]; if (!o) return hideModal();
   const paidLines = o.lines.map((l,i) => ({l, q: Math.min(l.qty, qty[i]||0)})).filter(x => x.q > 0);
   if (!paidLines.length) return;
-  const rest = o.lines.map((l,i) => ({...l, qty: l.qty - Math.min(l.qty, qty[i]||0)})).filter(l => l.qty > 0);
+  const pre = i => Math.min(Math.min(o.lines[i].qty, qty[i]||0), o.lines[i].sq||0); // bu ödemede zaten stoktan düşülmüş adet
+  const rest = o.lines.map((l,i) => ({...l, qty: l.qty - Math.min(l.qty, qty[i]||0), sq: Math.max(0, (l.sq||0) - pre(i))})).filter(l => l.qty > 0);
+  const todo = o.lines.map((l,i) => ({id: l.id, q: Math.min(l.qty, qty[i]||0) - pre(i)})).filter(x => x.q > 0);
   const now = Date.now(), date = bizDate(now), id = uid();
   const bill = {t: now, opened: o.openedAt, table: tid, lines: paidLines.map(x => ({n:x.l.name, p:x.l.price, q:x.q})), sub: c.sub, disc: Math.round(c.d*100)/100, total: c.total, cash: c.cash, card: c.card};
   if (o.cname) bill.cname = o.cname;
   if (rest.length || o.paid) bill.part = true;
-  const stk = usageFor(paidLines.map(x => ({id: x.l.id, q: x.q}))); if (Object.keys(stk).length) bill.stk = stk;
+  const stk = usageFor(paidLines.map(x => ({id: x.l.id, q: x.q}))); if (Object.keys(stk).length) bill.stk = stk; // iptalde bunun tamamı geri döner
   try {
     await writeDay(date, {bills: {[id]: bill}});
   } catch(e){ toast("Hesap kaydedilemedi, tekrar deneyin."); hideModal(); return; }
-  if (bill.stk) applyStock(bill.stk, -1, "sat", TBY[tid].name);
+  const now2 = usageFor(todo); if (Object.keys(now2).length) applyStock(now2, -1, "sat", TBY[tid].name);
   if (rest.length){
     const cur = st.tables[tid] || o; // kayıt sırasında masa verisi yenilenmiş olabilir
     const pl = (cur.paidLines || []).concat(paidLines.map(x => ({n: x.l.name, p: x.l.price, q: x.q, t: now})));
@@ -1652,7 +1663,7 @@ function openMove(tid){
 function transferTable(from, to){
   const src = st.tables[from]; if (!src || from === to) return;
   const dst = st.tables[to] || (st.tables[to] = {lines:[], openedAt: src.openedAt});
-  for (const l of src.lines){ const x = dst.lines.find(d => d.id===l.id && d.price===l.price); if (x) x.qty += l.qty; else dst.lines.push({...l}); }
+  for (const l of src.lines){ const x = dst.lines.find(d => d.id===l.id && d.price===l.price); if (x){ x.qty += l.qty; x.sq = (x.sq||0) + (l.sq||0); } else dst.lines.push({...l}); }
   dst.openedAt = Math.min(dst.openedAt, src.openedAt);
   dst.paid = Math.round(((dst.paid||0) + (src.paid||0))*100)/100;
   dst.paidLines = (dst.paidLines||[]).concat(src.paidLines||[]);
